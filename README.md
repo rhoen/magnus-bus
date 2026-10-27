@@ -11,6 +11,8 @@ For a website URL, upload these files, keeping their paths, to any static websit
 ```text
 .nojekyll
 index.html
+favicon.svg
+apple-touch-icon.png
 styles.css
 src/
   directions.js
