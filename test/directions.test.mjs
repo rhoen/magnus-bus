@@ -29,13 +29,15 @@ function browser() {
 }
 test('manual toggle changes stop immediately and ignores a slower opposite-direction request',async()=>{
  const b=browser();assert.match(b.requests[0].url,/direction=east/);
- b.get('toggle-direction').handlers.click();
+ b.get('direction-slider').value = b.get('direction-slider').value === '1' ? '0' : '1';
+ b.get('direction-slider').handlers.input();
  assert.equal(b.get('stop-title').textContent,'Spruce St & 42nd St');
  assert.match(b.requests[1].url,/direction=west/);
  await b.reply(1,'west'); await b.reply(0,'east');
  assert.match(b.get('cards').innerHTML,/westbound/);
  assert.doesNotMatch(b.get('cards').innerHTML,/eastbound/);
- b.get('toggle-direction').handlers.click();
+ b.get('direction-slider').value = b.get('direction-slider').value === '1' ? '0' : '1';
+ b.get('direction-slider').handlers.input();
  assert.equal(b.get('stop-title').textContent,'Spruce St & 49th St');
  assert.match(b.requests[2].url,/direction=east/);
 });
@@ -44,7 +46,8 @@ test('automatic selection follows noon; manual override survives ticks and can b
  b.advance('2026-10-27T16:00:00Z');
  assert.equal(b.get('stop-title').textContent,'Spruce St & 42nd St');
  await b.reply(1,'west');
- b.get('toggle-direction').handlers.click();await b.reply(2,'east');
+ b.get('direction-slider').value = b.get('direction-slider').value === '1' ? '0' : '1';
+ b.get('direction-slider').handlers.input();await b.reply(2,'east');
  b.advance('2026-10-27T17:00:00Z');
  assert.equal(b.get('stop-title').textContent,'Spruce St & 49th St');
  b.get('auto-direction').handlers.click();

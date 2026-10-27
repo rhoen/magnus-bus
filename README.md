@@ -4,9 +4,9 @@ A small, mobile-friendly tracker for **SEPTA Route 42 to school and back home**:
 
 ## Direction selection
 
-A large button switches between **To school · Eastbound** and **Back home · Westbound**, updating the boarding stop, bus list and route strip together. Philadelphia time (`America/New_York`) chooses eastbound before 12:00 PM and westbound from 12:00 PM onward. This follows daylight saving time and checks again when a background tab is reopened.
+A compact slider moves the bus logo between **west - heading home** on the left and **east - going to school** on the right, updating the boarding stop, bus list and route strip together. Drag the bus, use the arrow keys, or tap a direction label. The page opens directly on the slider and stop information. Philadelphia time (`America/New_York`) chooses eastbound before 12:00 PM and westbound from 12:00 PM onward. This follows daylight saving time and checks again when a background tab is reopened.
 
-A manual choice overrides the clock for the current page visit. Choose **Use time of day** or reload to restore the automatic default. The app does not persist a manual choice into a later visit. Direction switches cancel the previous request and discard late responses, so an eastbound response cannot populate the westbound view.
+A manual choice overrides the clock for the current page visit. Choose **Use time of day** inside **How this works**, or reload to restore the automatic default. The app does not persist a manual choice into a later visit. Direction switches cancel the previous request and discard late responses, so an eastbound response cannot populate the westbound view.
 
 ## Run
 
