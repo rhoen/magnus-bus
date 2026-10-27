@@ -24,3 +24,19 @@ test('real response format passes through the Worker API with no-store headers',
   assert.equal((await worker.fetch(new Request('http://localhost/api/buses',{method:'POST'}))).status,405);
  } finally { globalThis.fetch=original; }
 });
+test('API direction caches stay isolated and invalid directions return 400',async()=>{
+ const original=globalThis.fetch;
+ let requests=0;
+ globalThis.fetch=async(url)=>{requests++;return Response.json(String(url).includes('/stops/')?stops:{bus:[
+  {route_id:'42',Direction:'Eastbound',VehicleID:'100',timestamp:Date.now()/1000,next_stop_id:'22119',next_stop_sequence:13},
+  {route_id:'42',Direction:'Westbound',VehicleID:'200',timestamp:Date.now()/1000,next_stop_id:'22147',next_stop_sequence:39}
+ ]});};
+ try {
+  const {default:worker}=await import('../src/worker.js?directions');
+  const ask=async(d)=>(await worker.fetch(new Request('http://localhost/api/buses?direction='+d))).json();
+  const east=await ask('east'), west=await ask('west');
+  assert.equal(east.buses[0].vehicleId,'100'); assert.equal(west.buses[0].vehicleId,'200');
+  const before=requests;assert.equal((await ask('east')).stopId,'22120');assert.equal(requests,before);
+  assert.equal((await worker.fetch(new Request('http://localhost/api/buses?direction=north'))).status,400);
+ }finally{globalThis.fetch=original;}
+});

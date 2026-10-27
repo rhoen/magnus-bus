@@ -1,5 +1,5 @@
 import { readFile, mkdir, writeFile, copyFile } from 'node:fs/promises';
-const files = ['tracking.js', 'page.js', 'worker.js'];
+const files = ['directions.js', 'tracking.js', 'page.js', 'worker.js'];
 const source = (await Promise.all(files.map(f => readFile(new URL('../src/' + f, import.meta.url), 'utf8')))).map(s => s.replace(/^import .*from '\.\/.*';\n/gm, '')).join('\n');
 await mkdir(new URL('../dist/server/', import.meta.url), { recursive: true });
 await mkdir(new URL('../dist/.openai/', import.meta.url), { recursive: true });

@@ -47,3 +47,11 @@ test('malformed upstream data fails rather than reporting no buses',()=>{
  assert.throws(()=>trackBuses({bus:[]},{},now));
  assert.throws(()=>trackBuses({bus:[]},[],now));
 });
+test('westbound tracks 42nd Street and excludes passed or eastbound buses',()=>{
+ const west=(overrides={})=>bus({Direction:'Westbound',next_stop_id:'22147',...overrides});
+ const result=trackBuses({bus:[west(),west({VehicleID:'2',next_stop_id:'674'}),west({VehicleID:'3',next_stop_id:'22154'}),bus()]},stops,now,'west');
+ assert.equal(result.stopId,'22151'); assert.equal(result.direction,'west');
+ assert.deepEqual(result.buses.map(b=>b.stopsAway),[1,2]);
+ assert.equal(trackBuses({bus:[west({next_stop_id:'22151'})]},stops,now,'west').buses[0].stopsAway,0);
+ assert.equal(trackBuses({bus:[west({next_stop_id:'22137'})]},stops,now,'west').buses[0].stopsAway,38);
+});
