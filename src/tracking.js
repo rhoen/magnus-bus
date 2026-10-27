@@ -1,13 +1,15 @@
-import { DIRECTIONS } from './directions.js';
-export const MAX_AGE = 120;
-export const STOPS_URL = 'https://www3.septa.org/api/v2/stops/?route_id=42';
-export const VEHICLES_URL = 'https://www3.septa.org/api/TransitView/index.php?route=42';
+(() => {
+'use strict';
+const { DIRECTIONS } = globalThis.MagnusBus;
+const MAX_AGE = 120;
+const STOPS_URL = 'https://www3.septa.org/api/v2/stops/?route_id=42';
+const VEHICLES_URL = 'https://www3.septa.org/api/v2/trips/?route_id=42';
 
-export function serviceDate(now) {
+function serviceDate(now) {
   return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now).replaceAll('-', '');
 }
 
-export function orderedStops(rows, now, direction = 'east') {
+function orderedStops(rows, now, direction = 'east') {
   if (!Object.hasOwn(DIRECTIONS, direction)) throw new Error('Invalid direction');
   const config = DIRECTIONS[direction];
   if (!Array.isArray(rows)) throw new Error('Invalid stop response');
@@ -23,8 +25,8 @@ export function orderedStops(rows, now, direction = 'east') {
   return { stops, release };
 }
 
-export function trackBuses(feed, rows, now = Date.now(), direction = 'east') {
-  if (!feed || !Array.isArray(feed.bus)) throw new Error('Invalid vehicle response');
+function trackBuses(feed, rows, now = Date.now(), direction = 'east') {
+  if (!Array.isArray(feed)) throw new Error('Invalid vehicle response');
   const { stops, release } = orderedStops(rows, now, direction);
   const config = DIRECTIONS[direction];
   // SEPTA's route-wide list combines two branches. Wycombe buses do NOT
@@ -33,20 +35,20 @@ export function trackBuses(feed, rows, now = Date.now(), direction = 'east') {
   const commonStart = stops.findIndex(s => String(s.stop_id) === '670');
   const shortPattern = [...stops.filter(s => ['437', '26108'].includes(String(s.stop_id))), ...stops.slice(commonStart)];
   let stale = 0, unknown = 0;
-  const fresh = feed.bus.filter(b => {
+  const fresh = feed.filter(b => {
     const stamp = Number(b.timestamp);
     const valid = Number.isFinite(stamp) && stamp > 0 && now / 1000 - stamp <= MAX_AGE && stamp <= now / 1000 + 30;
-    if (!valid && b.Direction === config.name && String(b.route_id) === '42') stale++;
+    if (!valid && b.direction_name === config.name && String(b.route_id) === '42') stale++;
     return valid && String(b.route_id) === '42';
   });
   const candidates = [];
   for (const bus of fresh) {
-    if (bus.Direction !== config.name) continue;
-    const vehicleId = String(bus.VehicleID || bus.label || '');
+    if (bus.direction_name !== config.name) continue;
+    const vehicleId = String(bus.vehicle_id || '');
     if (!vehicleId) { unknown++; continue; }
     // Exclude a future assignment while the bus still has an active trip
     // in the opposite direction.
-    if (Number(bus.next_stop_sequence) === 1 && fresh.some(b => b.Direction === (direction === 'east' ? 'Westbound' : 'Eastbound') && String(b.VehicleID || b.label) === vehicleId)) continue;
+    if (Number(bus.next_stop_sequence) === 1 && fresh.some(b => b.direction_name === (direction === 'east' ? 'Westbound' : 'Eastbound') && String(b.vehicle_id) === vehicleId)) continue;
     const stopId = String(bus.next_stop_id);
     const pattern = direction === 'west' ? stops : ['437', '26108'].includes(stopId) ? shortPattern : longPattern;
     const index = pattern.findIndex(s => String(s.stop_id) === stopId);
@@ -54,9 +56,9 @@ export function trackBuses(feed, rows, now = Date.now(), direction = 'east') {
     if (index < 0) { unknown++; continue; }
     if (index > targetIndex) continue;
     const stop = pattern[index];
-    const lat = Number(bus.lat), lng = Number(bus.lng);
+    const lat = Number(bus.lat), lng = Number(bus.lon);
     const proximity = Number.isFinite(lat) && Number.isFinite(lng) ? Math.hypot(lat - Number(stop.stop_lat), (lng - Number(stop.stop_lon)) * 0.77) : Infinity;
-    candidates.push({ vehicleId, tripId: String(bus.trip || ''), nextStopId: stopId, nextStopName: stop.stop_name,
+    candidates.push({ vehicleId, tripId: String(bus.trip_id || ''), nextStopId: stopId, nextStopName: stop.stop_name,
       stopsAway: targetIndex - index, reportedAt: Number(bus.timestamp) * 1000, proximity,
       route: pattern.slice(index, targetIndex + 1).map(s => ({ id: String(s.stop_id), name: s.stop_name })) });
   }
@@ -66,3 +68,6 @@ export function trackBuses(feed, rows, now = Date.now(), direction = 'east') {
   const buses = [...unique.values()].sort((a,b) => a.stopsAway - b.stopsAway || a.proximity - b.proximity || b.reportedAt - a.reportedAt).slice(0,2);
   return { buses, fetchedAt: now, stale, unknown, release, stopId: config.target, direction };
 }
+
+Object.assign(globalThis.MagnusBus ??= {}, { MAX_AGE, STOPS_URL, VEHICLES_URL, serviceDate, orderedStops, trackBuses });
+})();

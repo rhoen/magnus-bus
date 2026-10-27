@@ -1,17 +1,19 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { trackBuses, orderedStops } from '../src/tracking.js';
+import '../src/directions.js';
+import '../src/tracking.js';
+const { trackBuses, orderedStops } = globalThis.MagnusBus;
 const stops=JSON.parse(await readFile(new URL('./fixtures/stops.json',import.meta.url)));
 const now=Date.parse('2026-10-27T15:00:00Z');
-const bus=(overrides={})=>({route_id:'42',Direction:'Eastbound',VehicleID:'100',trip:'1',timestamp:now/1000-10,next_stop_id:'22119',next_stop_sequence:13,lat:'39.9541',lng:'-75.2222',...overrides});
-const track=(buses)=>trackBuses({bus:buses},stops,now);
+const bus=(overrides={})=>({route_id:'42',direction_name:'Eastbound',vehicle_id:'100',trip_id:'1',timestamp:now/1000-10,next_stop_id:'22119',next_stop_sequence:13,lat:'39.9541',lon:'-75.2222',...overrides});
+const track=(buses)=>trackBuses(buses,stops,now);
 test('50th is one stop from 49th; 49th means your stop is next',()=>{
  assert.equal(track([bus()]).buses[0].stopsAway,1);
  assert.equal(track([bus({next_stop_id:'22120'})]).buses[0].stopsAway,0);
 });
 test('excludes westbound buses and buses that have passed the target',()=>{
- assert.equal(track([bus({Direction:'Westbound'}),bus({next_stop_id:'22121'})]).buses.length,0);
+ assert.equal(track([bus({direction_name:'Westbound'}),bus({next_stop_id:'22121'})]).buses.length,0);
 });
 test('excludes stale, missing and future timestamps',()=>{
  for(const timestamp of [now/1000-121,undefined,0,now/1000+60]) assert.equal(track([bus({timestamp})]).buses.length,0);
@@ -25,12 +27,12 @@ test('counts the short branch independently',()=>{
  assert.equal(track([bus({next_stop_id:'26108'})]).buses[0].stopsAway,12);
 });
 test('returns two closest physical buses, selecting newest duplicate',()=>{
- const result=track([bus({VehicleID:'2',next_stop_id:'671'}),bus({VehicleID:'3',next_stop_id:'22116'}),bus({next_stop_id:'22117',timestamp:now/1000-20}),bus()]);
+ const result=track([bus({vehicle_id:'2',next_stop_id:'671'}),bus({vehicle_id:'3',next_stop_id:'22116'}),bus({next_stop_id:'22117',timestamp:now/1000-20}),bus()]);
  assert.deepEqual(result.buses.map(b=>b.vehicleId),['100','2']);
  assert.deepEqual(result.buses.map(b=>b.stopsAway),[1,3]);
 });
 test('does not count a future eastbound assignment while bus is still westbound',()=>{
- assert.equal(track([bus({next_stop_id:'26125',next_stop_sequence:1}),bus({Direction:'Westbound'})]).buses.length,0);
+ assert.equal(track([bus({next_stop_id:'26125',next_stop_sequence:1}),bus({direction_name:'Westbound'})]).buses.length,0);
 });
 test('selects current release and deduplicates stop IDs',()=>{
  const result=orderedStops([...stops,...stops],now);
@@ -44,14 +46,14 @@ test('unknown stops are not assigned invented counts',()=>{
 });
 test('malformed upstream data fails rather than reporting no buses',()=>{
  assert.throws(()=>trackBuses({},stops,now));
- assert.throws(()=>trackBuses({bus:[]},{},now));
- assert.throws(()=>trackBuses({bus:[]},[],now));
+ assert.throws(()=>trackBuses([],{},now));
+ assert.throws(()=>trackBuses([],[],now));
 });
 test('westbound tracks 42nd Street and excludes passed or eastbound buses',()=>{
- const west=(overrides={})=>bus({Direction:'Westbound',next_stop_id:'22147',...overrides});
- const result=trackBuses({bus:[west(),west({VehicleID:'2',next_stop_id:'674'}),west({VehicleID:'3',next_stop_id:'22154'}),bus()]},stops,now,'west');
+ const west=(overrides={})=>bus({direction_name:'Westbound',next_stop_id:'22147',...overrides});
+ const result=trackBuses([west(),west({vehicle_id:'2',next_stop_id:'674'}),west({vehicle_id:'3',next_stop_id:'22154'}),bus()],stops,now,'west');
  assert.equal(result.stopId,'22151'); assert.equal(result.direction,'west');
  assert.deepEqual(result.buses.map(b=>b.stopsAway),[1,2]);
- assert.equal(trackBuses({bus:[west({next_stop_id:'22151'})]},stops,now,'west').buses[0].stopsAway,0);
- assert.equal(trackBuses({bus:[west({next_stop_id:'22137'})]},stops,now,'west').buses[0].stopsAway,38);
+ assert.equal(trackBuses([west({next_stop_id:'22151'})],stops,now,'west').buses[0].stopsAway,0);
+ assert.equal(trackBuses([west({next_stop_id:'22137'})],stops,now,'west').buses[0].stopsAway,38);
 });

@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "scripts": { "start": "node scripts/dev.mjs", "build": "node scripts/build.mjs", "test": "node --test" },
-  "engines": { "node": ">=22" }
+  "scripts": {
+    "test": "node --test"
+  },
+  "description": "A browser-only static SEPTA Route 42 tracker. Node is optional for tests."
 }
