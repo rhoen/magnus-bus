@@ -9,6 +9,7 @@ A browser-only static website for **SEPTA Route 42 to school and back home**: ea
 For a website URL, upload these files, keeping their paths, to any static website host:
 
 ```text
+.nojekyll
 index.html
 styles.css
 src/
@@ -18,7 +19,23 @@ src/
   app.js
 ```
 
-The app uses relative asset paths, so it works at a domain root or in a subdirectory such as a GitHub Pages project site. No routing or server-side endpoints are involved. `.openai/hosting.json` configures the existing private Sites publication. Sites requires the same static files to be copied into `dist/` for upload; this is deployment packaging only, with no compilation or JavaScript runtime on the server.
+The app uses relative asset paths, so it works at a domain root or in a subdirectory such as a GitHub Pages project site. No routing or server-side endpoints are involved.
+
+## GitHub Pages publishing (when ready)
+
+The repository root is the publishing folder. `.nojekyll` tells GitHub Pages to serve the static files without Jekyll processing. No `docs/` copy, `dist/` output, npm build, or custom GitHub Actions workflow is needed.
+
+After local verification and when you are ready to publish:
+
+1. Push the approved branch to your GitHub repository.
+2. Open **Settings → Pages**.
+3. Set **Source** to **Deploy from a branch**.
+4. Select the branch containing these files and **/(root)** as the folder.
+5. Save. GitHub provides the website URL on that page.
+
+The local project has not configured GitHub Pages or triggered a deployment. The publishing branch and remote can be selected when you are ready.
+
+See [GitHub’s publishing-source documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
 
 For an optional local HTTP preview, use any static file server. For example, if Python is already installed:
 
@@ -67,4 +84,4 @@ On a failed refresh, earlier reports remain visible only while still fresh. No b
 
 Developers with Node.js 22 or later can optionally run `npm test` (or `node --test`). Node is only a test runner; the website does not use it. There are no npm dependencies.
 
-The app is independent of SEPTA. The existing Sites publication remains private to its owner.
+The app is independent of SEPTA.
