@@ -1,0 +1,1302 @@
+[
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "1148",
+    "stop_name": "69th St Transit Center South Terminal",
+    "stop_sequence": 1,
+    "stop_lat": 39.962079,
+    "stop_lon": -75.258284
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "30632",
+    "stop_name": "Market St & Chatham Rd",
+    "stop_sequence": 2,
+    "stop_lat": 39.962041,
+    "stop_lon": -75.256619
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "21351",
+    "stop_name": "Market St & Marlborough Rd",
+    "stop_sequence": 3,
+    "stop_lat": 39.962289,
+    "stop_lon": -75.255118
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "21352",
+    "stop_name": "Market St & Powell Rd",
+    "stop_sequence": 4,
+    "stop_lat": 39.962492,
+    "stop_lon": -75.253629
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "25707",
+    "stop_name": "Market St & Glencoe Rd",
+    "stop_sequence": 5,
+    "stop_lat": 39.962598,
+    "stop_lon": -75.252732
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "19032",
+    "stop_name": "Market St & Millbourne Av",
+    "stop_sequence": 6,
+    "stop_lat": 39.962713,
+    "stop_lon": -75.25194
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "18991",
+    "stop_name": "Market St & 63rd St",
+    "stop_sequence": 7,
+    "stop_lat": 39.962653,
+    "stop_lon": -75.247275
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "19073",
+    "stop_name": "Market St & 63rd St",
+    "stop_sequence": 8,
+    "stop_lat": 39.962411,
+    "stop_lon": -75.247039
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "25708",
+    "stop_name": "Chestnut St & 63rd St - FS",
+    "stop_sequence": 9,
+    "stop_lat": 39.961108,
+    "stop_lon": -75.246806
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "19074",
+    "stop_name": "Chestnut St & 62nd St - FS",
+    "stop_sequence": 10,
+    "stop_lat": 39.960837,
+    "stop_lon": -75.24474
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "19075",
+    "stop_name": "Chestnut St & 61st St",
+    "stop_sequence": 11,
+    "stop_lat": 39.960639,
+    "stop_lon": -75.243205
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "419",
+    "stop_name": "Chestnut St & 60th St",
+    "stop_sequence": 12,
+    "stop_lat": 39.960388,
+    "stop_lon": -75.241198
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "19076",
+    "stop_name": "Chestnut St & 59th St",
+    "stop_sequence": 13,
+    "stop_lat": 39.960151,
+    "stop_lon": -75.239179
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "19077",
+    "stop_name": "Chestnut St & 58th St",
+    "stop_sequence": 14,
+    "stop_lat": 39.959907,
+    "stop_lon": -75.237196
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "19078",
+    "stop_name": "Chestnut St & 57th St",
+    "stop_sequence": 15,
+    "stop_lat": 39.95968,
+    "stop_lon": -75.235271
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "19079",
+    "stop_name": "Chestnut St & 56th St",
+    "stop_sequence": 16,
+    "stop_lat": 39.959421,
+    "stop_lon": -75.233252
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "19080",
+    "stop_name": "Chestnut St & 55th St",
+    "stop_sequence": 17,
+    "stop_lat": 39.959156,
+    "stop_lon": -75.231187
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "19081",
+    "stop_name": "Chestnut St & 54th St",
+    "stop_sequence": 18,
+    "stop_lat": 39.958885,
+    "stop_lon": -75.229026
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "19120",
+    "stop_name": "Chestnut St & 53rd St",
+    "stop_sequence": 19,
+    "stop_lat": 39.958668,
+    "stop_lon": -75.227243
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "420",
+    "stop_name": "Chestnut St & 52nd St",
+    "stop_sequence": 20,
+    "stop_lat": 39.958424,
+    "stop_lon": -75.225307
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "19121",
+    "stop_name": "Chestnut St & 51st St",
+    "stop_sequence": 21,
+    "stop_lat": 39.95818,
+    "stop_lon": -75.223336
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "19122",
+    "stop_name": "Chestnut St & 50th St",
+    "stop_sequence": 22,
+    "stop_lat": 39.957936,
+    "stop_lon": -75.22134
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "30195",
+    "stop_name": "Chestnut St & 49th St",
+    "stop_sequence": 23,
+    "stop_lat": 39.9577,
+    "stop_lon": -75.219381
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "30194",
+    "stop_name": "Chestnut St & 48th St",
+    "stop_sequence": 24,
+    "stop_lat": 39.957438,
+    "stop_lon": -75.217492
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "19123",
+    "stop_name": "Chestnut St & 47th St",
+    "stop_sequence": 25,
+    "stop_lat": 39.957212,
+    "stop_lon": -75.215426
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "30633",
+    "stop_name": "Chestnut St & Farragut St",
+    "stop_sequence": 26,
+    "stop_lat": 39.957085,
+    "stop_lon": -75.21441
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "19124",
+    "stop_name": "Chestnut St & 46th St",
+    "stop_sequence": 27,
+    "stop_lat": 39.956958,
+    "stop_lon": -75.213419
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "19149",
+    "stop_name": "Chestnut St & 45th St",
+    "stop_sequence": 28,
+    "stop_lat": 39.956714,
+    "stop_lon": -75.211471
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "516",
+    "stop_name": "Chestnut St & 44th St",
+    "stop_sequence": 29,
+    "stop_lat": 39.956488,
+    "stop_lon": -75.209866
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "590",
+    "stop_name": "Chestnut St & 43rd St",
+    "stop_sequence": 30,
+    "stop_lat": 39.956343,
+    "stop_lon": -75.208543
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "591",
+    "stop_name": "Chestnut St & 42nd St",
+    "stop_sequence": 31,
+    "stop_lat": 39.956089,
+    "stop_lon": -75.20643
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "592",
+    "stop_name": "Chestnut St & 41st St",
+    "stop_sequence": 32,
+    "stop_lat": 39.95589,
+    "stop_lon": -75.204884
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "421",
+    "stop_name": "Chestnut St & 40th St",
+    "stop_sequence": 33,
+    "stop_lat": 39.955591,
+    "stop_lon": -75.202452
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "598",
+    "stop_name": "Chestnut St & 39th St",
+    "stop_sequence": 34,
+    "stop_lat": 39.955292,
+    "stop_lon": -75.200044
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "622",
+    "stop_name": "Chestnut St & 38th St",
+    "stop_sequence": 35,
+    "stop_lat": 39.955111,
+    "stop_lon": -75.198603
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "623",
+    "stop_name": "Chestnut St & 37th St",
+    "stop_sequence": 36,
+    "stop_lat": 39.954867,
+    "stop_lon": -75.196549
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "21353",
+    "stop_name": "Chestnut St & 36th St",
+    "stop_sequence": 37,
+    "stop_lat": 39.954622,
+    "stop_lon": -75.194566
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "21354",
+    "stop_name": "Chestnut St & 34th St",
+    "stop_sequence": 38,
+    "stop_lat": 39.954296,
+    "stop_lon": -75.191934
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "30634",
+    "stop_name": "Chestnut St & 33rd St",
+    "stop_sequence": 39,
+    "stop_lat": 39.954042,
+    "stop_lon": -75.189892
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "21356",
+    "stop_name": "Chestnut St & 32nd St",
+    "stop_sequence": 40,
+    "stop_lat": 39.953779,
+    "stop_lon": -75.18759
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "21357",
+    "stop_name": "Chestnut St & 31st St",
+    "stop_sequence": 41,
+    "stop_lat": 39.95348,
+    "stop_lon": -75.185359
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20976",
+    "stop_name": "Chestnut St & 30th St",
+    "stop_sequence": 42,
+    "stop_lat": 39.953289,
+    "stop_lon": -75.18386
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "32637",
+    "stop_name": "Chestnut St & Schuykill Av",
+    "stop_sequence": 43,
+    "stop_lat": 39.953072,
+    "stop_lon": -75.18203
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "6067",
+    "stop_name": "Chestnut St & 23rd St",
+    "stop_sequence": 44,
+    "stop_lat": 39.952591,
+    "stop_lon": -75.178276
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "6066",
+    "stop_name": "Chestnut St & 22nd St - FS",
+    "stop_sequence": 45,
+    "stop_lat": 39.952392,
+    "stop_lon": -75.176754
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "6065",
+    "stop_name": "Chestnut St & 21st St",
+    "stop_sequence": 46,
+    "stop_lat": 39.952229,
+    "stop_lon": -75.175502
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "6064",
+    "stop_name": "Chestnut St & 20th St",
+    "stop_sequence": 47,
+    "stop_lat": 39.952001,
+    "stop_lon": -75.173578
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "14906",
+    "stop_name": "Chestnut St & 19th St",
+    "stop_sequence": 48,
+    "stop_lat": 39.95182,
+    "stop_lon": -75.172008
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "6062",
+    "stop_name": "Chestnut St & 18th St",
+    "stop_sequence": 49,
+    "stop_lat": 39.951602,
+    "stop_lon": -75.170462
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "6061",
+    "stop_name": "Chestnut St & 17th St",
+    "stop_sequence": 50,
+    "stop_lat": 39.951385,
+    "stop_lon": -75.168869
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "14907",
+    "stop_name": "Chestnut St & 16th St",
+    "stop_sequence": 51,
+    "stop_lat": 39.951203,
+    "stop_lon": -75.167311
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "6060",
+    "stop_name": "Chestnut St & 15th St",
+    "stop_sequence": 52,
+    "stop_lat": 39.951012,
+    "stop_lon": -75.165717
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "6115",
+    "stop_name": "Chestnut St & Broad St",
+    "stop_sequence": 53,
+    "stop_lat": 39.950804,
+    "stop_lon": -75.164041
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "6059",
+    "stop_name": "Chestnut St & 13th St",
+    "stop_sequence": 54,
+    "stop_lat": 39.95054,
+    "stop_lon": -75.161881
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "6058",
+    "stop_name": "Chestnut St & 12th St",
+    "stop_sequence": 55,
+    "stop_lat": 39.950349,
+    "stop_lon": -75.160335
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "6057",
+    "stop_name": "Chestnut St & 11th St",
+    "stop_sequence": 56,
+    "stop_lat": 39.950168,
+    "stop_lon": -75.158765
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "14908",
+    "stop_name": "Chestnut St & 10th St",
+    "stop_sequence": 57,
+    "stop_lat": 39.949959,
+    "stop_lon": -75.157195
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "6114",
+    "stop_name": "Chestnut St & 9th St",
+    "stop_sequence": 58,
+    "stop_lat": 39.949768,
+    "stop_lon": -75.155661
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "6113",
+    "stop_name": "Chestnut St & 8th St",
+    "stop_sequence": 59,
+    "stop_lat": 39.949568,
+    "stop_lon": -75.154068
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "6112",
+    "stop_name": "Chestnut St & 7th St",
+    "stop_sequence": 60,
+    "stop_lat": 39.949377,
+    "stop_lon": -75.152486
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "6111",
+    "stop_name": "Chestnut St & 6th St",
+    "stop_sequence": 61,
+    "stop_lat": 39.949187,
+    "stop_lon": -75.150916
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "14909",
+    "stop_name": "Chestnut St & 4th St - MBNS",
+    "stop_sequence": 62,
+    "stop_lat": 39.948868,
+    "stop_lon": -75.14826
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20970",
+    "stop_name": "Chestnut St & 3rd St",
+    "stop_sequence": 63,
+    "stop_lat": 39.948587,
+    "stop_lon": -75.146148
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20971",
+    "stop_name": "Chestnut St & 2nd St",
+    "stop_sequence": 64,
+    "stop_lat": 39.948333,
+    "stop_lon": -75.1442
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20974",
+    "stop_name": "2nd St & Walnut St",
+    "stop_sequence": 65,
+    "stop_lat": 39.946959,
+    "stop_lon": -75.144466
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "22137",
+    "stop_name": "38th Parellel Pl & Dock St - FS",
+    "stop_sequence": 66,
+    "stop_lat": 39.944967,
+    "stop_lon": -75.143978
+  },
+  {
+    "route_id": "21",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "32259",
+    "stop_name": "Dock St & Front St",
+    "stop_sequence": 67,
+    "stop_lat": 39.945304,
+    "stop_lon": -75.14302
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "32259",
+    "stop_name": "Dock St & Front St",
+    "stop_sequence": 1,
+    "stop_lat": 39.945304,
+    "stop_lon": -75.14302
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20972",
+    "stop_name": "Walnut St & 3rd St - FS",
+    "stop_sequence": 2,
+    "stop_lat": 39.947214,
+    "stop_lon": -75.146732
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20973",
+    "stop_name": "Walnut St & 4th St - MBFS",
+    "stop_sequence": 3,
+    "stop_lat": 39.947432,
+    "stop_lon": -75.148455
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "14880",
+    "stop_name": "Walnut St & 5th St - FS",
+    "stop_sequence": 4,
+    "stop_lat": 39.947586,
+    "stop_lon": -75.14973
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "14881",
+    "stop_name": "Walnut St & 7th St",
+    "stop_sequence": 5,
+    "stop_lat": 39.947923,
+    "stop_lon": -75.152515
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "14882",
+    "stop_name": "Walnut St & 8th St",
+    "stop_sequence": 6,
+    "stop_lat": 39.948131,
+    "stop_lon": -75.154061
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "14883",
+    "stop_name": "Walnut St & 9th St",
+    "stop_sequence": 7,
+    "stop_lat": 39.948322,
+    "stop_lon": -75.155666
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "14884",
+    "stop_name": "Walnut St & 10th St",
+    "stop_sequence": 8,
+    "stop_lat": 39.948513,
+    "stop_lon": -75.157213
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "14885",
+    "stop_name": "Walnut St & 11th St",
+    "stop_sequence": 9,
+    "stop_lat": 39.948704,
+    "stop_lon": -75.15883
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "14886",
+    "stop_name": "Walnut St & 12th St",
+    "stop_sequence": 10,
+    "stop_lat": 39.948895,
+    "stop_lon": -75.160388
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "14887",
+    "stop_name": "Walnut St & 13th St",
+    "stop_sequence": 11,
+    "stop_lat": 39.949086,
+    "stop_lon": -75.162005
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "130",
+    "stop_name": "Walnut St & Broad St - MBNS",
+    "stop_sequence": 12,
+    "stop_lat": 39.949303,
+    "stop_lon": -75.163657
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "14079",
+    "stop_name": "Walnut St & 15th St",
+    "stop_sequence": 13,
+    "stop_lat": 39.949576,
+    "stop_lon": -75.165805
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "14080",
+    "stop_name": "Walnut St & 16th St",
+    "stop_sequence": 14,
+    "stop_lat": 39.949775,
+    "stop_lon": -75.167399
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "14081",
+    "stop_name": "Walnut St & 17th St",
+    "stop_sequence": 15,
+    "stop_lat": 39.949975,
+    "stop_lon": -75.168968
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "14084",
+    "stop_name": "Walnut St & 18th St",
+    "stop_sequence": 16,
+    "stop_lat": 39.950148,
+    "stop_lon": -75.170456
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "14085",
+    "stop_name": "Walnut St & 19th St",
+    "stop_sequence": 17,
+    "stop_lat": 39.950374,
+    "stop_lon": -75.172108
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "14086",
+    "stop_name": "Walnut St & 20th St",
+    "stop_sequence": 18,
+    "stop_lat": 39.950574,
+    "stop_lon": -75.173643
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "14088",
+    "stop_name": "Walnut St & 21st St",
+    "stop_sequence": 19,
+    "stop_lat": 39.95081,
+    "stop_lon": -75.175531
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "14089",
+    "stop_name": "Walnut St & 22nd St",
+    "stop_sequence": 20,
+    "stop_lat": 39.951,
+    "stop_lon": -75.177172
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "131",
+    "stop_name": "Walnut St & 23rd St",
+    "stop_sequence": 21,
+    "stop_lat": 39.951145,
+    "stop_lon": -75.178305
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "19542",
+    "stop_name": "Walnut St & 24th St - MBFS",
+    "stop_sequence": 22,
+    "stop_lat": 39.951326,
+    "stop_lon": -75.179615
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "432",
+    "stop_name": "Walnut St & 30th St - FS",
+    "stop_sequence": 23,
+    "stop_lat": 39.95188,
+    "stop_lon": -75.184278
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "25704",
+    "stop_name": "Walnut St & 32nd St - FS",
+    "stop_sequence": 24,
+    "stop_lat": 39.952369,
+    "stop_lon": -75.187984
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21359",
+    "stop_name": "Walnut St & 33rd St",
+    "stop_sequence": 25,
+    "stop_lat": 39.952596,
+    "stop_lon": -75.189826
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21360",
+    "stop_name": "Walnut St & 34th St",
+    "stop_sequence": 26,
+    "stop_lat": 39.95285,
+    "stop_lon": -75.191986
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21361",
+    "stop_name": "Walnut St & 36th St",
+    "stop_sequence": 27,
+    "stop_lat": 39.953176,
+    "stop_lon": -75.194665
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21362",
+    "stop_name": "Walnut St & 37th St",
+    "stop_sequence": 28,
+    "stop_lat": 39.953421,
+    "stop_lon": -75.196649
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21363",
+    "stop_name": "Walnut St & 38th St",
+    "stop_sequence": 29,
+    "stop_lat": 39.953639,
+    "stop_lon": -75.198573
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21364",
+    "stop_name": "Walnut St & 39th St",
+    "stop_sequence": 30,
+    "stop_lat": 39.953856,
+    "stop_lon": -75.200143
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "433",
+    "stop_name": "Walnut St & 40th St",
+    "stop_sequence": 31,
+    "stop_lat": 39.954154,
+    "stop_lon": -75.202374
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21365",
+    "stop_name": "Walnut St & 41st St",
+    "stop_sequence": 32,
+    "stop_lat": 39.954462,
+    "stop_lon": -75.204994
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21366",
+    "stop_name": "Walnut St & 42nd St",
+    "stop_sequence": 33,
+    "stop_lat": 39.95462,
+    "stop_lon": -75.206292
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21367",
+    "stop_name": "Walnut St & 43rd St",
+    "stop_sequence": 34,
+    "stop_lat": 39.954892,
+    "stop_lon": -75.20863
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21368",
+    "stop_name": "Walnut St & 44th St",
+    "stop_sequence": 35,
+    "stop_lat": 39.955081,
+    "stop_lon": -75.209975
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21369",
+    "stop_name": "Walnut St & 45th St",
+    "stop_sequence": 36,
+    "stop_lat": 39.955268,
+    "stop_lon": -75.211546
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21370",
+    "stop_name": "Walnut St & 46th St",
+    "stop_sequence": 37,
+    "stop_lat": 39.955513,
+    "stop_lon": -75.213529
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "31148",
+    "stop_name": "Walnut St & Farragut St",
+    "stop_sequence": 38,
+    "stop_lat": 39.95563,
+    "stop_lon": -75.214533
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21371",
+    "stop_name": "Walnut St & 47th St",
+    "stop_sequence": 39,
+    "stop_lat": 39.955757,
+    "stop_lon": -75.215513
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21372",
+    "stop_name": "Walnut St & 48th St",
+    "stop_sequence": 40,
+    "stop_lat": 39.95601,
+    "stop_lon": -75.217531
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21374",
+    "stop_name": "Walnut St & 49th St",
+    "stop_sequence": 41,
+    "stop_lat": 39.956255,
+    "stop_lon": -75.219491
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21375",
+    "stop_name": "Walnut St & 50th St",
+    "stop_sequence": 42,
+    "stop_lat": 39.956508,
+    "stop_lon": -75.221463
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21376",
+    "stop_name": "Walnut St & 51st St",
+    "stop_sequence": 43,
+    "stop_lat": 39.956743,
+    "stop_lon": -75.223434
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "434",
+    "stop_name": "Walnut St & 52nd St",
+    "stop_sequence": 44,
+    "stop_lat": 39.956987,
+    "stop_lon": -75.225394
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21377",
+    "stop_name": "Walnut St & 53rd St",
+    "stop_sequence": 45,
+    "stop_lat": 39.957231,
+    "stop_lon": -75.227365
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21378",
+    "stop_name": "Walnut St & 54th St",
+    "stop_sequence": 46,
+    "stop_lat": 39.957457,
+    "stop_lon": -75.22916
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21379",
+    "stop_name": "Walnut St & 55th St",
+    "stop_sequence": 47,
+    "stop_lat": 39.957729,
+    "stop_lon": -75.231297
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21380",
+    "stop_name": "Walnut St & 56th St",
+    "stop_sequence": 48,
+    "stop_lat": 39.957973,
+    "stop_lon": -75.233386
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21381",
+    "stop_name": "Walnut St & 57th St",
+    "stop_sequence": 49,
+    "stop_lat": 39.958226,
+    "stop_lon": -75.235382
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21382",
+    "stop_name": "Walnut St & 58th St",
+    "stop_sequence": 50,
+    "stop_lat": 39.95847,
+    "stop_lon": -75.23733
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21383",
+    "stop_name": "Walnut St & 59th St",
+    "stop_sequence": 51,
+    "stop_lat": 39.958705,
+    "stop_lon": -75.239301
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "435",
+    "stop_name": "Walnut St & 60th St",
+    "stop_sequence": 52,
+    "stop_lat": 39.958967,
+    "stop_lon": -75.241273
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "436",
+    "stop_name": "Walnut St & 61st St",
+    "stop_sequence": 53,
+    "stop_lat": 39.959211,
+    "stop_lon": -75.243245
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21384",
+    "stop_name": "Walnut St & 62nd St",
+    "stop_sequence": 54,
+    "stop_lat": 39.959455,
+    "stop_lon": -75.24524
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21385",
+    "stop_name": "Walnut St & 63rd St",
+    "stop_sequence": 55,
+    "stop_lat": 39.959725,
+    "stop_lon": -75.247282
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "31291",
+    "stop_name": "63rd St & Chestnut St",
+    "stop_sequence": 56,
+    "stop_lat": 39.961117,
+    "stop_lon": -75.247066
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "25711",
+    "stop_name": "Market St & 63rd St - FS",
+    "stop_sequence": 57,
+    "stop_lat": 39.962858,
+    "stop_lon": -75.247404
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21387",
+    "stop_name": "Market St & Burd Av",
+    "stop_sequence": 58,
+    "stop_lat": 39.962997,
+    "stop_lon": -75.250853
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "19031",
+    "stop_name": "Market St & Millbourne Av",
+    "stop_sequence": 59,
+    "stop_lat": 39.962855,
+    "stop_lon": -75.251727
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "25706",
+    "stop_name": "Market St & Sellers Av",
+    "stop_sequence": 60,
+    "stop_lat": 39.962732,
+    "stop_lon": -75.252566
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21388",
+    "stop_name": "Market St & Powell Ln",
+    "stop_sequence": 61,
+    "stop_lat": 39.962608,
+    "stop_lon": -75.25357
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21390",
+    "stop_name": "Market St & Chatham Rd",
+    "stop_sequence": 62,
+    "stop_lat": 39.962175,
+    "stop_lon": -75.256477
+  },
+  {
+    "route_id": "21",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "1148",
+    "stop_name": "69th St Transit Center South Terminal",
+    "stop_sequence": 63,
+    "stop_lat": 39.962079,
+    "stop_lon": -75.258284
+  }
+]

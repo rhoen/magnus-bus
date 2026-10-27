@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f6f5f0"><meta name="description" content="A simpler school run. Track SEPTA trolleys and buses at your everyday stops."><meta name="apple-mobile-web-app-title" content="Magnus's Bus"><title>Magnus's Bus · T2 to Center City</title>
+<link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body><div class="wrap"><main data-trackers="t2City" id="transit-page">
+<header class="stopbar page-header"><div class="route-badge">T2</div><div class="stop-info"><h1 class="app-title">Magnus’s Bus</h1><div class="stop-title">T2 to Center City</div><p class="stop-sub">Baltimore & 48th → 15th St / City Hall</p></div><details class="site-menu" id="site-menu">
+<summary aria-label="Open page menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></summary>
+<nav aria-label="App pages"><a href="index.html">42 · School &amp; home<small>49th / 42nd &amp; Spruce</small></a><a href="t2.html" aria-current="page">T2 · To Center City<small>Baltimore &amp; 48th → 15th St</small></a><a href="center-city.html">From Center City<small>T2, T3 &amp; 21 toward home</small></a></nav>
+</details></header>
+<p class="page-note">The eastbound boarding stop is listed by SEPTA as Baltimore Av & Florence Av, near 48th Street. Only trips continuing to 15th St / City Hall are shown.</p>
+<div id="tracker-panels"></div>
+<details class="page-help"><summary>About these departures</summary><p>Live locations show the reported next stop and stops remaining to your boarding stop. The route diagram follows the closest vehicle. Canceled trips and vehicles already past your stop are excluded.</p><p>Trolley locations can be unavailable underground. When no fresh location is available, we show departure times from SEPTA’s trip updates: “Live estimate” means SEPTA marks the trip as real time; “Scheduled” means the timetable only. These times are not a guarantee. No position is invented for a trolley without location data.</p><p>The page refreshes every 15 seconds while visible. Location reports over two minutes old and departure results checked over 45 seconds ago are hidden. If one route fails, the other routes can still update.</p><p><a href="https://www.septa.org/alerts/" target="_blank" rel="noreferrer">Check SEPTA service alerts</a></p></details>
+<noscript><p class="warning">Turn on JavaScript to load live SEPTA departures.</p></noscript>
+</main><footer><span>♡ &nbsp; Made for Magnus’s journeys.</span><span>Powered by SEPTA data</span></footer></div>
+<script src="src/directions.js" defer></script>
+<script src="src/tracking.js" defer></script>
+<script src="src/data.js" defer></script>
+<script src="src/navigation.js" defer></script>
+<script src="src/transit-page.js" defer></script>
+</body></html>

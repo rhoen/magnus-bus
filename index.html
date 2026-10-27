@@ -8,11 +8,15 @@
 </head>
 <body><div class="wrap">
 <main>
+<div class="page-controls"><details class="site-menu" id="site-menu">
+<summary aria-label="Open page menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></summary>
+<nav aria-label="App pages"><a href="index.html" aria-current="page">42 · School &amp; home<small>49th / 42nd &amp; Spruce</small></a><a href="t2.html">T2 · To Center City<small>Baltimore &amp; 48th → 15th St</small></a><a href="center-city.html">From Center City<small>T2, T3 &amp; 21 toward home</small></a></nav>
+</details>
 <section class="direction-switch" aria-label="Trip direction">
 <button id="direction-west" class="direction-label west-label" type="button" aria-controls="cards">west - heading home</button>
 <div class="slider-control"><div class="slider-rail" aria-hidden="true"></div><span class="bus-thumb" id="bus-thumb" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="3" width="14" height="16" rx="3"/><path d="M5 11h14M9 3v8M6 19v2m12-2v2M9 6h7"/><circle cx="8.5" cy="15.5" r=".8" fill="currentColor"/><circle cx="15.5" cy="15.5" r=".8" fill="currentColor"/></svg></span><input id="direction-slider" type="range" min="0" max="1" step="1" value="1" aria-label="Bus direction" aria-valuetext="east - going to school" aria-controls="cards"></div>
 <button id="direction-east" class="direction-label east-label" type="button" aria-controls="cards">east - going to school</button>
-</section>
+</section></div>
 <div class="stopbar"><div class="route-badge" aria-label="Route 42">42</div><div class="stop-info"><h1 class="app-title">Magnus’s Bus</h1><div class="stop-title" id="stop-title">Your Route 42 stop</div><div class="stop-sub" id="stop-sub"></div></div><div class="east" id="direction-badge"></div></div>
 <div class="section-label"><h2>On the way to your stop</h2><div class="status" id="status" role="status"><span class="dot"></span><span id="status-text">Connecting to SEPTA</span></div></div>
 <div class="warning hidden" id="warning" role="status"></div>
@@ -27,4 +31,5 @@
 <script src="src/directions.js" defer></script>
 <script src="src/tracking.js" defer></script>
 <script src="src/data.js" defer></script>
+<script src="src/navigation.js" defer></script>
 <script src="src/app.js" defer></script></body></html>

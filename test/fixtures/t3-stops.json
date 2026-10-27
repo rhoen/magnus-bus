@@ -1,0 +1,1102 @@
+[
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "305",
+    "stop_name": "Darby Transit Center",
+    "stop_sequence": 1,
+    "stop_lat": 39.919085,
+    "stop_lon": -75.262376
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "32523",
+    "stop_name": "9th St & Main St - MBFS",
+    "stop_sequence": 2,
+    "stop_lat": 39.918924,
+    "stop_lon": -75.261845
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20768",
+    "stop_name": "9th St & Ridge Av",
+    "stop_sequence": 3,
+    "stop_lat": 39.919921,
+    "stop_lon": -75.260545
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20770",
+    "stop_name": "9th St & Summit St",
+    "stop_sequence": 4,
+    "stop_lat": 39.921142,
+    "stop_lon": -75.258866
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20771",
+    "stop_name": "9th St & Summit St - MBFS",
+    "stop_sequence": 5,
+    "stop_lat": 39.92205,
+    "stop_lon": -75.257482
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20772",
+    "stop_name": "9th St & Cedar Av",
+    "stop_sequence": 6,
+    "stop_lat": 39.922566,
+    "stop_lon": -75.255994
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20773",
+    "stop_name": "Chester Av & Alfred Av",
+    "stop_sequence": 7,
+    "stop_lat": 39.923697,
+    "stop_lon": -75.254279
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20774",
+    "stop_name": "Yeadon",
+    "stop_sequence": 8,
+    "stop_lat": 39.924525,
+    "stop_lon": -75.252542
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20775",
+    "stop_name": "Chester Av & Stetser Av",
+    "stop_sequence": 9,
+    "stop_lat": 39.925102,
+    "stop_lon": -75.250817
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20776",
+    "stop_name": "Chester Av & Duncan Av",
+    "stop_sequence": 10,
+    "stop_lat": 39.925617,
+    "stop_lon": -75.249175
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20777",
+    "stop_name": "Chester Av & Yeadon Av",
+    "stop_sequence": 11,
+    "stop_lat": 39.92607,
+    "stop_lon": -75.247486
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20778",
+    "stop_name": "Chester Av & Church Ln",
+    "stop_sequence": 12,
+    "stop_lat": 39.92631,
+    "stop_lon": -75.246565
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20779",
+    "stop_name": "Chester Av & 65th St",
+    "stop_sequence": 13,
+    "stop_lat": 39.929359,
+    "stop_lon": -75.244762
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20781",
+    "stop_name": "65th St & Belmar Av",
+    "stop_sequence": 14,
+    "stop_lat": 39.92905,
+    "stop_lon": -75.24108
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20782",
+    "stop_name": "65th St & Chester Av",
+    "stop_sequence": 15,
+    "stop_lat": 39.928628,
+    "stop_lon": -75.238897
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20843",
+    "stop_name": "65th St & Kingsessing Av",
+    "stop_sequence": 16,
+    "stop_lat": 39.927902,
+    "stop_lon": -75.23714
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "319",
+    "stop_name": "Mt. Moriah",
+    "stop_sequence": 17,
+    "stop_lat": 39.92889,
+    "stop_lon": -75.235461
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20785",
+    "stop_name": "Kingsessing Av & 62nd St",
+    "stop_sequence": 18,
+    "stop_lat": 39.929994,
+    "stop_lon": -75.233888
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20784",
+    "stop_name": "Kingsessing Av & 61st St",
+    "stop_sequence": 19,
+    "stop_lat": 39.931045,
+    "stop_lon": -75.232386
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20786",
+    "stop_name": "Kingsessing Av & 60th St",
+    "stop_sequence": 20,
+    "stop_lat": 39.932479,
+    "stop_lon": -75.230316
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20787",
+    "stop_name": "60th St & Chester Av",
+    "stop_sequence": 21,
+    "stop_lat": 39.933632,
+    "stop_lon": -75.231399
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20788",
+    "stop_name": "Chester Av & 59th St",
+    "stop_sequence": 22,
+    "stop_lat": 39.934754,
+    "stop_lon": -75.229944
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "320",
+    "stop_name": "Chester Av & 58th St",
+    "stop_sequence": 23,
+    "stop_lat": 39.935653,
+    "stop_lon": -75.228572
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20791",
+    "stop_name": "Chester Av & 57th St",
+    "stop_sequence": 24,
+    "stop_lat": 39.936642,
+    "stop_lon": -75.227187
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20792",
+    "stop_name": "Chester Av & 56th St",
+    "stop_sequence": 25,
+    "stop_lat": 39.937701,
+    "stop_lon": -75.225661
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20793",
+    "stop_name": "Chester Av & 55th St",
+    "stop_sequence": 26,
+    "stop_lat": 39.938654,
+    "stop_lon": -75.224301
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20794",
+    "stop_name": "Chester Av & 54th St",
+    "stop_sequence": 27,
+    "stop_lat": 39.939607,
+    "stop_lon": -75.222952
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20795",
+    "stop_name": "Chester Av & 53rd St",
+    "stop_sequence": 28,
+    "stop_lat": 39.940577,
+    "stop_lon": -75.221556
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20796",
+    "stop_name": "Chester Av & 52nd St",
+    "stop_sequence": 29,
+    "stop_lat": 39.941539,
+    "stop_lon": -75.220184
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20797",
+    "stop_name": "Chester Av & 51st St",
+    "stop_sequence": 30,
+    "stop_lat": 39.942349,
+    "stop_lon": -75.219048
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "321",
+    "stop_name": "Chester Av & 49th St",
+    "stop_sequence": 31,
+    "stop_lat": 39.944041,
+    "stop_lon": -75.216622
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20789",
+    "stop_name": "Chester Av & 48th St",
+    "stop_sequence": 32,
+    "stop_lat": 39.944958,
+    "stop_lon": -75.215344
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20790",
+    "stop_name": "Chester Av & 47th St",
+    "stop_sequence": 33,
+    "stop_lat": 39.945901,
+    "stop_lon": -75.213984
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20799",
+    "stop_name": "Chester Av & 46th St",
+    "stop_sequence": 34,
+    "stop_lat": 39.946827,
+    "stop_lon": -75.212682
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20800",
+    "stop_name": "Chester Av & 45th St",
+    "stop_sequence": 35,
+    "stop_lat": 39.9477,
+    "stop_lon": -75.211428
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20801",
+    "stop_name": "Chester Av & 43rd St",
+    "stop_sequence": 36,
+    "stop_lat": 39.948356,
+    "stop_lon": -75.209135
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20802",
+    "stop_name": "Chester Av & 42nd St",
+    "stop_sequence": 37,
+    "stop_lat": 39.948424,
+    "stop_lon": -75.207151
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20804",
+    "stop_name": "40th St Portal",
+    "stop_sequence": 38,
+    "stop_lat": 39.949533,
+    "stop_lon": -75.203333
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "21456",
+    "stop_name": "42nd St & Baltimore Av",
+    "stop_sequence": 39,
+    "stop_lat": 39.949709,
+    "stop_lon": -75.207076
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "30820",
+    "stop_name": "42nd St & Pine St",
+    "stop_sequence": 40,
+    "stop_lat": 39.951075,
+    "stop_lon": -75.207072
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "21457",
+    "stop_name": "42nd St & Spruce St",
+    "stop_sequence": 41,
+    "stop_lat": 39.952163,
+    "stop_lon": -75.206867
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "22127",
+    "stop_name": "Spruce St & 41st St",
+    "stop_sequence": 42,
+    "stop_lat": 39.952027,
+    "stop_lon": -75.205687
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "672",
+    "stop_name": "Spruce St & 40th St - FS",
+    "stop_sequence": 43,
+    "stop_lat": 39.951647,
+    "stop_lon": -75.202795
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "22128",
+    "stop_name": "Spruce St & 39th St",
+    "stop_sequence": 44,
+    "stop_lat": 39.951385,
+    "stop_lon": -75.200871
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "22129",
+    "stop_name": "Spruce St & 38th St",
+    "stop_sequence": 45,
+    "stop_lat": 39.951231,
+    "stop_lon": -75.19949
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "21248",
+    "stop_name": "40th-Market",
+    "stop_sequence": 46,
+    "stop_lat": 39.957259,
+    "stop_lon": -75.202021
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20731",
+    "stop_name": "37th-Spruce",
+    "stop_sequence": 47,
+    "stop_lat": 39.950993,
+    "stop_lon": -75.196586
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20732",
+    "stop_name": "36th-Sansom",
+    "stop_sequence": 48,
+    "stop_lat": 39.953854,
+    "stop_lon": -75.194533
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20642",
+    "stop_name": "33rd St",
+    "stop_sequence": 49,
+    "stop_lat": 39.954782,
+    "stop_lon": -75.189523
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20643",
+    "stop_name": "Drexel Station at 30th St",
+    "stop_sequence": 50,
+    "stop_lat": 39.954815,
+    "stop_lon": -75.1835
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20645",
+    "stop_name": "22nd St",
+    "stop_sequence": 51,
+    "stop_lat": 39.953962,
+    "stop_lon": -75.176736
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20646",
+    "stop_name": "19th St",
+    "stop_sequence": 52,
+    "stop_lat": 39.953327,
+    "stop_lon": -75.171637
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "31140",
+    "stop_name": "15th St/City Hall",
+    "stop_sequence": 53,
+    "stop_lat": 39.952502,
+    "stop_lon": -75.165369
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "283",
+    "stop_name": "13th St",
+    "stop_sequence": 54,
+    "stop_lat": 39.952532,
+    "stop_lon": -75.162559
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "283",
+    "stop_name": "13th St",
+    "stop_sequence": 1,
+    "stop_lat": 39.952532,
+    "stop_lon": -75.162559
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20659",
+    "stop_name": "15th St/City Hall",
+    "stop_sequence": 2,
+    "stop_lat": 39.952672,
+    "stop_lon": -75.165345
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20660",
+    "stop_name": "19th St",
+    "stop_sequence": 3,
+    "stop_lat": 39.953425,
+    "stop_lon": -75.171483
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20661",
+    "stop_name": "22nd St",
+    "stop_sequence": 4,
+    "stop_lat": 39.954051,
+    "stop_lon": -75.176571
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20662",
+    "stop_name": "Drexel Station at 30th St",
+    "stop_sequence": 5,
+    "stop_lat": 39.954894,
+    "stop_lon": -75.183169
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20658",
+    "stop_name": "33rd St",
+    "stop_sequence": 6,
+    "stop_lat": 39.954871,
+    "stop_lon": -75.189499
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20733",
+    "stop_name": "36th-Sansom",
+    "stop_sequence": 7,
+    "stop_lat": 39.95389,
+    "stop_lon": -75.194722
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20734",
+    "stop_name": "37th-Spruce",
+    "stop_sequence": 8,
+    "stop_lat": 39.951048,
+    "stop_lon": -75.197306
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "301",
+    "stop_name": "40th St Portal",
+    "stop_sequence": 9,
+    "stop_lat": 39.949595,
+    "stop_lon": -75.203333
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21248",
+    "stop_name": "40th-Market",
+    "stop_sequence": 10,
+    "stop_lat": 39.957259,
+    "stop_lon": -75.202021
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21425",
+    "stop_name": "40th St & Chestnut St",
+    "stop_sequence": 11,
+    "stop_lat": 39.955796,
+    "stop_lon": -75.202333
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21426",
+    "stop_name": "40th St & Walnut St - FS",
+    "stop_sequence": 12,
+    "stop_lat": 39.954262,
+    "stop_lon": -75.202633
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "22230",
+    "stop_name": "40th St & Locust St",
+    "stop_sequence": 13,
+    "stop_lat": 39.953075,
+    "stop_lon": -75.202885
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "22147",
+    "stop_name": "Spruce St & 41st St",
+    "stop_sequence": 14,
+    "stop_lat": 39.952125,
+    "stop_lon": -75.205462
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "22151",
+    "stop_name": "Spruce St & 42nd St",
+    "stop_sequence": 15,
+    "stop_lat": 39.952288,
+    "stop_lon": -75.206796
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21431",
+    "stop_name": "42nd St & Pine St",
+    "stop_sequence": 16,
+    "stop_lat": 39.951253,
+    "stop_lon": -75.207189
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21432",
+    "stop_name": "42nd St & Baltimore Av",
+    "stop_sequence": 17,
+    "stop_lat": 39.949879,
+    "stop_lon": -75.207241
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21433",
+    "stop_name": "42nd St & Chester Av",
+    "stop_sequence": 18,
+    "stop_lat": 39.948594,
+    "stop_lon": -75.207174
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20807",
+    "stop_name": "Chester Av & 42nd St",
+    "stop_sequence": 19,
+    "stop_lat": 39.948549,
+    "stop_lon": -75.206879
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20808",
+    "stop_name": "Chester Av & 43rd St",
+    "stop_sequence": 20,
+    "stop_lat": 39.948481,
+    "stop_lon": -75.208945
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20809",
+    "stop_name": "Chester Av & 45th St",
+    "stop_sequence": 21,
+    "stop_lat": 39.947878,
+    "stop_lon": -75.211403
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20810",
+    "stop_name": "Chester Av & 46th St",
+    "stop_sequence": 22,
+    "stop_lat": 39.947006,
+    "stop_lon": -75.212658
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20811",
+    "stop_name": "Chester Av & 47th St",
+    "stop_sequence": 23,
+    "stop_lat": 39.94608,
+    "stop_lon": -75.213959
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20812",
+    "stop_name": "Chester Av & 48th St",
+    "stop_sequence": 24,
+    "stop_lat": 39.945154,
+    "stop_lon": -75.215285
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "322",
+    "stop_name": "Chester Av & 49th St",
+    "stop_sequence": 25,
+    "stop_lat": 39.944281,
+    "stop_lon": -75.216527
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20814",
+    "stop_name": "Chester Av & 51st St",
+    "stop_sequence": 26,
+    "stop_lat": 39.942519,
+    "stop_lon": -75.219012
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20815",
+    "stop_name": "Chester Av & 52nd St",
+    "stop_sequence": 27,
+    "stop_lat": 39.941726,
+    "stop_lon": -75.220124
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20816",
+    "stop_name": "Chester Av & 53rd St",
+    "stop_sequence": 28,
+    "stop_lat": 39.940764,
+    "stop_lon": -75.221485
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20817",
+    "stop_name": "Chester Av & 54th St",
+    "stop_sequence": 29,
+    "stop_lat": 39.939785,
+    "stop_lon": -75.222893
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20818",
+    "stop_name": "Chester Av & 55th St",
+    "stop_sequence": 30,
+    "stop_lat": 39.938832,
+    "stop_lon": -75.224253
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20819",
+    "stop_name": "Chester Av & 56th St",
+    "stop_sequence": 31,
+    "stop_lat": 39.937871,
+    "stop_lon": -75.225625
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20820",
+    "stop_name": "Chester Av & 57th St",
+    "stop_sequence": 32,
+    "stop_lat": 39.936802,
+    "stop_lon": -75.227163
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "323",
+    "stop_name": "Chester Av & 58th St",
+    "stop_sequence": 33,
+    "stop_lat": 39.935832,
+    "stop_lon": -75.2285
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20821",
+    "stop_name": "Chester Av & 59th St",
+    "stop_sequence": 34,
+    "stop_lat": 39.93495,
+    "stop_lon": -75.229849
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20822",
+    "stop_name": "Chester Av & 60th St",
+    "stop_sequence": 35,
+    "stop_lat": 39.933784,
+    "stop_lon": -75.231469
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20823",
+    "stop_name": "60th St & Kingsessing Av",
+    "stop_sequence": 36,
+    "stop_lat": 39.932595,
+    "stop_lon": -75.230339
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20824",
+    "stop_name": "Kingsessing Av & 61st St",
+    "stop_sequence": 37,
+    "stop_lat": 39.93125,
+    "stop_lon": -75.232291
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20825",
+    "stop_name": "Kingsessing Av & 62nd St",
+    "stop_sequence": 38,
+    "stop_lat": 39.9302,
+    "stop_lon": -75.233793
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "324",
+    "stop_name": "Mt. Moriah",
+    "stop_sequence": 39,
+    "stop_lat": 39.929069,
+    "stop_lon": -75.235413
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20826",
+    "stop_name": "Kingsessing Av & 65th St",
+    "stop_sequence": 40,
+    "stop_lat": 39.927982,
+    "stop_lon": -75.236963
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20827",
+    "stop_name": "65th St & Chester St",
+    "stop_sequence": 41,
+    "stop_lat": 39.92893,
+    "stop_lon": -75.238223
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "31218",
+    "stop_name": "65th St & Belmar St",
+    "stop_sequence": 42,
+    "stop_lat": 39.929104,
+    "stop_lon": -75.240879
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21209",
+    "stop_name": "Chester Av & 65th St - FS",
+    "stop_sequence": 43,
+    "stop_lat": 39.929565,
+    "stop_lon": -75.244703
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20831",
+    "stop_name": "Chester Av & Church Ln",
+    "stop_sequence": 44,
+    "stop_lat": 39.926577,
+    "stop_lon": -75.246044
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "30865",
+    "stop_name": "Chester Av & Yeadon Av",
+    "stop_sequence": 45,
+    "stop_lat": 39.926213,
+    "stop_lon": -75.247368
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20833",
+    "stop_name": "Chester Av & Duncan Av",
+    "stop_sequence": 46,
+    "stop_lat": 39.92576,
+    "stop_lon": -75.249045
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20834",
+    "stop_name": "Chester Av & Stetser Av",
+    "stop_sequence": 47,
+    "stop_lat": 39.925245,
+    "stop_lon": -75.250699
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "325",
+    "stop_name": "Yeadon",
+    "stop_sequence": 48,
+    "stop_lat": 39.924685,
+    "stop_lon": -75.252447
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20835",
+    "stop_name": "Chester Av & Alfred Av",
+    "stop_sequence": 49,
+    "stop_lat": 39.923875,
+    "stop_lon": -75.254161
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20836",
+    "stop_name": "Chester Av & Cedar Av",
+    "stop_sequence": 50,
+    "stop_lat": 39.923012,
+    "stop_lon": -75.255946
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20838",
+    "stop_name": "10th St & Mulberry Av",
+    "stop_sequence": 51,
+    "stop_lat": 39.923621,
+    "stop_lon": -75.257349
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20839",
+    "stop_name": "10th St & Wycombe Av",
+    "stop_sequence": 52,
+    "stop_lat": 39.923096,
+    "stop_lon": -75.258471
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20840",
+    "stop_name": "10th St & Summit St",
+    "stop_sequence": 53,
+    "stop_lat": 39.922553,
+    "stop_lon": -75.259641
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20841",
+    "stop_name": "10th St & Ridge Av",
+    "stop_sequence": 54,
+    "stop_lat": 39.921306,
+    "stop_lon": -75.261462
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "30866",
+    "stop_name": "10th St & Main St",
+    "stop_sequence": 55,
+    "stop_lat": 39.920121,
+    "stop_lon": -75.263141
+  },
+  {
+    "route_id": "T3",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "305",
+    "stop_name": "Darby Transit Center",
+    "stop_sequence": 56,
+    "stop_lat": 39.919085,
+    "stop_lon": -75.262376
+  }
+]

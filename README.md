@@ -1,6 +1,18 @@
 # Magnus’s Bus
 
-A browser-only static website for **SEPTA Route 42 to school and back home**: eastbound at Spruce & 49th (stop 22120), and westbound at Spruce & 42nd (stop 22151). Shows the two closest approaching buses, their reported next stops, and how many stops those are from yours. Refreshes every 15 seconds while visible.
+A browser-only static website for everyday SEPTA trips. The original **Route 42 school and home page** uses eastbound at Spruce & 49th (stop 22120), and westbound at Spruce & 42nd (stop 22151). Shows the two closest approaching buses, their reported next stops, and how many stops those are from yours. Refreshes every 15 seconds while visible.
+
+## Pages
+
+Use the hamburger menu to switch between three static pages:
+
+- `index.html`: Route 42 school/home tracker with the time-of-day direction slider.
+- `t2.html`: T2 eastbound at Baltimore & 48th toward 15th St / City Hall. SEPTA names this boarding stop **Baltimore Av & Florence Av**, ID **20870**. Short-turn trips not continuing to City Hall are excluded.
+- `center-city.html`: three independent westbound panels: T2 and T3 at **15th St / City Hall**, stop **20659**, and Route 21 at **Walnut & 16th**, stop **14080**. Chestnut & 16th is eastbound, so Walnut is used for the return trip.
+
+Trolley GPS may be unavailable in the tunnel. When a fresh position is available, the cards show stops away and the actual trip's remaining stop list. Otherwise, trolley cards use SEPTA trip-update departure times, labeled **Live estimate** or **Scheduled** according to SEPTA's real-time flag. If active trip updates do not include the next departure, the timetable is filtered to the schedule release and service calendar verified by a current-day trip update. It never mixes all weekday/weekend calendars or turns a timetable into a GPS position. Timetable departures are not guaranteed; service alerts and cancellations can change them.
+
+Each route refreshes independently every 15 seconds. One failing route does not block the others. Menu links and all assets are relative for GitHub Pages project URLs.
 
 ## Open or host
 
@@ -11,6 +23,8 @@ For a website URL, upload these files, keeping their paths, to any static websit
 ```text
 .nojekyll
 index.html
+t2.html
+center-city.html
 favicon.svg
 apple-touch-icon.png
 styles.css
@@ -19,6 +33,8 @@ src/
   tracking.js
   data.js
   app.js
+  navigation.js
+  transit-page.js
 ```
 
 The app uses relative asset paths, so it works at a domain root or in a subdirectory such as a GitHub Pages project site. No routing or server-side endpoints are involved.
@@ -55,14 +71,16 @@ Philadelphia time (`America/New_York`) chooses eastbound before noon and westbou
 
 ## Browser data flow
 
-The browser fetches both feeds directly from SEPTA:
+The browser fetches the route feeds directly from SEPTA (Route 42 examples):
 
 - Live vehicles: https://www3.septa.org/api/v2/trips/?route_id=42
 - Ordered stops: https://www3.septa.org/api/v2/stops/?route_id=42
 
-Both endpoints returned `Access-Control-Allow-Origin: *` when verified on October 27, 2026. Requests omit cookies and authentication. The older TransitView endpoint does not provide that CORS header, so this version uses the v2 trip feed. The site depends on SEPTA continuing to allow cross-origin browser requests; failures show a visible message and retry automatically. There is no backend fallback or third-party proxy.
+Trolley pages also request `/api/v2/trip-update/?trip_id=…` for exact trip stop patterns and departure predictions, and `/api/v2/stop-schedule/?route_id=…&stop_id=…` for validated timetable fallback. The route parameter is T2, T3, or 21 on those pages.
 
-The browser selects the current schedule release and direction, sorts the stop list, and calculates stops remaining. Stop metadata is cached in memory for an hour and refreshed when the Philadelphia date changes. Every refresh fetches a new live vehicle feed. No personal data, location permission, or analytics are collected.
+The v2 endpoints returned `Access-Control-Allow-Origin: *` when verified on October 27, 2026. Requests omit cookies and authentication. The older TransitView endpoint does not provide that CORS header, so this version uses the v2 trip feed. The site depends on SEPTA continuing to allow cross-origin browser requests; failures show a visible message and retry automatically. There is no backend fallback or third-party proxy.
+
+The browser selects the current schedule release and direction, sorts the stop list, and calculates stops remaining. Stop metadata is cached separately per route in memory for an hour and refreshed when the Philadelphia date changes. Every refresh fetches a new live vehicle feed. No personal data, location permission, or analytics are collected.
 
 ## Counting and freshness
 
@@ -81,7 +99,9 @@ On a failed refresh, earlier reports remain visible only while still fresh. No b
 - `src/directions.js`: stop configuration and Philadelphia-time defaults.
 - `src/tracking.js`: validation, branch-aware counting, sorting and freshness.
 - `src/data.js`: direct browser requests, timeouts supplied by the app, and stop caching.
-- `src/app.js`: rendering, direction controls, cancellation and refresh behavior.
+- `src/app.js`: Route 42 rendering, direction controls, cancellation and refresh behavior.
+- `src/navigation.js`: hamburger-menu dismissal with Escape or an outside click.
+- `src/transit-page.js`: independent multi-route departure panels on the new pages.
 - `test/`: automated checks for counting, direct requests, caching, failures, direction changes and time boundaries.
 
 Developers with Node.js 22 or later can optionally run `npm test` (or `node --test`). Node is only a test runner; the website does not use it. There are no npm dependencies.

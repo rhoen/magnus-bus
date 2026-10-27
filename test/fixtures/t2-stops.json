@@ -1,0 +1,772 @@
+[
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20932",
+    "stop_name": "Elmwood Av & 73rd St",
+    "stop_sequence": 1,
+    "stop_lat": 39.914129,
+    "stop_lon": -75.241816
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20704",
+    "stop_name": "Woodland Av & Island Av",
+    "stop_sequence": 2,
+    "stop_lat": 39.917099,
+    "stop_lon": -75.246376
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "599",
+    "stop_name": "61st-Baltimore",
+    "stop_sequence": 3,
+    "stop_lat": 39.943963,
+    "stop_lon": -75.246342
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20859",
+    "stop_name": "Baltimore Av & 60th St",
+    "stop_sequence": 4,
+    "stop_lat": 39.944299,
+    "stop_lon": -75.244429
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20860",
+    "stop_name": "Baltimore Av & 59th St",
+    "stop_sequence": 5,
+    "stop_lat": 39.945197,
+    "stop_lon": -75.241899
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20861",
+    "stop_name": "Baltimore Av & 58th St",
+    "stop_sequence": 6,
+    "stop_lat": 39.945783,
+    "stop_lon": -75.240304
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20862",
+    "stop_name": "Baltimore Av & 57th St",
+    "stop_sequence": 7,
+    "stop_lat": 39.946386,
+    "stop_lon": -75.237327
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20863",
+    "stop_name": "Baltimore Av & 56th St",
+    "stop_sequence": 8,
+    "stop_lat": 39.946785,
+    "stop_lon": -75.235602
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20864",
+    "stop_name": "Baltimore Av & 55th St",
+    "stop_sequence": 9,
+    "stop_lat": 39.947246,
+    "stop_lon": -75.233746
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20865",
+    "stop_name": "Baltimore Av & 54th St",
+    "stop_sequence": 10,
+    "stop_lat": 39.947742,
+    "stop_lon": -75.231466
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20866",
+    "stop_name": "Baltimore Av & 53rd St",
+    "stop_sequence": 11,
+    "stop_lat": 39.947766,
+    "stop_lon": -75.229612
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20867",
+    "stop_name": "Baltimore Av & Broomall St",
+    "stop_sequence": 12,
+    "stop_lat": 39.947727,
+    "stop_lon": -75.227912
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20868",
+    "stop_name": "Baltimore Av & 51st St",
+    "stop_sequence": 13,
+    "stop_lat": 39.947715,
+    "stop_lon": -75.225456
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20869",
+    "stop_name": "Baltimore Av & 50th St",
+    "stop_sequence": 14,
+    "stop_lat": 39.947872,
+    "stop_lon": -75.223377
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "600",
+    "stop_name": "Baltimore Av & 49th St",
+    "stop_sequence": 15,
+    "stop_lat": 39.948101,
+    "stop_lon": -75.221404
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20870",
+    "stop_name": "Baltimore Av & Florence Av",
+    "stop_sequence": 17,
+    "stop_lat": 39.948312,
+    "stop_lon": -75.219503
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20871",
+    "stop_name": "Baltimore Av & 47th St",
+    "stop_sequence": 18,
+    "stop_lat": 39.94854,
+    "stop_lon": -75.217188
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20872",
+    "stop_name": "Baltimore Av & 46th St",
+    "stop_sequence": 19,
+    "stop_lat": 39.948786,
+    "stop_lon": -75.215061
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20873",
+    "stop_name": "Baltimore Av & 45th St",
+    "stop_sequence": 20,
+    "stop_lat": 39.949006,
+    "stop_lon": -75.213018
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20874",
+    "stop_name": "Baltimore Av & 44th St",
+    "stop_sequence": 21,
+    "stop_lat": 39.949181,
+    "stop_lon": -75.21127
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20875",
+    "stop_name": "Baltimore Av & 43rd St",
+    "stop_sequence": 22,
+    "stop_lat": 39.949481,
+    "stop_lon": -75.20932
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20876",
+    "stop_name": "Baltimore Av & 42nd St",
+    "stop_sequence": 23,
+    "stop_lat": 39.949736,
+    "stop_lon": -75.207265
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20804",
+    "stop_name": "40th St Portal",
+    "stop_sequence": 24,
+    "stop_lat": 39.949533,
+    "stop_lon": -75.203333
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "30820",
+    "stop_name": "42nd St & Pine St",
+    "stop_sequence": 26,
+    "stop_lat": 39.951075,
+    "stop_lon": -75.207072
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "21457",
+    "stop_name": "42nd St & Spruce St",
+    "stop_sequence": 27,
+    "stop_lat": 39.952163,
+    "stop_lon": -75.206867
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "22127",
+    "stop_name": "Spruce St & 41st St",
+    "stop_sequence": 28,
+    "stop_lat": 39.952027,
+    "stop_lon": -75.205687
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "672",
+    "stop_name": "Spruce St & 40th St - FS",
+    "stop_sequence": 29,
+    "stop_lat": 39.951647,
+    "stop_lon": -75.202795
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "22128",
+    "stop_name": "Spruce St & 39th St",
+    "stop_sequence": 30,
+    "stop_lat": 39.951385,
+    "stop_lon": -75.200871
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "22129",
+    "stop_name": "Spruce St & 38th St",
+    "stop_sequence": 31,
+    "stop_lat": 39.951231,
+    "stop_lon": -75.19949
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "21248",
+    "stop_name": "40th-Market",
+    "stop_sequence": 32,
+    "stop_lat": 39.957259,
+    "stop_lon": -75.202021
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20731",
+    "stop_name": "37th-Spruce",
+    "stop_sequence": 33,
+    "stop_lat": 39.950993,
+    "stop_lon": -75.196586
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20732",
+    "stop_name": "36th-Sansom",
+    "stop_sequence": 34,
+    "stop_lat": 39.953854,
+    "stop_lon": -75.194533
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20642",
+    "stop_name": "33rd St",
+    "stop_sequence": 35,
+    "stop_lat": 39.954782,
+    "stop_lon": -75.189523
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20643",
+    "stop_name": "Drexel Station at 30th St",
+    "stop_sequence": 36,
+    "stop_lat": 39.954815,
+    "stop_lon": -75.1835
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20645",
+    "stop_name": "22nd St",
+    "stop_sequence": 37,
+    "stop_lat": 39.953962,
+    "stop_lon": -75.176736
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "20646",
+    "stop_name": "19th St",
+    "stop_sequence": 38,
+    "stop_lat": 39.953327,
+    "stop_lon": -75.171637
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "31140",
+    "stop_name": "15th St/City Hall",
+    "stop_sequence": 39,
+    "stop_lat": 39.952502,
+    "stop_lon": -75.165369
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 0,
+    "release_name": "20260927",
+    "stop_id": "283",
+    "stop_name": "13th St",
+    "stop_sequence": 40,
+    "stop_lat": 39.952532,
+    "stop_lon": -75.162559
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "283",
+    "stop_name": "13th St",
+    "stop_sequence": 1,
+    "stop_lat": 39.952532,
+    "stop_lon": -75.162559
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20659",
+    "stop_name": "15th St/City Hall",
+    "stop_sequence": 2,
+    "stop_lat": 39.952672,
+    "stop_lon": -75.165345
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20660",
+    "stop_name": "19th St",
+    "stop_sequence": 3,
+    "stop_lat": 39.953425,
+    "stop_lon": -75.171483
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20661",
+    "stop_name": "22nd St",
+    "stop_sequence": 4,
+    "stop_lat": 39.954051,
+    "stop_lon": -75.176571
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20662",
+    "stop_name": "Drexel Station at 30th St",
+    "stop_sequence": 5,
+    "stop_lat": 39.954894,
+    "stop_lon": -75.183169
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20658",
+    "stop_name": "33rd St",
+    "stop_sequence": 6,
+    "stop_lat": 39.954871,
+    "stop_lon": -75.189499
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20733",
+    "stop_name": "36th-Sansom",
+    "stop_sequence": 7,
+    "stop_lat": 39.95389,
+    "stop_lon": -75.194722
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20734",
+    "stop_name": "37th-Spruce",
+    "stop_sequence": 8,
+    "stop_lat": 39.951048,
+    "stop_lon": -75.197306
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "301",
+    "stop_name": "40th St Portal",
+    "stop_sequence": 9,
+    "stop_lat": 39.949595,
+    "stop_lon": -75.203333
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21248",
+    "stop_name": "40th-Market",
+    "stop_sequence": 10,
+    "stop_lat": 39.957259,
+    "stop_lon": -75.202021
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21425",
+    "stop_name": "40th St & Chestnut St",
+    "stop_sequence": 11,
+    "stop_lat": 39.955796,
+    "stop_lon": -75.202333
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21426",
+    "stop_name": "40th St & Walnut St - FS",
+    "stop_sequence": 12,
+    "stop_lat": 39.954262,
+    "stop_lon": -75.202633
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "22230",
+    "stop_name": "40th St & Locust St",
+    "stop_sequence": 13,
+    "stop_lat": 39.953075,
+    "stop_lon": -75.202885
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "22147",
+    "stop_name": "Spruce St & 41st St",
+    "stop_sequence": 14,
+    "stop_lat": 39.952125,
+    "stop_lon": -75.205462
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "22151",
+    "stop_name": "Spruce St & 42nd St",
+    "stop_sequence": 15,
+    "stop_lat": 39.952288,
+    "stop_lon": -75.206796
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21431",
+    "stop_name": "42nd St & Pine St",
+    "stop_sequence": 16,
+    "stop_lat": 39.951253,
+    "stop_lon": -75.207189
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "21432",
+    "stop_name": "42nd St & Baltimore Av",
+    "stop_sequence": 17,
+    "stop_lat": 39.949879,
+    "stop_lon": -75.207241
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20879",
+    "stop_name": "Baltimore Av & 42nd St",
+    "stop_sequence": 18,
+    "stop_lat": 39.949861,
+    "stop_lon": -75.206945
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20880",
+    "stop_name": "Baltimore Av & 43rd St",
+    "stop_sequence": 19,
+    "stop_lat": 39.949641,
+    "stop_lon": -75.209154
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20881",
+    "stop_name": "Baltimore Av & 44th St",
+    "stop_sequence": 20,
+    "stop_lat": 39.949332,
+    "stop_lon": -75.211092
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20882",
+    "stop_name": "Baltimore Av & 45th St",
+    "stop_sequence": 21,
+    "stop_lat": 39.949148,
+    "stop_lon": -75.212828
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20883",
+    "stop_name": "Baltimore Av & 46th St",
+    "stop_sequence": 22,
+    "stop_lat": 39.948937,
+    "stop_lon": -75.214884
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20884",
+    "stop_name": "Baltimore Av & 47th St",
+    "stop_sequence": 23,
+    "stop_lat": 39.948691,
+    "stop_lon": -75.21701
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20885",
+    "stop_name": "Baltimore Av & 48th St",
+    "stop_sequence": 24,
+    "stop_lat": 39.948472,
+    "stop_lon": -75.219101
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "601",
+    "stop_name": "Baltimore Av & 49th St",
+    "stop_sequence": 25,
+    "stop_lat": 39.948261,
+    "stop_lon": -75.221109
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20886",
+    "stop_name": "Baltimore Av & 50th St",
+    "stop_sequence": 27,
+    "stop_lat": 39.948041,
+    "stop_lon": -75.223199
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20887",
+    "stop_name": "Baltimore Av & 51st St",
+    "stop_sequence": 28,
+    "stop_lat": 39.94783,
+    "stop_lon": -75.225266
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20888",
+    "stop_name": "Baltimore Av & 52nd St",
+    "stop_sequence": 29,
+    "stop_lat": 39.947842,
+    "stop_lon": -75.227309
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20889",
+    "stop_name": "Baltimore Av & 53rd St",
+    "stop_sequence": 30,
+    "stop_lat": 39.947846,
+    "stop_lon": -75.229317
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20890",
+    "stop_name": "Baltimore Av & 54th St",
+    "stop_sequence": 31,
+    "stop_lat": 39.947797,
+    "stop_lon": -75.232139
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20891",
+    "stop_name": "Baltimore Av & 55th St",
+    "stop_sequence": 32,
+    "stop_lat": 39.947442,
+    "stop_lon": -75.233522
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20892",
+    "stop_name": "Baltimore Av & 56th St",
+    "stop_sequence": 33,
+    "stop_lat": 39.946936,
+    "stop_lon": -75.235519
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20893",
+    "stop_name": "Baltimore Av & 57th St",
+    "stop_sequence": 34,
+    "stop_lat": 39.946431,
+    "stop_lon": -75.237763
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20894",
+    "stop_name": "Baltimore Av & 58th St",
+    "stop_sequence": 35,
+    "stop_lat": 39.945988,
+    "stop_lon": -75.239937
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20895",
+    "stop_name": "Baltimore Av & 59th St",
+    "stop_sequence": 36,
+    "stop_lat": 39.945411,
+    "stop_lon": -75.241698
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "20896",
+    "stop_name": "Baltimore Av & 60th St",
+    "stop_sequence": 37,
+    "stop_lat": 39.944468,
+    "stop_lon": -75.244322
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "599",
+    "stop_name": "61st-Baltimore",
+    "stop_sequence": 38,
+    "stop_lat": 39.943963,
+    "stop_lon": -75.246342
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "304",
+    "stop_name": "Woodland Av & Island Av",
+    "stop_sequence": 39,
+    "stop_lat": 39.917304,
+    "stop_lon": -75.246245
+  },
+  {
+    "route_id": "T2",
+    "direction_id": 1,
+    "release_name": "20260927",
+    "stop_id": "610",
+    "stop_name": "Elmwood Av & 73rd St",
+    "stop_sequence": 40,
+    "stop_lat": 39.914335,
+    "stop_lon": -75.241732
+  }
+]

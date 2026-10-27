@@ -1,35 +1,56 @@
 (() => {
 'use strict';
-const { DIRECTIONS, STOPS_URL, VEHICLES_URL, serviceDate, orderedStops, trackBuses } = globalThis.MagnusBus;
-
-// Each page fetches SEPTA directly. Only the ordered stop metadata is cached;
-// every refresh requests a new live vehicle feed.
+const { TRACKERS, serviceDate, orderedStops, trackBuses, scheduledDepartures } = globalThis.MagnusBus;
+const api = 'https://www3.septa.org/api/v2/';
 function createDataClient({ fetchImpl = globalThis.fetch.bind(globalThis), now = Date.now } = {}) {
-  let stopCache;
+  const stopCache = new Map(), scheduleCache = new Map();
   async function getJSON(url, signal) {
     const response = await fetchImpl(url, {
-      mode: 'cors', credentials: 'omit', cache: 'no-store',
-      headers: { accept: 'application/json' }, signal
+      mode:'cors', credentials:'omit', cache:'no-store',
+      headers:{accept:'application/json'}, signal
     });
     if (!response.ok) throw new Error('SEPTA unavailable');
     return response.json();
   }
   async function getTracking(direction, { signal } = {}) {
-    if (!Object.hasOwn(DIRECTIONS, direction)) throw new Error('Invalid direction');
-    const at = now();
-    const cached = stopCache && at - stopCache.at < 3600000 && stopCache.date === serviceDate(at);
+    if (!Object.hasOwn(TRACKERS, direction)) throw new Error('Invalid direction');
+    const config = TRACKERS[direction], at = now();
+    const cache = stopCache.get(config.route);
+    const cached = cache && at-cache.at < 3600000 && cache.date === serviceDate(at);
     const [feed, stops] = await Promise.all([
-      getJSON(VEHICLES_URL, signal),
-      cached ? stopCache.data : getJSON(STOPS_URL, signal)
+      getJSON(api+'trips/?route_id='+encodeURIComponent(config.route),signal),
+      cached ? cache.data : getJSON(api+'stops/?route_id='+encodeURIComponent(config.route),signal)
     ]);
     if (signal?.aborted) throw signal.reason;
-    // Validate before caching so a malformed response never poisons later refreshes.
-    orderedStops(stops, now(), direction);
-    const result = trackBuses(feed, stops, now(), direction);
-    if (!cached) stopCache = { at: now(), date: serviceDate(now()), data: stops };
-    return result;
+    if (!Array.isArray(feed)) throw new Error('Invalid vehicle response');
+    orderedStops(stops,now(),direction);
+    if (!cached) stopCache.set(config.route,{at:now(),date:serviceDate(now()),data:stops});
+    const updates = {};
+    let updatesFailed = 0;
+    if (config.kind === 'trolley') {
+      const trips = [...new Map(feed.filter(v => String(v.route_id) === config.route && String(v.direction_id) === config.gtfs
+        && !['CANCELED','CANCELLED'].includes(v.status) && /^\d{4}-\d{2}-\d{2}$/.test(v.transit_date)).map(v => [String(v.trip_id),v])).values()];
+      await Promise.all(trips.map(async vehicle => {
+        try { updates[String(vehicle.trip_id)] = await getJSON(api+'trip-update/?trip_id='+encodeURIComponent(vehicle.trip_id),signal); }
+        catch (error) { if (signal?.aborted) throw error; updatesFailed++; }
+      }));
+    }
+    if (signal?.aborted) throw signal.reason;
+    const result = trackBuses(feed,stops,now(),direction,updates);
+    if (config.kind === 'trolley' && !result.buses.length && result.departures.length < 2) {
+      try {
+        const key=config.route+':'+config.target, cachedSchedule=scheduleCache.get(key);
+        const rows=cachedSchedule && now()-cachedSchedule.at<60000 ? cachedSchedule.data : await getJSON(api+'stop-schedule/?route_id='+encodeURIComponent(config.route)+'&stop_id='+encodeURIComponent(config.target),signal);
+        const scheduled=scheduledDepartures(rows,feed,updates,config,now());
+        scheduleCache.set(key,{at:cachedSchedule && now()-cachedSchedule.at<60000?cachedSchedule.at:now(),data:rows});
+        const combined=new Map(scheduled.map(d=>[d.tripId,d]));
+        for(const departure of result.departures)combined.set(departure.tripId,departure);
+        result.departures=[...combined.values()].sort((a,b)=>a.departureAt-b.departureAt).slice(0,2);
+      } catch(error) { if(signal?.aborted)throw error;updatesFailed++; }
+    }
+    return {...result,updatesFailed};
   }
   return { getTracking };
 }
-Object.assign(globalThis.MagnusBus, { createDataClient });
+Object.assign(globalThis.MagnusBus,{ createDataClient });
 })();
