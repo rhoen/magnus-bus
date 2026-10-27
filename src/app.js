@@ -7,6 +7,7 @@ const { DIRECTIONS: directions, defaultDirection, createDataClient } = globalThi
 const client = createDataClient();
 let direction = defaultDirection(), manualDirection = false;
 let data = null, loading = false, failed = false, requestId = 0, controller;
+let routeKey = null;
 function drawDirection() {
   const config = directions[direction];
   $('direction-slider').value = direction === 'east' ? '1' : '0';
@@ -17,9 +18,8 @@ function drawDirection() {
   $('stop-title').textContent = config.stopName;
   $('stop-sub').textContent = 'Your stop · #' + config.target + ' · ' + config.destination;
   $('direction-badge').textContent = config.arrow + ' ' + config.name;
-  $('route-caption').textContent = 'Along Spruce Street · ' + config.name;
   $('auto-direction').classList.toggle('hidden', !manualDirection);
-  drawRoute();
+  drawRoute((data?.buses || []).filter(b => Date.now()-b.reportedAt <= 120000));
 }
 function selectDirection(next) {
   if (next === direction) { drawDirection(); return; }
@@ -30,10 +30,31 @@ function selectDirection(next) {
   drawDirection(); render(); refresh();
 }
 function drawRoute(buses = []) {
-  const target = directions[direction].target;
-  $('route-line').setAttribute('aria-label', directions[direction].name + ' stops on Spruce Street');
-  $('route-line').innerHTML = directions[direction].homeStops.map(([id,name]) => '<div class="station '+(id===target?'home':'')+' '+(buses.some(b=>b.nextStopId===id)?'active':'')+'">'+name+' St'+(id===target?'<small>YOUR STOP</small>':buses.some(b=>b.nextStopId===id)?'<small>BUS NEXT STOP</small>':'')+'</div>').join('');
+  const config = directions[direction];
+  const bus = buses[0];
+  const stops = bus?.route || [];
+  const key = JSON.stringify([direction, bus?.vehicleId, stops]);
+  if (key === routeKey) return;
+  routeKey = key;
+  $('route-caption').textContent = bus
+    ? 'Bus ' + bus.vehicleId + ' · ' + config.name
+    : config.name;
+  $('route-hint').classList.toggle('hidden', stops.length <= 6);
+  $('route-line').setAttribute('aria-label', bus
+    ? 'Stops from bus ' + bus.vehicleId + '’s reported next stop to ' + config.stopName
+    : 'Waiting for the closest bus to ' + config.stopName);
+  if (!stops.length) {
+    $('route-line').innerHTML = '<li class="route-empty">The stops to yours will appear when a fresh bus location is available.</li>';
+    return;
+  }
+  $('route-line').innerHTML = stops.map((stop, index) => {
+    const home = stop.id === config.target;
+    const first = index === 0;
+    const tag = home && first ? 'BUS NEXT STOP<br>YOUR STOP' : home ? 'YOUR STOP' : first ? 'BUS NEXT STOP' : '&nbsp;';
+    return '<li class="station ' + (home ? 'home ' : '') + (first ? 'active' : '') + '"><span class="station-tag">' + tag + '</span><span class="station-name">' + escapeHTML(stop.name) + '</span></li>';
+  }).join('');
 }
+
 function card(bus, index, error) {
   const title = index ? 'Following bus' : 'Closest bus';
   const cls = index ? 'secondary' : 'primary';

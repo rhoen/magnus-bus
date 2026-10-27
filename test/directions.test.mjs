@@ -27,7 +27,7 @@ function browser() {
  vm.runInContext(app,context);
  const flush=()=>new Promise(resolve=>setImmediate(resolve));
  return {get,requests,flush,advance(iso){now=Date.parse(iso);intervals.find(i=>i.ms===1000).fn();},
-  async reply(index,direction){requests[index].resolve({buses:[],fetchedAt:now,direction});await flush();}};
+  async reply(index,direction,buses=[]){requests[index].resolve({buses,fetchedAt:now,direction});await flush();}};
 }
 test('manual toggle changes stop immediately and ignores a slower opposite-direction request',async()=>{
  const b=browser();assert.equal(b.requests[0].direction,'east');
@@ -54,4 +54,35 @@ test('automatic selection follows noon; manual override survives ticks and can b
  assert.equal(b.get('stop-title').textContent,'Spruce St & 49th St');
  b.get('auto-direction').handlers.click();
  assert.equal(b.get('stop-title').textContent,'Spruce St & 42nd St');
+});
+
+test('home stretch follows all remaining stops of the closest fresh bus',async()=>{
+ const b=browser();
+ const route=[
+  {id:'22114',name:'Spruce St & 56th St'},
+  {id:'22115',name:'Spruce St & 55th St'},
+  {id:'22116',name:'Spruce St & 54th St'},
+  {id:'22117',name:'Spruce St & 53rd St'},
+  {id:'671',name:'Spruce St & 52nd St'},
+  {id:'22118',name:'Spruce St & 51st St'},
+  {id:'22119',name:'Spruce St & 50th St'},
+  {id:'22120',name:'Spruce St & 49th St'}
+ ];
+ await b.reply(0,'east',[
+  {vehicleId:'100',reportedAt:Date.parse('2026-10-27T15:58:50Z'),stopsAway:7,nextStopName:route[0].name,route},
+  {vehicleId:'200',reportedAt:Date.parse('2026-10-27T15:58:50Z'),stopsAway:9,nextStopName:'Spruce St & 58th St',route:[{id:'22112',name:'Spruce St & 58th St'},...route]}
+ ]);
+ const html=b.get('route-line').innerHTML;
+ assert.equal((html.match(/class="station /g)||[]).length,route.length);
+ let position=-1;
+ for(const stop of route){const next=html.indexOf(stop.name.replaceAll('&','&amp;'));assert.ok(next>position);position=next;}
+ assert.doesNotMatch(html,/58th/);
+ assert.match(html,/BUS NEXT STOP/);assert.match(html,/YOUR STOP/);
+ assert.equal(b.get('route-caption').textContent,'Bus 100 · Eastbound');
+ b.get('direction-east').handlers.click();
+ b.advance('2026-10-27T15:59:55Z');
+ assert.equal(b.get('route-line').innerHTML,html);
+ b.advance('2026-10-27T16:01:00Z');
+ assert.doesNotMatch(b.get('route-line').innerHTML,/56th/);
+ assert.match(b.get('route-line').innerHTML,/fresh bus location/);
 });

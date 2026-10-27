@@ -70,7 +70,7 @@ The route-wide eastbound list combines the Wycombe and 61st & Pine branches. Wyc
 
 Buses beyond the target and GPS reports older than two minutes are excluded. Physical buses are deduplicated. A future assignment is excluded while that vehicle is still traveling in the opposite direction. Unknown stops are omitted with a notice. Buses are ranked by stops remaining, breaking ties using GPS proximity to the reported next stop. This is route progress; traffic, detours, and overtaking can change arrival order.
 
-On a failed refresh, earlier reports remain visible only while still fresh. No buses in view does not mean service has stopped. The route strip is a schematic of the final Spruce Street stops, not a map. See the SEPTA alerts link for service changes.
+On a failed refresh, earlier reports remain visible only while still fresh. No buses in view does not mean service has stopped. The home stretch shows every stop from the closest fresh bus’s reported next stop through the selected boarding stop, using that bus’s branch-specific route. Full stop names run vertically; long routes scroll horizontally. It shows a waiting message when no fresh bus is available. The diagram is a schematic, not a map or an exact GPS position. See the SEPTA alerts link for service changes.
 
 ## Files and optional tests
 
