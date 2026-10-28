@@ -17,7 +17,6 @@ function drawDirection() {
   $('direction-east').setAttribute('aria-pressed', String(direction === 'east'));
   $('stop-title').textContent = config.stopName;
   $('stop-sub').textContent = 'Your stop · #' + config.target + ' · ' + config.destination;
-  $('direction-badge').textContent = config.arrow + ' ' + config.name;
   $('auto-direction').classList.toggle('hidden', !manualDirection);
   drawRoute((data?.buses || []).filter(b => Date.now()-b.reportedAt <= 120000));
 }
