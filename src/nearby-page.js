@@ -26,7 +26,7 @@ function renderRoutes(){
     button.append(badge,info,away);button.addEventListener('click',()=>selectRoute(route));list.append(button);
   }
   $('nearby-more').hidden=expanded||result.allRoutes.length===result.routes.length;
-  $('nearby-status').textContent=routes.length?(expanded?'Routes within ½ mile.':'Routes at your closest stops.')+' Choose your bus or trolley.':'No SEPTA bus or trolley stops found within ½ mile. Try again when you’re closer to a stop.';
+  $('nearby-status').textContent=routes.length?'':'No SEPTA bus or trolley stops found within ½ mile. Try again when you’re closer to a stop.';
 }
 function selectDirection(config){
   clearPanel();
