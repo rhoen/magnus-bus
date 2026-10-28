@@ -62,7 +62,7 @@ function locate(){
   if(!navigator.geolocation){$('nearby-status').textContent='This browser doesn’t support location. Open this page in a browser with location services.';return;}
   if(!globalThis.MagnusBus.stopDirectory){$('nearby-status').textContent='The stop directory couldn’t load. Reload this page and try again.';return;}
   $('nearby-locate').disabled=true;$('nearby-locate').textContent='Finding you…';
-  $('nearby-status').textContent='Allow location access to find your nearest bus and trolley stops.';
+  $('nearby-status').textContent='';
   navigator.geolocation.getCurrentPosition(value=>{
     if(request!==generation)return;
     $('nearby-locate').disabled=false;$('nearby-locate').textContent='Update my location';
