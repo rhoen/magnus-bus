@@ -19,9 +19,14 @@ function renderRoutes(){
     const badge=document.createElement('span');badge.className='route-badge';badge.textContent=route.route;
     const info=document.createElement('span');info.className='nearby-route-info';
     const title=document.createElement('strong');title.textContent=(route.kind==='trolley'?'Trolley ':'Bus ')+route.route;
-    const stop=document.createElement('span');stop.textContent=route.directions[0].stopName;
-    const destinations=document.createElement('small');destinations.textContent=route.directions.map(c=>c.destination).join(' · ');
-    info.append(title,stop,destinations);
+    info.append(title);
+    const stopNames=new Set();
+    for(const direction of route.directions){
+      const name=direction.stopName.trim(),key=name.toLowerCase().replace(/\s+/g,' ');
+      if(stopNames.has(key))continue;
+      stopNames.add(key);
+      const stop=document.createElement('span');stop.textContent=name;info.append(stop);
+    }
     const away=document.createElement('span');away.className='nearby-distance';away.textContent=distance(route.distance)+' →';
     button.append(badge,info,away);button.addEventListener('click',()=>selectRoute(route));list.append(button);
   }
