@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f6f5f0"><meta name="description" content="A simpler school run. Track SEPTA trolleys and buses at your everyday stops."><meta name="apple-mobile-web-app-title" content="Magnus's Bus"><title>Magnus's Bus · Nearby stops</title>
+<link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body><div class="wrap"><main>
+<header class="stopbar page-header"><div class="route-badge" aria-hidden="true">⌖</div><div class="stop-info"><h1 class="app-title">Magnus’s Bus</h1><div class="stop-title">Nearby stops</div><p class="stop-sub">Your next ride, wherever you are</p></div><details class="site-menu" id="site-menu">
+<summary aria-label="Open page menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></summary>
+<nav aria-label="App pages"><a href="index.html">42 · School &amp; home<small>49th / 42nd &amp; Spruce</small></a><a href="t2.html">T2 · To City Hall<small>Baltimore &amp; 48th → 15th St</small></a><a href="center-city.html">From City Hall<small>T2, T3 &amp; 21 toward home</small></a><a href="nearby.html" aria-current="page">Nearby stops<small>Find buses &amp; trolleys near you</small></a></nav>
+</details></header>
+<section id="nearby-discovery" class="nearby-discovery" aria-labelledby="nearby-heading">
+<div class="nearby-intro"><p class="eyebrow">A stop near you</p><h2 id="nearby-heading" tabindex="-1">Where are we heading?</h2><p>Find the buses and trolleys at your closest stops. Then pick a route to see what’s on its way.</p>
+<button id="nearby-locate" class="location-button" type="button">Use my location</button>
+<p class="location-privacy">Your location stays in this browser. It isn’t stored or sent to SEPTA.</p></div>
+<p id="nearby-location" class="page-note"></p>
+<p id="nearby-status" class="nearby-status" role="status">Tap “Use my location” and allow access when your browser asks.</p>
+<div id="nearby-routes" class="nearby-routes" aria-label="Nearby bus and trolley routes"></div>
+<button id="nearby-more" class="nearby-text-button" type="button" hidden>Show more routes within ½ mile</button>
+</section>
+<section id="nearby-detail" aria-labelledby="nearby-route-title" hidden>
+<button id="nearby-back" class="nearby-text-button" type="button">← Nearby routes</button>
+<h2 id="nearby-route-title" tabindex="-1"></h2>
+<div id="nearby-directions" class="destination-switch" role="group" aria-label="Travel direction"></div>
+<p id="nearby-direction-note" class="page-note"></p>
+<p id="nearby-boarding" class="nearby-boarding" role="status"></p>
+<div id="nearby-panels"></div>
+</section>
+<details class="page-help"><summary>About nearby stops</summary><p>We find the closest boarding stops within ½ mile using your device’s location. The first list includes all routes at the nearest stop and neighboring stops up to 100 feet farther away. “Show more routes” expands the list to ½ mile. Distances are straight-line estimates, not walking routes. Check the boarding stop and platform, especially when changing direction.</p><p>The direction buttons use SEPTA’s destination names. Live stop counts follow each vehicle’s actual trip, including branches and short turns. Reports older than two minutes are hidden. Trolley positions can be unavailable underground; departure estimates or scheduled times may appear instead. Each selected route refreshes every 15 seconds while this page is visible.</p><p>Location is requested only when you tap the button. We don’t save your coordinates. Use “Update my location” after moving. Location requires HTTPS or a supported local preview. The stop directory is bundled with this site and may not include recent stop changes or temporary shuttle routes.</p><p><a href="https://www.septa.org/alerts/" target="_blank" rel="noreferrer">Check SEPTA service alerts</a></p></details>
+<noscript><p class="warning">Turn on JavaScript to find nearby stops and load SEPTA departures.</p></noscript>
+</main><footer><span>♡ &nbsp; Made for Magnus’s journeys.</span><span>Powered by SEPTA data</span></footer></div>
+<script src="src/directions.js" defer></script>
+<script src="src/tracking.js" defer></script>
+<script src="src/data.js" defer></script>
+<script src="data/stop-directory.js" defer></script>
+<script src="src/nearby.js" defer></script>
+<script src="src/navigation.js" defer></script>
+<script src="src/transit-page.js" defer></script>
+<script src="src/nearby-page.js" defer></script>
+</body></html>

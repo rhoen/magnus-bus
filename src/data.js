@@ -1,6 +1,6 @@
 (() => {
 'use strict';
-const { TRACKERS, serviceDate, orderedStops, trackBuses, scheduledDepartures } = globalThis.MagnusBus;
+const { trackerConfig, serviceDate, orderedStops, trackBuses, scheduledDepartures } = globalThis.MagnusBus;
 const api = 'https://www3.septa.org/api/v2/';
 function createDataClient({ fetchImpl = globalThis.fetch.bind(globalThis), now = Date.now } = {}) {
   const stopCache = new Map(), scheduleCache = new Map();
@@ -13,8 +13,7 @@ function createDataClient({ fetchImpl = globalThis.fetch.bind(globalThis), now =
     return response.json();
   }
   async function getTracking(direction, { signal } = {}) {
-    if (!Object.hasOwn(TRACKERS, direction)) throw new Error('Invalid direction');
-    const config = TRACKERS[direction], at = now();
+    const config = trackerConfig(direction), at = now();
     const cache = stopCache.get(config.route);
     const cached = cache && at-cache.at < 3600000 && cache.date === serviceDate(at);
     const [feed, stops] = await Promise.all([
@@ -27,12 +26,18 @@ function createDataClient({ fetchImpl = globalThis.fetch.bind(globalThis), now =
     if (!cached) stopCache.set(config.route,{at:now(),date:serviceDate(now()),data:stops});
     const updates = {};
     let updatesFailed = 0;
-    if (config.kind === 'trolley') {
+    if (config.kind === 'trolley' || config.exactTrips) {
       const trips = [...new Map(feed.filter(v => String(v.route_id) === config.route && String(v.direction_id) === config.gtfs
+        && (config.kind === 'trolley' || (Number(v.timestamp) > now()/1000-120 && v.vehicle_id && !['None','0','null'].includes(String(v.vehicle_id))))
         && !['CANCELED','CANCELLED'].includes(v.status) && /^\d{4}-\d{2}-\d{2}$/.test(v.transit_date)).map(v => [String(v.trip_id),v])).values()];
-      await Promise.all(trips.map(async vehicle => {
-        try { updates[String(vehicle.trip_id)] = await getJSON(api+'trip-update/?trip_id='+encodeURIComponent(vehicle.trip_id),signal); }
-        catch (error) { if (signal?.aborted) throw error; updatesFailed++; }
+      // Bound trip-detail requests even on busy routes.
+      let next = 0;
+      await Promise.all(Array.from({length:Math.min(4,trips.length)}, async () => {
+        while (next < trips.length) {
+          const vehicle = trips[next++];
+          try { updates[String(vehicle.trip_id)] = await getJSON(api+'trip-update/?trip_id='+encodeURIComponent(vehicle.trip_id),signal); }
+          catch (error) { if (signal?.aborted) throw error; updatesFailed++; }
+        }
       }));
     }
     if (signal?.aborted) throw signal.reason;

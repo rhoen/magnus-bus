@@ -9,9 +9,14 @@ function serviceDate(now) {
   return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now).replaceAll('-', '');
 }
 
+function trackerConfig(direction) {
+  const config = typeof direction === 'string' ? TRACKERS[direction] : direction;
+  if (!config || !config.route || !['0','1'].includes(config.gtfs) || !config.target) throw new Error('Invalid direction');
+  return config;
+}
+
 function orderedStops(rows, now, direction = 'east') {
-  if (!Object.hasOwn(TRACKERS, direction)) throw new Error('Invalid direction');
-  const config = TRACKERS[direction];
+  const config = trackerConfig(direction);
   if (!Array.isArray(rows)) throw new Error('Invalid stop response');
   const eligible = rows.filter(s => String(s.route_id) === config.route && String(s.direction_id) === config.gtfs && /^\d{8}$/.test(s.release_name) && s.release_name <= serviceDate(now));
   const release = eligible.map(s => s.release_name).sort().at(-1);
@@ -28,7 +33,7 @@ function orderedStops(rows, now, direction = 'east') {
 function trackBuses(feed, rows, now = Date.now(), direction = 'east', tripUpdates = {}) {
   if (!Array.isArray(feed)) throw new Error('Invalid vehicle response');
   const { stops, release } = orderedStops(rows, now, direction);
-  const config = TRACKERS[direction];
+  const config = trackerConfig(direction);
   // SEPTA's route-wide list combines two branches. Wycombe buses do NOT
   // visit the 61st & Pine loop; counting the combined list adds two false stops.
   const longPattern = stops.filter(s => !['437', '26108'].includes(String(s.stop_id)));
@@ -43,7 +48,7 @@ function trackBuses(feed, rows, now = Date.now(), direction = 'east', tripUpdate
   });
   const candidates = [];
   for (const bus of fresh) {
-    if (String(bus.direction_id) !== config.gtfs && bus.direction_name !== config.name) continue;
+    if (bus.direction_id != null ? String(bus.direction_id) !== config.gtfs : bus.direction_name !== config.name) continue;
     if (['CANCELED','CANCELLED','NO GPS'].includes(bus.status)) continue;
     const vehicleId = String(bus.vehicle_id || '');
     if (!vehicleId || ['None','null','0'].includes(vehicleId)) { unknown++; continue; }
@@ -51,15 +56,21 @@ function trackBuses(feed, rows, now = Date.now(), direction = 'east', tripUpdate
     // in the opposite direction.
     if (Number(bus.next_stop_sequence) === 1 && fresh.some(b => b.direction_name !== config.name && String(b.vehicle_id) === vehicleId)) continue;
     const stopId = String(bus.next_stop_id);
-    let pattern = config.route !== '42' || direction === 'west' ? stops : ['437', '26108'].includes(stopId) ? shortPattern : longPattern;
-    if (config.kind === 'trolley') {
+    let pattern = config.route !== '42' || config.gtfs === '1' ? stops : ['437', '26108'].includes(stopId) ? shortPattern : longPattern;
+    if (config.kind === 'trolley' || config.exactTrips) {
       const update = tripUpdates[String(bus.trip_id)];
-      if (!validTripUpdate(update, bus, config)) { unknown++; continue; }
-      pattern = update.stop_times.filter(s => !s.is_skipped).sort((a,b) => Number(a.stop_sequence)-Number(b.stop_sequence)).map(s => ({stop_id:String(s.stop_id),stop_name:s.stop_name}));
+      if (!validTripUpdate(update, bus, config) || update.trip.transit_date !== bus.transit_date) { unknown++; continue; }
+      pattern = update.stop_times.filter(s => !s.is_skipped).sort((a,b) => Number(a.stop_sequence)-Number(b.stop_sequence)).map(s => ({
+        ...stops.find(row => String(row.stop_id) === String(s.stop_id)), ...s, stop_id:String(s.stop_id)
+      }));
       if (config.requiredStop && !pattern.some(s => s.stop_id === config.requiredStop)) continue;
     }
-    const index = pattern.findIndex(s => String(s.stop_id) === stopId);
-    const targetIndex = pattern.findIndex(s => String(s.stop_id) === config.target);
+    const exact = config.kind === 'trolley' || config.exactTrips;
+    // Loops can visit the same stop twice. Use the reported sequence when
+    // available, then choose the next occurrence of the boarding stop.
+    let index = exact ? pattern.findIndex(s => String(s.stop_id) === stopId && Number(s.stop_sequence) === Number(bus.next_stop_sequence)) : -1;
+    if (index < 0 && (!exact || pattern.filter(s => String(s.stop_id) === stopId).length === 1)) index = pattern.findIndex(s => String(s.stop_id) === stopId);
+    const targetIndex = pattern.findIndex((s,i) => String(s.stop_id) === config.target && (!exact || (i >= index && !s.departed)));
     if (index < 0) { unknown++; continue; }
     if (targetIndex < 0 || index > targetIndex) continue;
     const stop = pattern[index];
@@ -141,5 +152,5 @@ function scheduleTimestamp(date,time) {
   return NaN;
 }
 
-Object.assign(globalThis.MagnusBus ??= {}, { MAX_AGE, STOPS_URL, VEHICLES_URL, serviceDate, orderedStops, trackBuses, validTripUpdate, scheduledDepartures, scheduleTimestamp });
+Object.assign(globalThis.MagnusBus ??= {}, { trackerConfig, MAX_AGE, STOPS_URL, VEHICLES_URL, serviceDate, orderedStops, trackBuses, validTripUpdate, scheduledDepartures, scheduleTimestamp });
 })();

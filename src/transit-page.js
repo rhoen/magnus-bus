@@ -1,21 +1,21 @@
 (() => {
 'use strict';
-const { TRACKERS, createDataClient } = globalThis.MagnusBus;
-const page = document.getElementById('transit-page');
-const ids = page.dataset.trackers.split(',');
+const { createDataClient } = globalThis.MagnusBus;
+function mountTransitPanels(container, TRACKERS, {client=createDataClient(), dynamic=false} = {}) {
+const ids = Object.keys(TRACKERS);
+let destroyed = false;
 const states = new Map(ids.map(id => [id,{ data:null, failed:false, loading:false, generation:0, routeKey:null }]));
-const client = createDataClient();
 const $ = id => document.getElementById(id);
 const esc = value => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const time = value => new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',hour:'numeric',minute:'2-digit'}).format(value);
-$('tracker-panels').innerHTML = ids.map(id => {
+container.innerHTML = ids.map(id => {
   const c = TRACKERS[id];
-  return '<section class="tracker-panel" aria-labelledby="'+id+'-title"><div class="tracker-heading"><span class="route-badge">'+c.route+'</span><div><h2 id="'+id+'-title">'+esc(c.stopName)+'</h2><p>'+esc(c.destination)+' · #'+c.target+'</p></div><span class="tracker-direction">'+c.arrow+' '+c.name+'</span></div><div class="section-label"><h3>Next two '+(c.kind==='trolley'?'trolleys':'buses')+'</h3><div class="status" id="'+id+'-status" role="status"><span class="dot"></span><span id="'+id+'-status-text">Connecting to SEPTA</span></div></div><p class="warning hidden" id="'+id+'-warning" role="status"></p><div class="cards" id="'+id+'-cards" aria-busy="true"></div><div class="updates"><span id="'+id+'-updated">Refreshes every 15 seconds</span><button class="refresh" id="'+id+'-refresh" type="button">Refresh '+c.route+'</button></div><section class="journey"><div class="journey-head"><h3>The home stretch</h3><span id="'+id+'-caption">'+c.name+'</span></div><ol class="line" id="'+id+'-route" tabindex="0" aria-label="Stops to your '+c.route+' boarding stop"></ol></section></section>';
+  return '<section class="tracker-panel" aria-labelledby="'+id+'-title"><div class="tracker-heading"><span class="route-badge">'+esc(c.route)+'</span><div><h2 id="'+id+'-title">'+esc(c.stopName)+'</h2><p>'+esc(c.destination)+' · #'+esc(c.target)+'</p></div><span class="tracker-direction">'+c.arrow+' '+esc(c.name)+'</span></div><div class="section-label"><h3>Next two '+(c.kind==='trolley'?'trolleys':'buses')+'</h3><div class="status" id="'+id+'-status" role="status"><span class="dot"></span><span id="'+id+'-status-text">Connecting to SEPTA</span></div></div><p class="warning hidden" id="'+id+'-warning" role="status"></p><div class="cards" id="'+id+'-cards" aria-busy="true"></div><div class="updates"><span id="'+id+'-updated">Refreshes every 15 seconds</span><button class="refresh" id="'+id+'-refresh" type="button">Refresh '+esc(c.route)+'</button></div><section class="journey"><div class="journey-head"><h3>The home stretch</h3><span id="'+id+'-caption">'+esc(c.name)+'</span></div><ol class="line" id="'+id+'-route" tabindex="0" aria-label="Stops to your '+esc(c.route)+' boarding stop"></ol></section></section>';
 }).join('');
 function card(item,index,c,failed,waiting) {
   const kind = c.kind==='trolley'?'trolley':'bus';
   const cls = index?'secondary':'primary';
-  if (!item) return '<article class="card '+cls+'"><div class="card-title">'+(index?'Following ':'Next ')+kind+'</div><h3 class="empty-title">'+(waiting?'Checking SEPTA…':failed?'Can’t reach SEPTA':index?'No second '+kind+' in view':'No '+kind+' in view')+'</h3><p class="empty-text">'+(waiting?'Looking for '+c.route+' departures.':failed?'We’ll try again automatically.':'A fresh location'+(c.kind==='trolley'?' or departure time':'')+' will appear when SEPTA reports it.')+'</p></article>';
+  if (!item) return '<article class="card '+cls+'"><div class="card-title">'+(index?'Following ':'Next ')+kind+'</div><h3 class="empty-title">'+(waiting?'Checking SEPTA…':failed?'Can’t reach SEPTA':index?'No second '+kind+' in view':'No '+kind+' in view')+'</h3><p class="empty-text">'+(waiting?'Looking for '+esc(c.route)+' departures.':failed?'We’ll try again automatically.':'A fresh location'+(c.kind==='trolley'?' or departure time':'')+' will appear when SEPTA reports it.')+'</p></article>';
   if ('departureAt' in item) return '<article class="card '+cls+' departure-card"><div class="card-top"><div class="card-title">'+(index?'Following departure':'Next departure')+'</div><span class="bus-id">'+(item.realtime?'LIVE ESTIMATE':'SCHEDULED')+'</span></div><div class="departure-time">'+time(item.departureAt)+'</div><div class="departure-note">'+(item.realtime?'SEPTA’s estimated departure':'Timetable · no live position')+'</div><div class="next-stop"><p class="next-label">Destination</p><p class="next-name">'+esc(item.destination)+'</p></div></article>';
   return '<article class="card '+cls+(item.stopsAway===0?' at-stop':'')+'"><div class="card-top"><div class="card-title">'+(index?'Following ':'Closest ')+kind+'</div><span class="bus-id">'+kind.toUpperCase()+' '+esc(item.vehicleId)+'</span></div><div class="distance"><span class="number">'+(item.stopsAway===0?'You’re next':item.stopsAway)+'</span><div class="unit">'+(item.stopsAway===0?'Your stop is next':(item.stopsAway===1?'stop':'stops')+'<small>from yours</small>')+'</div></div><div class="next-stop"><p class="next-label">Approaching</p><p class="next-name">'+esc(item.nextStopName)+'</p><p class="seen">Location reported '+time(item.reportedAt)+'</p></div></article>';
 }
@@ -43,20 +43,39 @@ function render(id) {
 }
 async function refresh(id) {
   const state=states.get(id);
-  if(state.loading)return;
+  if(state.loading || destroyed)return;
   state.loading=true;const generation=++state.generation;
+  state.controller=new AbortController();
   const button=$(id+'-refresh');button.disabled=true;button.textContent='Checking…';
   try{
-    const result=await client.getTracking(id,{signal:AbortSignal.timeout(14000)});
-    if(generation!==state.generation)return;
+    const result=await client.getTracking(dynamic ? TRACKERS[id] : id,{signal:AbortSignal.any([state.controller.signal,AbortSignal.timeout(14000)])});
+    if(destroyed || generation!==state.generation)return;
     state.data=result;state.failed=false;
   }catch{if(generation===state.generation)state.failed=true;}
-  finally{state.loading=false;button.disabled=false;button.textContent='Refresh '+TRACKERS[id].route;render(id);}
+  finally{if(destroyed)return;state.loading=false;button.disabled=false;button.textContent='Refresh '+TRACKERS[id].route;render(id);}
 }
 for(const id of ids){$(id+'-refresh').addEventListener('click',()=>refresh(id));render(id);refresh(id);}
-setInterval(()=>{if(!document.hidden)for(const id of ids)refresh(id);},15000);
-setInterval(()=>{if(!document.hidden)for(const id of ids)render(id);},1000);
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)for(const id of ids){render(id);refresh(id);}});
-window.addEventListener('online',()=>{for(const id of ids)refresh(id);});
-window.addEventListener('offline',()=>{for(const id of ids){states.get(id).failed=true;render(id);}});
+const refreshTimer=setInterval(()=>{if(!document.hidden)for(const id of ids)refresh(id);},15000);
+const renderTimer=setInterval(()=>{if(!document.hidden)for(const id of ids)render(id);},1000);
+const visible=()=>{if(!document.hidden)for(const id of ids){render(id);refresh(id);}};
+const online=()=>{for(const id of ids)refresh(id);};
+const offline=()=>{for(const id of ids){states.get(id).failed=true;render(id);}};
+document.addEventListener('visibilitychange',visible);
+window.addEventListener('online',online);
+window.addEventListener('offline',offline);
+return {destroy(){
+  destroyed=true;
+  for(const state of states.values()){state.generation++;state.controller?.abort();}
+  clearInterval(refreshTimer);clearInterval(renderTimer);
+  document.removeEventListener('visibilitychange',visible);
+  window.removeEventListener('online',online);window.removeEventListener('offline',offline);
+  container.innerHTML='';
+}};
+}
+Object.assign(globalThis.MagnusBus,{mountTransitPanels});
+const page=document.getElementById('transit-page');
+if(page){
+  const configs=Object.fromEntries(page.dataset.trackers.split(',').map(id=>[id,globalThis.MagnusBus.TRACKERS[id]]));
+  mountTransitPanels(document.getElementById('tracker-panels'),configs);
+}
 })();

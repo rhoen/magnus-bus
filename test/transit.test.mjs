@@ -55,7 +55,7 @@ test('the data client isolates route caches and requests actual trolley trip det
 test('Center City panels update independently and expire old departure times',async()=>{
  let at=now;const elements=new Map(),pending=new Map(),intervals=[];
  const get=id=>{if(!elements.has(id))elements.set(id,{dataset:{trackers:'t2Home,t3Home,bus21Home'},innerHTML:'',textContent:'',classList:{toggle(){}},setAttribute(){},addEventListener(){}});return elements.get(id);};
- const context=vm.createContext({Intl,AbortSignal,Date:class extends Date{static now(){return at;}},document:{getElementById:get,hidden:false,addEventListener(){}},window:{addEventListener(){}},setInterval(fn,ms){intervals.push({fn,ms});},MagnusBus:{TRACKERS,createDataClient:()=>({getTracking(id){return new Promise((resolve,reject)=>pending.set(id,{resolve,reject}));}})}});
+ const context=vm.createContext({Intl,AbortSignal,AbortController,Date:class extends Date{static now(){return at;}},document:{getElementById:get,hidden:false,addEventListener(){}},window:{addEventListener(){}},setInterval(fn,ms){intervals.push({fn,ms});},MagnusBus:{TRACKERS,createDataClient:()=>({getTracking(id){return new Promise((resolve,reject)=>pending.set(id,{resolve,reject}));}})}});
  vm.runInContext(await readFile(new URL('../src/transit-page.js',import.meta.url),'utf8'),context);
  pending.get('t2Home').reject(new Error('Unavailable'));
  pending.get('t3Home').resolve({buses:[],departures:[{departureAt:now+600000,realtime:false,destination:'Yeadon'}],fetchedAt:now});
