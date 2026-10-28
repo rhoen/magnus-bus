@@ -33,7 +33,7 @@ function selectDirection(config){
   for(const button of $('nearby-directions').children)button.setAttribute('aria-pressed',String(button.dataset.direction===config.gtfs));
   $('nearby-route-badge').textContent=config.route;
   $('nearby-title').textContent=config.stopName;
-  $('nearby-destination').textContent=config.destination+' · #'+config.target;
+  $('nearby-destination').textContent=config.destination+' · #'+config.target+' · '+distance(config.distance)+' away';
   panel=mountTransitPanels($('nearby-panels'),{nearby:config},{client,dynamic:true,showHeading:false});
 }
 function selectRoute(route){
