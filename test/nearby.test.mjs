@@ -100,7 +100,9 @@ test('location is requested only on tap; shared route selection and direction ch
  assert.equal(p.mounts[0].target,'shared');assert.equal(p.get('nearby-discovery').hidden,true);
  p.get('nearby-directions').children[1].handlers.click();
  assert.equal(p.mounts[1].target,'opposite');assert.equal(p.destroyed,1);
- assert.match(p.get('nearby-boarding').textContent,/Across the street/);
+ assert.equal(p.get('nearby-title').textContent,'Across the street');
+ assert.equal(p.get('nearby-route-badge').textContent,'21');
+ assert.equal(p.get('nearby-destination').textContent,'Toward West terminal · #opposite');
  assert.equal(p.get('nearby-directions').children[1].attributes['aria-pressed'],'true');
  p.click('nearby-back');assert.equal(p.destroyed,2);assert.equal(p.get('nearby-detail').hidden,true);assert.ok(p.get('nearby-heading').focused);
  p.click('nearby-more');assert.equal(p.get('nearby-routes').children.length,3);

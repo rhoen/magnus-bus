@@ -31,20 +31,20 @@ function renderRoutes(){
 function selectDirection(config){
   clearPanel();
   for(const button of $('nearby-directions').children)button.setAttribute('aria-pressed',String(button.dataset.direction===config.gtfs));
-  $('nearby-boarding').textContent='Board at '+config.stopName+' · Stop #'+config.target+' · '+distance(config.distance)+' from your location';
-  panel=mountTransitPanels($('nearby-panels'),{nearby:config},{client,dynamic:true});
+  $('nearby-route-badge').textContent=config.route;
+  $('nearby-title').textContent=config.stopName;
+  $('nearby-destination').textContent=config.destination+' · #'+config.target;
+  panel=mountTransitPanels($('nearby-panels'),{nearby:config},{client,dynamic:true,showHeading:false});
 }
 function selectRoute(route){
   selection=route;$('nearby-discovery').hidden=true;$('nearby-detail').hidden=false;
-  $('nearby-route-title').textContent=(route.kind==='trolley'?'Trolley ':'Bus ')+route.route;
   const directions=$('nearby-directions');directions.replaceChildren();
   for(const config of route.directions){
     const button=document.createElement('button');button.type='button';button.dataset.direction=config.gtfs;
     button.textContent=config.destination;button.setAttribute('aria-pressed','false');
     button.addEventListener('click',()=>selectDirection(config));directions.append(button);
   }
-  $('nearby-direction-note').textContent=route.directions.length===1?'Only this direction has a boarding stop within ½ mile.':'Changing direction may change your boarding stop. Check the stop name before boarding.';
-  selectDirection(route.directions[0]);$('nearby-route-title').focus();
+  selectDirection(route.directions[0]);$('nearby-title').focus();
 }
 function locationFailure(error){
   const messages={1:'Location access was denied. Allow location for this site in your browser settings, then try again.',2:'Your location is unavailable. Check that location services are on, then try again.',3:'Finding your location took too long. Move somewhere with a clearer signal, then try again.'};
@@ -52,7 +52,7 @@ function locationFailure(error){
 }
 function locate(){
   const request=++generation;showList();result=null;position=null;expanded=false;
-  $('nearby-routes').replaceChildren();$('nearby-more').hidden=true;$('nearby-location').textContent='';
+  $('nearby-routes').replaceChildren();$('nearby-more').hidden=true;$('nearby-location').textContent='';$('nearby-location').hidden=true;
   if(!globalThis.isSecureContext){$('nearby-status').textContent='Location needs a secure connection. Open this site over HTTPS (or localhost for a local preview).';return;}
   if(!navigator.geolocation){$('nearby-status').textContent='This browser doesn’t support location. Open this page in a browser with location services.';return;}
   if(!globalThis.MagnusBus.stopDirectory){$('nearby-status').textContent='The stop directory couldn’t load. Reload this page and try again.';return;}
@@ -64,8 +64,10 @@ function locate(){
     position={latitude:value.coords.latitude,longitude:value.coords.longitude};
     try{
       result=nearbyRoutes(globalThis.MagnusBus.stopDirectory,position);
-      $('nearby-location').textContent='Your location · accurate to about '+distance(value.coords.accuracy)+'. Distances are straight-line estimates.';
-      if(value.coords.accuracy>150)$('nearby-location').textContent+=' Location accuracy is low; check your stop or try again outdoors.';
+      if(value.coords.accuracy>150){
+        $('nearby-location').textContent='Location accuracy is low; check your stop or try again outdoors.';
+        $('nearby-location').hidden=false;
+      }
       renderRoutes();
     }catch{$('nearby-status').textContent='The stop directory is unavailable. Reload this page and try again.';}
   },error=>{
