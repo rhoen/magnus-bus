@@ -57,15 +57,16 @@ function locationFailure(error){
 }
 function locate(){
   const request=++generation;showList();result=null;position=null;expanded=false;
+  $('nearby-locate').hidden=true;
   $('nearby-routes').replaceChildren();$('nearby-more').hidden=true;$('nearby-location').textContent='';$('nearby-location').hidden=true;
   if(!globalThis.isSecureContext){$('nearby-status').textContent='Location needs a secure connection. Open this site over HTTPS (or localhost for a local preview).';return;}
   if(!navigator.geolocation){$('nearby-status').textContent='This browser doesn’t support location. Open this page in a browser with location services.';return;}
   if(!globalThis.MagnusBus.stopDirectory){$('nearby-status').textContent='The stop directory couldn’t load. Reload this page and try again.';return;}
   $('nearby-locate').disabled=true;$('nearby-locate').textContent='Finding you…';
-  $('nearby-status').textContent='';
+  $('nearby-status').textContent='Finding nearby routes…';
   navigator.geolocation.getCurrentPosition(value=>{
     if(request!==generation)return;
-    $('nearby-locate').disabled=false;$('nearby-locate').textContent='Update my location';
+    $('nearby-locate').hidden=false;$('nearby-locate').disabled=false;$('nearby-locate').textContent='Update my location';
     position={latitude:value.coords.latitude,longitude:value.coords.longitude};
     try{
       result=nearbyRoutes(globalThis.MagnusBus.stopDirectory,position);
@@ -77,7 +78,7 @@ function locate(){
     }catch{$('nearby-status').textContent='The stop directory is unavailable. Reload this page and try again.';}
   },error=>{
     if(request!==generation)return;
-    $('nearby-locate').disabled=false;$('nearby-locate').textContent='Try location again';locationFailure(error);
+    $('nearby-locate').hidden=false;$('nearby-locate').disabled=false;$('nearby-locate').textContent='Try location again';locationFailure(error);
   },{enableHighAccuracy:true,timeout:15000,maximumAge:30000});
 }
 $('nearby-locate').addEventListener('click',locate);
@@ -85,6 +86,7 @@ $('nearby-back').addEventListener('click',()=>showList(true));
 $('nearby-more').addEventListener('click',()=>{expanded=true;renderRoutes();});
 window.addEventListener('pagehide',()=>{generation++;clearPanel();position=null;});
 window.addEventListener('pageshow',event=>{
-  if(event.persisted){$('nearby-locate').disabled=false;$('nearby-locate').textContent='Update my location';if(selection)selectRoute(selection);}
+  if(event.persisted){if(selection)selectRoute(selection);else locate();}
 });
+locate();
 })();

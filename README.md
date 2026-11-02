@@ -51,11 +51,11 @@ QR codes use a vendored, MIT-licensed [qrcode-generator](https://github.com/kazu
 
 ## Nearby stops
 
-`nearby.html` is the location-based page in every hamburger menu. Tap **Use my location** to request browser location access. The closest stops (within 800 meters / roughly ½ mile) determine the route list. All routes sharing those stops appear once; adjacent stops within 30 meters of the closest distance are included. **Show more routes** expands the list to all routes within 800 meters. Distances are straight-line estimates, not walking directions.
+`nearby.html` is the location-based page in every hamburger menu. It requests location and finds nearby routes automatically when opened; the browser may ask for location permission. The closest stops (within 800 meters / roughly ½ mile) determine the route list. All routes sharing those stops appear once; adjacent stops within 30 meters of the closest distance are included. **Show more routes** expands the list to all routes within 800 meters. Distances are straight-line estimates, not walking directions.
 
 Choose a route to see the existing two arrival cards and stop diagram. Destination buttons use SEPTA’s `directions.txt` destination names, including branches. Each direction picks its own nearest boarding stop; the compact route heading updates the stop name, destination, stop ID and distance from your location. Directions with no stop within 800 meters are omitted. Actual trip updates determine stop counts for both buses and trolleys, so short turns and skipped stops are respected. Switching direction or returning to the route list aborts outstanding requests and removes polling timers. Location denial, timeout, unsupported browsers and locations outside the service area have retry/help states.
 
-Location requires a secure browser context (HTTPS on the hosted site, or localhost for development). Coordinates remain in page memory and are never sent to SEPTA, persisted, or logged. The page requests location only on a button press; use **Update my location** after moving. Live route and trip requests contain route, stop or trip IDs only.
+Location requires a secure browser context (HTTPS on the hosted site, or localhost for development). Coordinates remain in page memory and are never sent to SEPTA, persisted, or logged. The page requests location automatically on opening; use **Update my location** after moving. Live route and trip requests contain route, stop or trip IDs only.
 
 ### Maintaining the bundled directory
 
@@ -150,7 +150,7 @@ Trolley pages also request `/api/v2/trip-update/?trip_id=…` for exact trip sto
 
 The v2 endpoints returned `Access-Control-Allow-Origin: *` when verified on October 27, 2026. Requests omit cookies and authentication. The older TransitView endpoint does not provide that CORS header, so this version uses the v2 trip feed. The site depends on SEPTA continuing to allow cross-origin browser requests; failures show a visible message and retry automatically. There is no backend fallback or third-party proxy.
 
-The browser selects the current schedule release and direction, sorts the stop list, and calculates stops remaining. Stop metadata is cached separately per route in memory for an hour and refreshed when the Philadelphia date changes. Every refresh fetches a new live vehicle feed. The fixed-stop pages do not request location. The nearby page requests it on demand for local distance calculations; no coordinates or analytics are collected.
+The browser selects the current schedule release and direction, sorts the stop list, and calculates stops remaining. Stop metadata is cached separately per route in memory for an hour and refreshed when the Philadelphia date changes. Every refresh fetches a new live vehicle feed. The fixed-stop pages do not request location. The nearby page requests it automatically on opening for local distance calculations; no coordinates or analytics are collected.
 
 ## Counting and freshness
 

@@ -13,7 +13,7 @@
 </details></header>
 <section id="nearby-discovery" class="nearby-discovery" aria-labelledby="nearby-heading">
 <div class="nearby-intro"><p id="nearby-heading" class="eyebrow" tabindex="-1">Routes near you</p>
-<button id="nearby-locate" class="location-button" type="button">Use my location</button></div>
+<button id="nearby-locate" class="location-button" type="button" hidden>Update my location</button></div>
 <p id="nearby-status" class="nearby-status" role="status"></p>
 <p id="nearby-location" class="page-note" hidden></p>
 <div id="nearby-routes" class="nearby-routes" aria-label="Nearby bus and trolley routes"></div>
@@ -25,7 +25,7 @@
 <div id="nearby-directions" class="destination-switch" role="group" aria-label="Travel direction"></div>
 <div id="nearby-panels"></div>
 </section>
-<details class="page-help"><summary>About nearby stops</summary><p>We find the closest boarding stops within ½ mile using your device’s location. The first list includes all routes at the nearest stop and neighboring stops up to 100 feet farther away. “Show more routes” expands the list to ½ mile. Distances are straight-line estimates, not walking routes. Check the boarding stop and platform, especially when changing direction.</p><p>The direction buttons use SEPTA’s destination names. Live stop counts follow each vehicle’s actual trip, including branches and short turns. Reports older than two minutes are hidden. Trolley positions can be unavailable underground; departure estimates or scheduled times may appear instead. Each selected route refreshes every 15 seconds while this page is visible.</p><p>Location is requested only when you tap the button. We don’t save your coordinates. Use “Update my location” after moving. Location requires HTTPS or a supported local preview. The stop directory is bundled with this site and may not include recent stop changes or temporary shuttle routes.</p><p><a href="https://www.septa.org/alerts/" target="_blank" rel="noreferrer">Check SEPTA service alerts</a></p></details>
+<details class="page-help"><summary>About nearby stops</summary><p>We find the closest boarding stops within ½ mile using your device’s location. The first list includes all routes at the nearest stop and neighboring stops up to 100 feet farther away. “Show more routes” expands the list to ½ mile. Distances are straight-line estimates, not walking routes. Check the boarding stop and platform, especially when changing direction.</p><p>The direction buttons use SEPTA’s destination names. Live stop counts follow each vehicle’s actual trip, including branches and short turns. Reports older than two minutes are hidden. Trolley positions can be unavailable underground; departure estimates or scheduled times may appear instead. Each selected route refreshes every 15 seconds while this page is visible.</p><p>We request your location as soon as this page opens. Your browser may ask for permission. We don’t save your coordinates. Use “Update my location” after moving. Location requires HTTPS or a supported local preview. The stop directory is bundled with this site and may not include recent stop changes or temporary shuttle routes.</p><p><a href="https://www.septa.org/alerts/" target="_blank" rel="noreferrer">Check SEPTA service alerts</a></p></details>
 <noscript><p class="warning">Turn on JavaScript to find nearby stops and load SEPTA departures.</p></noscript>
 </main><footer><span>♡ &nbsp; Made for Magnus’s journeys.</span><span>Powered by SEPTA data</span></footer></div>
 <script src="src/directions.js" defer></script>

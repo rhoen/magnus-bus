@@ -92,10 +92,12 @@ function pageHarness({secure=true,geolocation=true,directoryAvailable=true}={}){
  vm.runInNewContext(pageSource,{isSecureContext:secure,navigator:{geolocation:geolocation?{getCurrentPosition(success,error,options){requests.push({success,error,options});}}:undefined},
   document:{getElementById:get,createElement:element},window:{addEventListener(name,fn){events[name]=fn;}},
   MagnusBus:{stopDirectory:directoryAvailable?directory:undefined,nearbyRoutes:(d,p)=>nearbyRoutes(d,p,now),createDataClient:()=>({}),mountTransitPanels(container,configs){mounts.push(configs.nearby);return{destroy(){destroyed++;}};}}});
- return{get,requests,mounts,events,get destroyed(){return destroyed;},click:id=>get(id).handlers.click(),locate(){get('nearby-locate').handlers.click();requests.at(-1).success({coords:{latitude:40,longitude:-75,accuracy:10}});}};
+ return{get,requests,mounts,events,get destroyed(){return destroyed;},click:id=>get(id).handlers.click(),locate(){requests.at(-1).success({coords:{latitude:40,longitude:-75,accuracy:10}});}};
 }
-test('location is requested only on tap; shared route selection and direction changes update boarding stops',()=>{
- const p=pageHarness();assert.equal(p.requests.length,0);p.locate();
+test('location is requested on opening; shared route selection and direction changes update boarding stops',()=>{
+ const p=pageHarness();assert.equal(p.requests.length,1);assert.equal(p.get('nearby-locate').hidden,true);
+ p.events.pageshow({persisted:false});assert.equal(p.requests.length,1);p.locate();
+ assert.equal(p.get('nearby-locate').hidden,false);
  assert.equal(p.requests[0].options.enableHighAccuracy,true);
  assert.equal(p.get('nearby-routes').children.length,2);
  p.get('nearby-routes').children[0].handlers.click();
@@ -111,23 +113,25 @@ test('location is requested only on tap; shared route selection and direction ch
 });
 test('denied, unavailable, and timed-out locations provide retry without starting a tracker',()=>{
  for(const [code,message] of [[1,/denied/],[2,/unavailable/],[3,/too long/]]){
-  const p=pageHarness();p.click('nearby-locate');p.requests[0].error({code});
+  const p=pageHarness();p.requests[0].error({code});
   assert.match(p.get('nearby-status').textContent,message);assert.equal(p.get('nearby-locate').disabled,false);assert.equal(p.mounts.length,0);
-  p.click('nearby-locate');assert.equal(p.get('nearby-status').textContent,'');
+  p.click('nearby-locate');assert.match(p.get('nearby-status').textContent,/Finding nearby/);
   p.requests.at(-1).success({coords:{latitude:40,longitude:-75,accuracy:10}});
   assert.equal(p.get('nearby-routes').children.length,2);
  }
 });
 test('insecure origins, unsupported browsers, and missing directory fail clearly before prompting',()=>{
  for(const [options,message] of [[{secure:false},/HTTPS/],[{geolocation:false},/doesn’t support/],[{directoryAvailable:false},/directory couldn’t load/]]){
-  const p=pageHarness(options);p.click('nearby-locate');assert.equal(p.requests.length,0);assert.match(p.get('nearby-status').textContent,message);
+  const p=pageHarness(options);assert.equal(p.requests.length,0);assert.match(p.get('nearby-status').textContent,message);
  }
 });
 test('late geolocation callbacks cannot restore results after navigation away',()=>{
- const p=pageHarness();p.click('nearby-locate');p.events.pagehide();
+ const p=pageHarness();p.events.pagehide();
  p.requests[0].success({coords:{latitude:40,longitude:-75,accuracy:10}});
  assert.equal(p.get('nearby-routes').children.length,0);
- p.events.pageshow({persisted:true});assert.equal(p.get('nearby-locate').disabled,false);
+ p.events.pageshow({persisted:true});assert.equal(p.requests.length,2);
+ p.requests[1].success({coords:{latitude:40,longitude:-75,accuracy:10}});
+ assert.equal(p.get('nearby-routes').children.length,2);assert.equal(p.get('nearby-locate').disabled,false);
 });
 
 test('switching dynamic panels aborts requests, stops timers, and ignores late results',async()=>{
@@ -162,7 +166,7 @@ test('loop trips use the reported stop sequence and skip boarding stops already 
  assert.equal(trackBuses([bus],stops,now,config,{trip:departed}).buses.length,0);
 });
 test('location accuracy and outside-service-area states are visible without fabricating routes',()=>{
- const p=pageHarness();p.click('nearby-locate');p.requests[0].success({coords:{latitude:45,longitude:-75,accuracy:300}});
+ const p=pageHarness();p.requests[0].success({coords:{latitude:45,longitude:-75,accuracy:300}});
  assert.match(p.get('nearby-location').textContent,/accuracy is low/);
  assert.match(p.get('nearby-status').textContent,/No SEPTA/);
  assert.equal(p.get('nearby-routes').children.length,0);assert.equal(p.mounts.length,0);
