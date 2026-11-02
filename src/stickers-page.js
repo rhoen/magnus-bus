@@ -74,12 +74,12 @@ function addressNote() {
 }
 function createStickerFace(sticker,svg) {
   const face=node('div','public-sticker');
-  face.append(node('div','sticker-brand','Magnus’s Bus'),node('h3','sticker-question','When’s my bus?'),node('p','sticker-invitation','Scan for live arrivals'));
+  face.append(node('div','sticker-brand','Magnus’s Bus'),node('h3','sticker-question','Where’s my bus?'));
   const qrLink=node('a','sticker-qr');qrLink.href=sticker.url;qrLink.target='_blank';qrLink.rel='noopener noreferrer';
   qrLink.setAttribute('aria-label','Open all arrivals at '+sticker.stopName+', stop '+sticker.target);
   qrLink.innerHTML=svg;
   qrLink.querySelector('svg').setAttribute('aria-hidden','true');
-  face.append(qrLink,node('p','sticker-public-route','Stop #'+sticker.target),node('p','sticker-public-stop',sticker.stopName));
+  face.append(qrLink,node('p','sticker-public-route',sticker.stopName),node('p','sticker-public-stop','Stop #'+sticker.target));
   return face;
 }
 function renderExample() {
