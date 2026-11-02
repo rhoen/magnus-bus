@@ -5,7 +5,7 @@
 <meta name="description" content="Make printable, stop-specific QR stickers for Magnus’s Bus."><title>Magnus’s Bus · Sticker sheets</title>
 <link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="stickers.css">
-<style id="paper-size">@page { size: letter portrait; margin: 0; }</style>
+<style>@page { size: letter portrait; margin: 0; }</style>
 </head>
 <body class="sticker-generator">
 <div class="wrap generator-controls">
@@ -23,13 +23,13 @@
 <label class="address-field">Public app address<input id="sticker-address" type="url" placeholder="https://your-site.example/info.html" required aria-describedby="address-help local-address-note"></label>
 <p class="field-hint" id="address-help">Use your published Magnus’s Bus address, ending in /info.html. Every code opens its own stop and direction.</p>
 <p class="warning" id="local-address-note" hidden>This address is local to your computer. Use it for a test sheet only; enter your public website address before making stickers to install.</p>
-<div class="generator-fields sheet-settings"><label>Paper size<select id="sticker-paper"><option value="letter">US Letter · 8½ × 11 in</option><option value="a4">A4 · 210 × 297 mm</option></select></label><label>Copies per stop<input id="sticker-copies" type="number" value="1" min="1" max="10" step="1" required></label><div class="format-note"><strong>2½ × 2½ in stickers</strong><span>6 per sheet · labels outside the cut lines</span></div></div>
+<div class="generator-fields sheet-settings"><div class="format-note"><strong>US Letter · 8½ × 11 in</strong><span>Full-sheet adhesive paper</span></div><label>Copies per stop<input id="sticker-copies" type="number" value="1" min="1" max="10" step="1" required></label><div class="format-note"><strong>2½ × 2½ in stickers</strong><span>6 per sheet · labels outside the cut lines</span></div></div>
 <div class="generate-row"><button class="location-button" id="generate-sheets" type="submit">Generate sticker sheets</button><span class="field-hint">QR codes are made here in your browser.</span></div>
 <p class="warning" id="generator-error" role="alert" hidden></p>
 </section>
 </form>
 <section class="preview-toolbar" aria-labelledby="preview-heading"><div><p class="eyebrow">Ready for the route</p><h2 id="preview-heading">Your sticker sheets</h2><p id="sheet-summary" role="status">Choose your stops and generate a preview.</p></div><button type="button" class="location-button" id="print-sheets" disabled>Print / Save PDF</button></section>
-<p class="print-instructions">Print at <strong>100% / Actual size</strong> on the selected paper, in portrait, with browser headers and footers off. Save as PDF from the print dialog if you prefer. Print one test sheet and scan a code before making the full batch.</p>
+<p class="print-instructions">Print at <strong>100% / Actual size</strong> on <strong>US Letter (8½ × 11 in)</strong>, in portrait, with browser headers and footers off. Save as PDF from the print dialog if you prefer. Print one test sheet and scan a code before making the full batch.</p>
 <noscript><p class="warning">Turn on JavaScript to select stops and generate QR stickers.</p></noscript>
 </main></div>
 <div class="sheet-preview" id="sheet-preview" aria-label="Printable sticker sheets"></div>

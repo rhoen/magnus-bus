@@ -40,8 +40,8 @@ test('sticker URLs preserve the published subdirectory and round-trip through th
 });
 
 test('sheet planning keeps route order, repeats copies together, and fills six slots per sheet',()=>{
-  const plan=planStickerSheets({...options,selectedKeys:['1:22151','0:22120','0:22120'],copies:4,paper:'a4'});
-  assert.equal(plan.stopCount,2);assert.equal(plan.total,8);assert.equal(plan.paper,'a4');
+  const plan=planStickerSheets({...options,selectedKeys:['1:22151','0:22120','0:22120'],copies:4});
+  assert.equal(plan.stopCount,2);assert.equal(plan.total,8);assert.equal(plan.paper,'letter');
   assert.deepEqual(plan.sheets.map(s=>s.length),[6,2]);
   const stickers=plan.sheets.flat();
   assert.deepEqual(stickers.map(s=>s.number),[1,2,3,4,5,6,7,8]);
@@ -59,7 +59,6 @@ test('invalid addresses, quantities, and selections cannot generate printable st
   assert.equal(stickerLandingURL('http://localhost:3000/info.html'),'http://localhost:3000/info.html');
   for(const copies of [0,-1,1.5,11,NaN,Infinity])assert.throws(()=>planStickerSheets({...options,copies}));
   for(const selectedKeys of [[],['1:22120'],['0:fake']])assert.throws(()=>planStickerSheets({...options,selectedKeys}));
-  assert.throws(()=>planStickerSheets({...options,paper:'unknown'}));
   assert.throws(()=>planStickerSheets({...options,directory:null}),/directory/);
   assert.throws(()=>planStickerSheets({...options,routeId:'unknown'}),/route/);
   assert.throws(()=>planStickerSheets({...options,selectedKeys:stickerStops(stopDirectory,'42',now).map(s=>s.key),copies:10}),/300/);

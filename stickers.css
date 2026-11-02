@@ -34,7 +34,6 @@
 .sheet-preview{overflow-x:auto;padding:0 18px 30px}
 .sheet-preview:empty{display:none}
 .sticker-sheet{--sheet-width:8.5in;--sheet-height:11in;width:var(--sheet-width);height:var(--sheet-height);padding:.3in;margin:0 auto 24px;background:white;color:#111;box-shadow:0 2px 18px #203e3518;font-family:Arial,sans-serif;display:flex;flex-direction:column;box-sizing:border-box}
-.sticker-sheet.a4{--sheet-width:210mm;--sheet-height:297mm}
 .sheet-heading{display:flex;justify-content:space-between;align-items:flex-start;height:.25in;flex-shrink:0;font-size:9pt;line-height:1.2;border:0;padding:0;margin:0;color:#333}
 .sticker-grid{display:grid;grid-template-columns:repeat(2,2.5in);grid-auto-rows:3.2in;column-gap:.35in;row-gap:.1in;justify-content:center}
 .sticker-cell{width:2.5in;break-inside:avoid;page-break-inside:avoid}

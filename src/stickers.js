@@ -39,8 +39,7 @@ function stickerURL(base,stop) {
   return url.href;
 }
 
-function planStickerSheets({directory,routeId,selectedKeys,copies=1,paper='letter',landingURL,now=Date.now()}) {
-  if(!['letter','a4'].includes(paper))throw new Error('Choose US Letter or A4 paper.');
+function planStickerSheets({directory,routeId,selectedKeys,copies=1,landingURL,now=Date.now()}) {
   if(!Number.isInteger(copies) || copies<1 || copies>10)throw new Error('Choose between 1 and 10 copies per stop.');
   const base=stickerLandingURL(landingURL),keys=new Set(selectedKeys);
   if(!keys.size)throw new Error('Select at least one stop to make a sticker sheet.');
@@ -54,7 +53,7 @@ function planStickerSheets({directory,routeId,selectedKeys,copies=1,paper='lette
   }
   const sheets=[];
   for(let i=0;i<stickers.length;i+=STICKERS_PER_SHEET)sheets.push(stickers.slice(i,i+STICKERS_PER_SHEET));
-  return {routeId,paper,copies,stopCount:stops.length,total:stickers.length,sheets,landingURL:base};
+  return {routeId,paper:'letter',copies,stopCount:stops.length,total:stickers.length,sheets,landingURL:base};
 }
 
 function stickerQR(url) {

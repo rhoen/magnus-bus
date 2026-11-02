@@ -94,9 +94,8 @@ function generate(event) {
   event.preventDefault();invalidate();
   try {
     const next=planStickerSheets({directory:stopDirectory,routeId:$('sticker-route').value,selectedKeys:selected,
-      copies:Number($('sticker-copies').value),paper:$('sticker-paper').value,landingURL:$('sticker-address').value});
+      copies:Number($('sticker-copies').value),landingURL:$('sticker-address').value});
     renderSheets(next);plan=next;
-    $('paper-size').textContent='@page { size: '+(next.paper==='a4'?'A4':'letter')+' portrait; margin: 0; }';
     document.body.classList.add('has-sheets');$('print-sheets').disabled=false;
     $('sheet-summary').textContent=next.total+' sticker'+(next.total===1?'':'s')+' for '+next.stopCount+' stop'+(next.stopCount===1?'':'s')+' on '+next.sheets.length+' sheet'+(next.sheets.length===1?'':'s')+'.';
   }catch(cause){error(cause instanceof Error?cause.message:'The QR code could not be generated. Try a shorter app address.');}
@@ -113,7 +112,7 @@ $('clear-stops').addEventListener('click',()=>{selected.clear();invalidate();ren
 $('sticker-route').addEventListener('change',()=>{try{chooseRoute();}catch(cause){error(cause.message);}});
 $('sticker-direction').addEventListener('change',renderStops);
 $('sticker-search').addEventListener('input',renderStops);
-for(const id of ['sticker-address','sticker-copies','sticker-paper'])$(id).addEventListener('input',()=>{invalidate();addressNote();});
+for(const id of ['sticker-address','sticker-copies'])$(id).addEventListener('input',()=>{invalidate();addressNote();});
 $('sticker-form').addEventListener('submit',generate);
 $('print-sheets').addEventListener('click',()=>{if(plan)window.print();});
 
