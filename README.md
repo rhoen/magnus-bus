@@ -4,12 +4,13 @@ A browser-only static website for everyday SEPTA trips. The original **Route 42 
 
 ## Pages
 
-Use the hamburger menu to switch between the four main static pages:
+Use the hamburger menu to switch between the main static pages and sticker generator:
 
 - `nearby.html`: find nearby buses and trolleys, then track a selected route in either direction.
 - `index.html`: Route 42 school/home tracker with the time-of-day direction slider.
 - `t2.html`: T2 eastbound at Baltimore & 48th toward 15th St / City Hall. SEPTA names this boarding stop **Baltimore Av & Florence Av**, ID **20870**. Short-turn trips not continuing to City Hall are excluded.
 - `center-city.html`: three independent westbound panels: T2 and T3 at **15th St / City Hall**, stop **20659**, and Route 21 at **Walnut & 16th**, stop **14080**. Chestnut & 16th is eastbound, so Walnut is used for the return trip.
+- `stickers.html`: select route stops and generate printable QR sticker sheets for full-sheet adhesive paper.
 
 Trolley GPS may be unavailable in the tunnel. When a fresh position is available, the cards show stops away and the actual trip's remaining stop list. Otherwise, trolley cards use SEPTA trip-update departure times, labeled **Live estimate** or **Scheduled** according to SEPTA's real-time flag. If active trip updates do not include the next departure, the timetable is filtered to the schedule release and service calendar verified by a current-day trip update. It never mixes all weekday/weekend calendars or turns a timetable into a GPS position. Timetable departures are not guaranteed; service alerts and cancellations can change them.
 
@@ -28,6 +29,22 @@ info.html?route=42&stop=22151&direction=1
 
 The page validates the combination against the bundled directory's latest effective release, displays the stop name, route, direction, destination, and stop ID, and reuses the standard two arrival cards and stop diagram. Tracking uses each vehicle's actual trip to respect branches and skipped stops. The boarding stop and direction stay fixed regardless of location or time of day, and the page never requests location access. Invalid or unsupported links show an explanation and a link to Nearby stops instead of silently selecting another stop. The bundled directory must be kept up to date; live tracking also validates stop membership against SEPTA's current route stops.
 
+## Printing sticker sheets
+
+Open `stickers.html` or choose **Sticker sheets** from the app menu. Select a route (42 by default), search stops by name or ID, and check stops in either direction. **Select visible stops** respects the direction and search filters; **Clear selection** clears all selected stops. Changing routes starts a new selection.
+
+Enter the full published landing-page address, for example `https://your-site.example/magnus-bus/info.html`. The generator defaults to the current site's `info.html` address, preserving any hosting subdirectory. Localhost and private-network addresses show a test-only warning: they will not work for riders scanning installed stickers. No URL shortener or external QR service is used.
+
+Choose US Letter or A4 and 1–10 copies per stop, then **Generate sticker sheets**. Each sheet has six 2½ × 2½ inch stickers, arranged in two columns and three rows, with a partial final sheet when needed. Copies stay together and stops follow the bundled directory's order, grouped by direction. Route-wide lists can combine branches; they are not a guarantee that every trip serves every listed stop. Up to 300 stickers can be generated at once.
+
+Each sticker contains “When’s my bus?”, a working QR code, and a small route/direction/stop label. Outside each dashed cut border, installation information shows the sticker number, full stop name, direction/destination, stop ID, and sheet number. The QR link opens `info.html?route=…&stop=…&direction=…`. Preview QR codes are also clickable so you can check their destination.
+
+Use **Print / Save PDF** and select the matching paper in portrait, **100% / Actual size**, and no browser headers or footers. The page requests zero browser page margins and supplies its own 0.3-inch inset. The controls are excluded from printing. PDF output uses the browser's Save as PDF destination. Print a test sheet to check physical sizing and scan a code before producing a batch. Cut only along the dashed squares; the detailed placement labels remain on the backing sheet.
+
+Changing the app address, paper, copies, route, or stop selection clears the old preview and disables printing until sheets are generated again. Generation revalidates selected stops against the latest effective bundled release. Keep the stop directory and public site current before making stickers.
+
+QR codes use a vendored, MIT-licensed [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) 2.0.4 browser build, with Q error correction and a four-module white quiet zone. SVG output stays sharp in print. All QR generation runs locally, without a server, CDN, or runtime package install. Attribution and the license are in `vendor/`.
+
 ## Nearby stops
 
 `nearby.html` is the location-based page in every hamburger menu. Tap **Use my location** to request browser location access. The closest stops (within 800 meters / roughly ½ mile) determine the route list. All routes sharing those stops appear once; adjacent stops within 30 meters of the closest distance are included. **Show more routes** expands the list to all routes within 800 meters. Distances are straight-line estimates, not walking directions.
@@ -38,7 +55,7 @@ Location requires a secure browser context (HTTPS on the hosted site, or localho
 
 ### Maintaining the bundled directory
 
-`data/stop-directory.js` contains stop coordinates and route memberships for 161 bus/trolley routes. It is loaded on the nearby and sticker landing pages (about 1 MB uncompressed). It was generated on October 28, 2026 from [SEPTA’s public data](https://www3.septa.org/developer/gtfs_public.zip) and v2 stop responses. Current and upcoming v2 releases are retained; the browser chooses the latest effective release independently per route. Destination names come from the published GTFS `directions.txt`. The currently published GTFS metadata is `v202611010`; current stop memberships come from the v2 release effective today, rather than prematurely using November’s stops. Temporary FOX_BUS and WTR_BUS routes have no v2 stops and are omitted. A listed route does not guarantee service at the current time.
+`data/stop-directory.js` contains stop coordinates and route memberships for 161 bus/trolley routes. It is loaded on the nearby, sticker landing, and sticker generator pages (about 1 MB uncompressed). It was generated on October 28, 2026 from [SEPTA’s public data](https://www3.septa.org/developer/gtfs_public.zip) and v2 stop responses. Current and upcoming v2 releases are retained; the browser chooses the latest effective release independently per route. Destination names come from the published GTFS `directions.txt`. The currently published GTFS metadata is `v202611010`; current stop memberships come from the v2 release effective today, rather than prematurely using November’s stops. Temporary FOX_BUS and WTR_BUS routes have no v2 stops and are omitted. A listed route does not guarantee service at the current time.
 
 Refresh the directory when SEPTA changes schedules or stops:
 
@@ -61,11 +78,16 @@ t2.html
 center-city.html
 nearby.html
 info.html
+stickers.html
 data/
   stop-directory.js
 favicon.svg
 apple-touch-icon.png
 styles.css
+stickers.css
+vendor/
+  qrcode.js
+  qrcode.LICENSE.txt
 src/
   directions.js
   tracking.js
@@ -77,6 +99,8 @@ src/
   nearby-page.js
   stop.js
   stop-page.js
+  stickers.js
+  stickers-page.js
 ```
 
 The app uses relative asset paths, so it works at a domain root or in a subdirectory such as a GitHub Pages project site. No routing or server-side endpoints are involved.
@@ -146,9 +170,10 @@ On a failed refresh, earlier reports remain visible only while still fresh. No b
 - `src/transit-page.js`: reusable departure panels with request cancellation and polling cleanup.
 - `nearby.html`, `src/nearby.js`, `src/nearby-page.js`: nearby route discovery, destination selection and location handling.
 - `info.html`, `src/stop.js`, `src/stop-page.js`: validated sticker links and fixed-stop arrival tracking.
+- `stickers.html`, `stickers.css`, `src/stickers.js`, `src/stickers-page.js`: route selection, QR generation, and print layouts for full-sheet adhesive paper.
 - `data/stop-directory.js`, `scripts/build-stop-directory.py`: bundled public stop directory and dependency-free refresh script.
 - `test/`: automated checks for counting, direct requests, caching, failures, direction changes and time boundaries.
 
-Developers with Node.js 22 or later can optionally run `npm test` (or `node --test`). Node is only a test runner; the website does not use it. There are no npm dependencies.
+Developers with Node.js 22 or later can optionally run `npm test` (or `node --test`). Node is only a test runner; the website does not use it. There are no runtime npm dependencies; the sticker generator uses the vendored QR encoder in `vendor/`.
 
 The app is independent of SEPTA.
