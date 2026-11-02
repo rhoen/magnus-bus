@@ -17,11 +17,11 @@ Each route refreshes independently every 15 seconds. One failing route does not 
 
 ## Sticker links
 
-`stop.html` is the landing page for stop-specific QR stickers. Supply exactly one of each query parameter:
+`info.html` is the landing page for stop-specific QR stickers. Supply exactly one of each query parameter:
 
 ```text
-stop.html?route=42&stop=22120&direction=0
-stop.html?route=42&stop=22151&direction=1
+info.html?route=42&stop=22120&direction=0
+info.html?route=42&stop=22151&direction=1
 ```
 
 `route` is the SEPTA route ID, `stop` is the boarding stop ID, and `direction` is the route's GTFS direction ID (`0` or `1`). Direction IDs are route-specific; do not assume `0` always means eastbound. Use a full hosted URL when creating a QR code, preserving any site subdirectory.
@@ -60,7 +60,7 @@ index.html
 t2.html
 center-city.html
 nearby.html
-stop.html
+info.html
 data/
   stop-directory.js
 favicon.svg
@@ -145,7 +145,7 @@ On a failed refresh, earlier reports remain visible only while still fresh. No b
 - `src/navigation.js`: hamburger-menu dismissal with Escape or an outside click.
 - `src/transit-page.js`: reusable departure panels with request cancellation and polling cleanup.
 - `nearby.html`, `src/nearby.js`, `src/nearby-page.js`: nearby route discovery, destination selection and location handling.
-- `stop.html`, `src/stop.js`, `src/stop-page.js`: validated sticker links and fixed-stop arrival tracking.
+- `info.html`, `src/stop.js`, `src/stop-page.js`: validated sticker links and fixed-stop arrival tracking.
 - `data/stop-directory.js`, `scripts/build-stop-directory.py`: bundled public stop directory and dependency-free refresh script.
 - `test/`: automated checks for counting, direct requests, caching, failures, direction changes and time boundaries.
 

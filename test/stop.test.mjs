@@ -89,7 +89,7 @@ test('landing page mounts standard live cards for the URL stop and cleans up on 
   assert.match(p.get('stop-cards').innerHTML,/Spruce &amp; 52nd/);
   assert.match(p.get('stop-route-badge').textContent,/42/);
   assert.match(p.get('stop-panels').innerHTML,/aria-labelledby="stop-title"/);
-  const html=await readFile(new URL('../stop.html',import.meta.url),'utf8');
+  const html=await readFile(new URL('../info.html',import.meta.url),'utf8');
   const ids=[...html.concat(p.get('stop-panels').innerHTML).matchAll(/\bid="([^"]+)"/g)].map(match=>match[1]);
   assert.equal(new Set(ids).size,ids.length,'The landing page and shared panel must have unique element IDs');
   assert.match(p.get('stop-route').innerHTML,/Spruce &amp; 52nd/);
