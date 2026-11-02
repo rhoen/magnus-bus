@@ -1,9 +1,9 @@
 (() => {
 'use strict';
-const {stickerStops,stickerLandingURL,planStickerSheets,stickerQR,stopDirectory}=globalThis.MagnusBus;
+const {stickerStops,stickerLandingURL,stickerURL,planStickerSheets,stickerQR,stopDirectory}=globalThis.MagnusBus;
 const $=id=>document.getElementById(id);
 const selected=new Set();
-let stops=[],allStops=new Map(),visible=[],plan=null;
+let stops=[],allStops=new Map(),visible=[],plan=null,exampleKey='';
 const node=(tag,className,text)=>{const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el;};
 
 function error(message='') {
@@ -30,6 +30,7 @@ function count() {
   }
   $('selected-stops').replaceChildren(list);
   $('selected-stops-detail').hidden=!selected.size;
+  renderExample();
 }
 function renderStops() {
   const direction=$('sticker-direction').value,query=$('sticker-search').value.trim().toLowerCase();
@@ -71,6 +72,32 @@ function addressNote() {
   }catch{}
   $('local-address-note').hidden=!local;
 }
+function createStickerFace(sticker,svg) {
+  const face=node('div','public-sticker');
+  face.append(node('div','sticker-brand','Magnus’s Bus'),node('h3','sticker-question','When’s my bus?'),node('p','sticker-invitation','Scan for live arrivals'));
+  const qrLink=node('a','sticker-qr');qrLink.href=sticker.url;qrLink.target='_blank';qrLink.rel='noopener noreferrer';
+  qrLink.setAttribute('aria-label','Open all arrivals at '+sticker.stopName+', stop '+sticker.target);
+  qrLink.innerHTML=svg;
+  qrLink.querySelector('svg').setAttribute('aria-hidden','true');
+  face.append(qrLink,node('p','sticker-public-route','Stop #'+sticker.target),node('p','sticker-public-stop',sticker.stopName));
+  return face;
+}
+function renderExample() {
+  const stop=allStops.get(selected.values().next().value)||allStops.get('22151')||allStops.values().next().value;
+  if(!stop)return;
+  try {
+    const url=stickerURL($('sticker-address').value,stop),key=url+'|'+stop.stopName;
+    if(key!==exampleKey) {
+      $('example-sticker').replaceChildren(createStickerFace({...stop,url},stickerQR(url)));
+      exampleKey=key;
+    }
+    $('example-caption').textContent=(selected.size?'Your first selected stop: ':'Example stop: ')+stop.stopName+' · #'+stop.target;
+    $('example-link').textContent=url;$('example-link').href=url;$('example-link').hidden=false;
+  }catch(cause) {
+    exampleKey='';$('example-sticker').replaceChildren();$('example-link').hidden=true;$('example-link').removeAttribute('href');
+    $('example-caption').textContent=cause instanceof Error?cause.message:'Enter a shorter app address to preview the QR code.';
+  }
+}
 function renderSheets(next) {
   const fragment=document.createDocumentFragment(),qrCache=new Map();
   next.sheets.forEach((stickers,index)=>{
@@ -80,14 +107,9 @@ function renderSheets(next) {
     heading.append(node('strong','','Magnus’s Bus · Stop stickers'),node('span','','Sheet '+(index+1)+' of '+next.sheets.length));
     const grid=node('div','sticker-grid');
     for(const sticker of stickers) {
-      const cell=node('div','sticker-cell'),publicSticker=node('div','public-sticker');
-      publicSticker.append(node('div','sticker-brand','Magnus’s Bus'),node('h3','sticker-question','When’s my bus?'),node('p','sticker-invitation','Scan for live arrivals'));
-      const qrLink=node('a','sticker-qr');qrLink.href=sticker.url;qrLink.target='_blank';qrLink.rel='noopener noreferrer';
-      qrLink.setAttribute('aria-label','Open all arrivals at '+sticker.stopName+', stop '+sticker.target);
+      const cell=node('div','sticker-cell');
       if(!qrCache.has(sticker.url))qrCache.set(sticker.url,stickerQR(sticker.url));
-      qrLink.innerHTML=qrCache.get(sticker.url);
-      qrLink.querySelector('svg').setAttribute('aria-hidden','true');
-      publicSticker.append(qrLink,node('p','sticker-public-route','Stop #'+sticker.target),node('p','sticker-public-stop',sticker.stopName));
+      const publicSticker=createStickerFace(sticker,qrCache.get(sticker.url));
       const installation=node('div','installation-label');
       installation.append(node('strong','installation-number','Sticker '+String(sticker.number).padStart(2,'0')+' of '+next.total+' · Stop #'+sticker.target),
         node('span','installation-stop',sticker.stopName),
@@ -123,7 +145,7 @@ $('clear-stops').addEventListener('click',()=>{selected.clear();invalidate();ren
 $('sticker-route').addEventListener('change',()=>{try{chooseRoute();}catch(cause){error(cause.message);}});
 $('sticker-direction').addEventListener('change',renderStops);
 $('sticker-search').addEventListener('input',renderStops);
-for(const id of ['sticker-address','sticker-copies'])$(id).addEventListener('input',()=>{invalidate();addressNote();});
+for(const id of ['sticker-address','sticker-copies'])$(id).addEventListener('input',()=>{invalidate();addressNote();renderExample();});
 $('sticker-form').addEventListener('submit',generate);
 $('print-sheets').addEventListener('click',()=>{if(plan)window.print();});
 

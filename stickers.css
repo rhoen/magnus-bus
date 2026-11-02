@@ -60,3 +60,5 @@
 }
 
 .stop-choice-services{display:block;font-size:11px;line-height:1.5;color:#728074;margin-top:4px}.selected-stop{display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:12px;border-bottom:1px solid #e9ebe3}#selected-stops{list-style:none;padding:0;margin:10px 0}.selected-stop .text-button{flex-shrink:0}
+
+.example-preview{display:grid;grid-template-columns:minmax(0,1fr) 2.5in;gap:32px;align-items:center}.example-copy>p:not(.eyebrow){font-size:13px;line-height:1.7;color:#728074;max-width:520px}.example-link{display:block;overflow-wrap:anywhere;font-size:12px;line-height:1.6;margin-top:12px}.example-sticker .public-sticker{font-family:Arial,sans-serif;box-shadow:0 3px 14px #203e3510}@media(max-width:680px){.example-preview{grid-template-columns:minmax(0,1fr);gap:20px}.example-sticker{justify-self:center}}
