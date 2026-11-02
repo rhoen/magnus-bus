@@ -27,7 +27,7 @@ function start() {
   document.title='Magnus’s Bus · Stop '+config.target+' · '+config.stopName;
   const trackers=Object.fromEntries(config.services.map((service,index)=>['stop-service-'+index,
     {...service,allArrivals:true,headingTitle:service.name,arrow:''}]));
-  panel=mountTransitPanels($('stop-panels'),trackers,{client,dynamic:true});
+  panel=mountTransitPanels($('stop-panels'),trackers,{client,dynamic:true,showJourney:false});
 }
 
 window.addEventListener('pagehide',()=>{panel?.destroy();panel=null;});

@@ -1,7 +1,7 @@
 (() => {
 'use strict';
 const { createDataClient } = globalThis.MagnusBus;
-function mountTransitPanels(container, TRACKERS, {client=createDataClient(), dynamic=false, showHeading=true} = {}) {
+function mountTransitPanels(container, TRACKERS, {client=createDataClient(), dynamic=false, showHeading=true, showJourney=true} = {}) {
 const ids = Object.keys(TRACKERS);
 let destroyed = false;
 const states = new Map(ids.map(id => [id,{ data:null, failed:false, loading:false, generation:0, routeKey:null }]));
@@ -10,7 +10,7 @@ const esc = value => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;
 const time = value => new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',hour:'numeric',minute:'2-digit'}).format(value);
 container.innerHTML = ids.map(id => {
   const c = TRACKERS[id];
-  return '<section class="tracker-panel" aria-labelledby="'+id+'-title">'+(showHeading?'<div class="tracker-heading"><span class="route-badge">'+esc(c.route)+'</span><div><h2 id="'+id+'-title">'+esc(c.headingTitle||c.stopName)+'</h2><p>'+esc(c.destination)+' · #'+esc(c.target)+'</p></div><span class="tracker-direction">'+esc(c.arrow||'')+' '+esc(c.name)+'</span></div>':'')+'<div class="section-label"><h3>'+(c.allArrivals?'Arriving ':'Next two ')+(c.kind==='trolley'?'trolleys':'buses')+'</h3><div class="status" id="'+id+'-status" role="status"><span class="dot"></span><span id="'+id+'-status-text">Connecting to SEPTA</span></div></div><p class="warning hidden" id="'+id+'-warning" role="status"></p><div class="cards" id="'+id+'-cards" aria-busy="true"></div><div class="updates"><span id="'+id+'-updated">Refreshes every 15 seconds</span><button class="refresh" id="'+id+'-refresh" type="button">Refresh '+esc(c.route)+'</button></div><section class="journey"><div class="journey-head"><h3>The home stretch</h3><span id="'+id+'-caption">'+esc(c.name)+'</span></div><ol class="line" id="'+id+'-route" tabindex="0" aria-label="Stops to your '+esc(c.route)+' boarding stop"></ol></section></section>';
+  return '<section class="tracker-panel" aria-labelledby="'+id+'-title">'+(showHeading?'<div class="tracker-heading"><span class="route-badge">'+esc(c.route)+'</span><div><h2 id="'+id+'-title">'+esc(c.headingTitle||c.stopName)+'</h2><p>'+esc(c.destination)+' · #'+esc(c.target)+'</p></div><span class="tracker-direction">'+esc(c.arrow||'')+' '+esc(c.name)+'</span></div>':'')+'<div class="section-label"><h3>'+(c.allArrivals?'Arriving ':'Next two ')+(c.kind==='trolley'?'trolleys':'buses')+'</h3><div class="status" id="'+id+'-status" role="status"><span class="dot"></span><span id="'+id+'-status-text">Connecting to SEPTA</span></div></div><p class="warning hidden" id="'+id+'-warning" role="status"></p><div class="cards" id="'+id+'-cards" aria-busy="true"></div><div class="updates"><span id="'+id+'-updated">Refreshes every 15 seconds</span><button class="refresh" id="'+id+'-refresh" type="button">Refresh '+esc(c.route)+'</button></div>'+(showJourney?'<section class="journey"><div class="journey-head"><h3>The home stretch</h3><span id="'+id+'-caption">'+esc(c.name)+'</span></div><ol class="line" id="'+id+'-route" tabindex="0" aria-label="Stops to your '+esc(c.route)+' boarding stop"></ol></section>':'')+'</section>';
 }).join('');
 function card(item,index,c,failed,waiting) {
   const kind = c.kind==='trolley'?'trolley':'bus';
@@ -34,6 +34,7 @@ function render(id) {
   if (!note && c.kind==='trolley'&&!vehicles.length&&!waiting) note='Trolley positions can be unavailable in the tunnel. Any timetable times shown are labeled Scheduled.';
   $(id+'-warning').textContent=note;$(id+'-warning').classList.toggle('hidden',!note);
   $(id+'-updated').textContent=data?'Checked '+time(data.fetchedAt)+' · Auto-refresh 15s':'Auto-refresh every 15 seconds';
+  if(!showJourney)return;
   const first=vehicles[0],stops=first?.route||[];
   const key=JSON.stringify([first?.vehicleId,stops,Boolean(departures.length)]);
   if(key!==state.routeKey){
