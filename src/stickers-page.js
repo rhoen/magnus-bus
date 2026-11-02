@@ -87,6 +87,7 @@ function applyStickerLayout(element,layout) {
   element.style.setProperty('--sticker-scale',String(layout.size/2.5));
   element.style.setProperty('--sticker-columns',String(layout.columns));
   element.style.setProperty('--sticker-gap',layout.gap+'in');
+  element.style.setProperty('--sticker-row-gap',layout.rowGap+'in');
 }
 function renderExample() {
   const stop=allStops.get(selected.values().next().value)||allStops.get('22151')||allStops.values().next().value;

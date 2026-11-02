@@ -47,25 +47,28 @@ test('sticker URLs preserve the published subdirectory and round-trip through th
   assert.equal(stickerURL(base,{route:'A B',target:'123&4',gtfs:'0'}),base+'?stop=123%264');
 });
 
-test('sheet planning keeps selection order, repeats copies together, and fills six slots per sheet',()=>{
+test('sheet planning keeps selection order, repeats copies together, and fills eight slots per sheet',()=>{
   const plan=planStickerSheets({...options,selectedKeys:['22151','22120','22120'],copies:4});
   assert.equal(plan.stopCount,2);assert.equal(plan.total,8);assert.equal(plan.paper,'letter');
-  assert.deepEqual(plan.sheets.map(s=>s.length),[6,2]);
+  assert.deepEqual(plan.sheets.map(s=>s.length),[8]);
   const stickers=plan.sheets.flat();
   assert.deepEqual(stickers.map(s=>s.number),[1,2,3,4,5,6,7,8]);
   assert.deepEqual(stickers.map(s=>s.copy),[1,2,3,4,1,2,3,4]);
   assert.deepEqual(stickers.slice(0,4).map(s=>s.target),['22151','22151','22151','22151']);
   const six=planStickerSheets({...options,copies:3});
   assert.equal(six.sheets.length,1);assert.equal(six.sheets[0].length,6);
+  const ten=planStickerSheets({...options,copies:5});
+  assert.deepEqual(ten.sheets.map(s=>s.length),[8,2]);
+  assert.equal(plan.layout.rowGap,0.125);
 });
 
 test('sticker sizes paginate correctly and fit inside Letter paper margins',()=>{
-  for(const [size,columns,rows] of [[2,3,4],[2.5,2,3],[3,2,3],[3.5,2,2],[4,1,2]]) {
+  for(const [size,columns,rows] of [[2,3,4],[2.5,2,4],[3,2,3],[3.5,2,2],[4,1,2]]) {
     const layout=stickerLayout(size);
     assert.equal(layout.columns,columns);assert.equal(layout.rows,rows);
     assert.equal(layout.perSheet,columns*rows);
     assert.ok(columns*size+(columns-1)*layout.gap+2*layout.margin<=8.5);
-    assert.ok(rows*size+(rows-1)*layout.gap+2*layout.margin<=11);
+    assert.ok(rows*size+(rows-1)*layout.rowGap+2*layout.margin<=11);
     const plan=planStickerSheets({...options,copies:10,stickerSize:size});
     assert.equal(plan.layout.size,size);assert.equal(plan.sheets.length,Math.ceil(20/layout.perSheet));
     assert.equal(plan.sheets.flat().length,20);

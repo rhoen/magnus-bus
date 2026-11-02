@@ -34,7 +34,7 @@
 .sheet-preview{overflow-x:auto;padding:0 18px 30px}
 .sheet-preview:empty{display:none}
 .sticker-sheet{--sheet-width:8.5in;--sheet-height:11in;width:var(--sheet-width);height:var(--sheet-height);padding:.3in;margin:0 auto 24px;background:white;color:#111;box-shadow:0 2px 18px #203e3518;font-family:Arial,sans-serif;display:flex;flex-direction:column;justify-content:center;box-sizing:border-box}
-.sticker-grid{display:grid;grid-template-columns:repeat(var(--sticker-columns,2),var(--sticker-size,2.5in));grid-auto-rows:var(--sticker-size,2.5in);gap:var(--sticker-gap,.35in);justify-content:center}
+.sticker-grid{display:grid;grid-template-columns:repeat(var(--sticker-columns,2),var(--sticker-size,2.5in));grid-auto-rows:var(--sticker-size,2.5in);gap:var(--sticker-row-gap,.125in) var(--sticker-gap,.35in);justify-content:center}
 .sticker-cell{width:var(--sticker-size,2.5in);break-inside:avoid;page-break-inside:avoid}
 .public-sticker{width:var(--sticker-size,2.5in);height:var(--sticker-size,2.5in);padding:calc(.07in * var(--sticker-scale,1)) calc(.1in * var(--sticker-scale,1));border:1px dashed #777;display:flex;flex-direction:column;align-items:center;text-align:center;box-sizing:border-box;overflow:hidden;background:white;color:#111}
 .sticker-brand{font-size:calc(7pt * var(--sticker-scale,1));line-height:1.2;font-weight:700;letter-spacing:.3pt}

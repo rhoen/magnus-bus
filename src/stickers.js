@@ -5,9 +5,11 @@ const STICKER_SIZES=[2,2.5,3,3.5,4];
 function stickerLayout(size=2.5) {
   if(!STICKER_SIZES.includes(size))throw new Error('Choose a sticker size between 2 and 4 inches from the list.');
   const margin=0.3,gap=0.35;
+  // Four 2½-inch rows fit on Letter paper with ⅛-inch cutting gutters.
+  const rowGap=size===2.5?0.125:gap;
   const columns=Math.floor((8.5-2*margin+gap)/(size+gap));
-  const rows=Math.floor((11-2*margin+gap)/(size+gap));
-  return {size,margin,gap,columns,rows,perSheet:columns*rows};
+  const rows=Math.floor((11-2*margin+rowGap)/(size+rowGap));
+  return {size,margin,gap,rowGap,columns,rows,perSheet:columns*rows};
 }
 
 function stickerStops(directory,routeId='',now=Date.now()) {
