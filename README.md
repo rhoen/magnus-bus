@@ -4,7 +4,7 @@ A browser-only static website for everyday SEPTA trips. The original **Route 42 
 
 ## Pages
 
-Use the hamburger menu to switch between four static pages:
+Use the hamburger menu to switch between the four main static pages:
 
 - `nearby.html`: find nearby buses and trolleys, then track a selected route in either direction.
 - `index.html`: Route 42 school/home tracker with the time-of-day direction slider.
@@ -14,6 +14,19 @@ Use the hamburger menu to switch between four static pages:
 Trolley GPS may be unavailable in the tunnel. When a fresh position is available, the cards show stops away and the actual trip's remaining stop list. Otherwise, trolley cards use SEPTA trip-update departure times, labeled **Live estimate** or **Scheduled** according to SEPTA's real-time flag. If active trip updates do not include the next departure, the timetable is filtered to the schedule release and service calendar verified by a current-day trip update. It never mixes all weekday/weekend calendars or turns a timetable into a GPS position. Timetable departures are not guaranteed; service alerts and cancellations can change them.
 
 Each route refreshes independently every 15 seconds. One failing route does not block the others. Menu links and all assets are relative for GitHub Pages project URLs.
+
+## Sticker links
+
+`stop.html` is the landing page for stop-specific QR stickers. Supply exactly one of each query parameter:
+
+```text
+stop.html?route=42&stop=22120&direction=0
+stop.html?route=42&stop=22151&direction=1
+```
+
+`route` is the SEPTA route ID, `stop` is the boarding stop ID, and `direction` is the route's GTFS direction ID (`0` or `1`). Direction IDs are route-specific; do not assume `0` always means eastbound. Use a full hosted URL when creating a QR code, preserving any site subdirectory.
+
+The page validates the combination against the bundled directory's latest effective release, displays the stop name, route, direction, destination, and stop ID, and reuses the standard two arrival cards and stop diagram. Tracking uses each vehicle's actual trip to respect branches and skipped stops. The boarding stop and direction stay fixed regardless of location or time of day, and the page never requests location access. Invalid or unsupported links show an explanation and a link to Nearby stops instead of silently selecting another stop. The bundled directory must be kept up to date; live tracking also validates stop membership against SEPTA's current route stops.
 
 ## Nearby stops
 
@@ -25,7 +38,7 @@ Location requires a secure browser context (HTTPS on the hosted site, or localho
 
 ### Maintaining the bundled directory
 
-`data/stop-directory.js` contains stop coordinates and route memberships for 161 bus/trolley routes. It is loaded only on the nearby page (about 1 MB uncompressed). It was generated on October 28, 2026 from [SEPTA’s public data](https://www3.septa.org/developer/gtfs_public.zip) and v2 stop responses. Current and upcoming v2 releases are retained; the browser chooses the latest effective release independently per route. Destination names come from the published GTFS `directions.txt`. The currently published GTFS metadata is `v202611010`; current stop memberships come from the v2 release effective today, rather than prematurely using November’s stops. Temporary FOX_BUS and WTR_BUS routes have no v2 stops and are omitted. A listed route does not guarantee service at the current time.
+`data/stop-directory.js` contains stop coordinates and route memberships for 161 bus/trolley routes. It is loaded on the nearby and sticker landing pages (about 1 MB uncompressed). It was generated on October 28, 2026 from [SEPTA’s public data](https://www3.septa.org/developer/gtfs_public.zip) and v2 stop responses. Current and upcoming v2 releases are retained; the browser chooses the latest effective release independently per route. Destination names come from the published GTFS `directions.txt`. The currently published GTFS metadata is `v202611010`; current stop memberships come from the v2 release effective today, rather than prematurely using November’s stops. Temporary FOX_BUS and WTR_BUS routes have no v2 stops and are omitted. A listed route does not guarantee service at the current time.
 
 Refresh the directory when SEPTA changes schedules or stops:
 
@@ -47,6 +60,7 @@ index.html
 t2.html
 center-city.html
 nearby.html
+stop.html
 data/
   stop-directory.js
 favicon.svg
@@ -61,6 +75,8 @@ src/
   transit-page.js
   nearby.js
   nearby-page.js
+  stop.js
+  stop-page.js
 ```
 
 The app uses relative asset paths, so it works at a domain root or in a subdirectory such as a GitHub Pages project site. No routing or server-side endpoints are involved.
@@ -129,6 +145,7 @@ On a failed refresh, earlier reports remain visible only while still fresh. No b
 - `src/navigation.js`: hamburger-menu dismissal with Escape or an outside click.
 - `src/transit-page.js`: reusable departure panels with request cancellation and polling cleanup.
 - `nearby.html`, `src/nearby.js`, `src/nearby-page.js`: nearby route discovery, destination selection and location handling.
+- `stop.html`, `src/stop.js`, `src/stop-page.js`: validated sticker links and fixed-stop arrival tracking.
 - `data/stop-directory.js`, `scripts/build-stop-directory.py`: bundled public stop directory and dependency-free refresh script.
 - `test/`: automated checks for counting, direct requests, caching, failures, direction changes and time boundaries.
 

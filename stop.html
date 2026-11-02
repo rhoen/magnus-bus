@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f6f5f0"><meta name="description" content="See how many stops away your next SEPTA bus is, right at this stop."><meta name="apple-mobile-web-app-title" content="Magnus's Bus"><title>Magnus’s Bus · Your stop</title>
+<link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body><div class="wrap"><main>
+<header class="stopbar page-header"><div class="route-badge" id="stop-route-badge" hidden></div><div class="stop-info"><h1 class="app-title">Magnus’s Bus</h1><h2 class="stop-title stop-page-title" id="stop-title">Arrivals at your stop</h2><p class="stop-sub" id="stop-description">Your next bus, a few stops closer.</p></div><details class="site-menu" id="site-menu">
+<summary aria-label="Open page menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></summary>
+<nav aria-label="App pages"><a href="index.html">42 · School &amp; home<small>49th / 42nd &amp; Spruce</small></a><a href="t2.html">T2 · To City Hall<small>Baltimore &amp; 48th → 15th St</small></a><a href="center-city.html">From City Hall<small>T2, T3 &amp; 21 toward home</small></a><a href="nearby.html">Nearby stops<small>Find buses &amp; trolleys near you</small></a></nav>
+</details></header>
+<div class="warning stop-link-error" id="stop-error" role="alert" hidden><p id="stop-error-message"></p><a href="nearby.html">Find nearby stops</a></div>
+<div id="stop-panels"></div>
+<details class="page-help" id="stop-help" hidden><summary>About this stop</summary><p>This sticker selects a fixed boarding stop, route, and travel direction. Check the stop name and direction above before boarding. You don’t need to share your location.</p><p>The cards show how many stops remain from each bus’s reported next stop to yours, following its actual trip. “Your stop is next” means your boarding stop is the next reported stop, not a guarantee that the bus is already here. Traffic and detours can change arrival order.</p><p>Updates refresh every 15 seconds while this page is visible. Locations older than two minutes are hidden. No bus in view does not mean service has stopped. For trolleys without a fresh position, departure times may appear instead, labeled Live estimate or Scheduled.</p><p><a href="https://www.septa.org/alerts/" target="_blank" rel="noreferrer">Check SEPTA service alerts</a> · <a href="nearby.html">Find another stop</a></p></details>
+<noscript><p class="warning">Turn on JavaScript to load live SEPTA departures.</p></noscript>
+</main><footer><span>♡ &nbsp; Made for Magnus’s journeys.</span><span>Powered by SEPTA data</span></footer></div>
+<script src="src/directions.js" defer></script>
+<script src="src/tracking.js" defer></script>
+<script src="src/data.js" defer></script>
+<script src="data/stop-directory.js" defer></script>
+<script src="src/stop.js" defer></script>
+<script src="src/navigation.js" defer></script>
+<script src="src/transit-page.js" defer></script>
+<script src="src/stop-page.js" defer></script>
+</body></html>
