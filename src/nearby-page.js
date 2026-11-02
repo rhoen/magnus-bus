@@ -4,6 +4,31 @@ const {nearbyRoutes,mountTransitPanels,createDataClient}=globalThis.MagnusBus;
 const $=id=>document.getElementById(id);
 const client=createDataClient();
 let result=null,position=null,selection=null,panel=null,generation=0,expanded=false;
+let recoveryTimer=null;
+function clearRecovery(){clearTimeout(recoveryTimer);recoveryTimer=null;}
+function showLocationDetails(request,source,started,error){
+  const details=$('nearby-location-details'),output=$('nearby-location-debug');
+  const lines=[
+    'Location check: 2026-11-02',
+    'Request: '+source,
+    'Result: '+(error.name||'Geolocation error')+' / '+(error.code??'no code'),
+    'Browser message: '+(error.message||'No message supplied'),
+    'Elapsed: '+(Date.now()-started)+' ms',
+    'Origin: '+window.location.origin,
+    'Secure context: '+globalThis.isSecureContext,
+    'Page visibility: '+document.visibilityState,
+    'Embedded page: '+(window.self!==window.top),
+    'Home screen: '+Boolean(navigator.standalone||window.matchMedia?.('(display-mode: standalone)').matches),
+    'Browser: '+navigator.userAgent
+  ];
+  details.hidden=false;output.textContent=lines.join('\n');
+  // Diagnostic only: permission queries must never delay or prevent a request.
+  try{
+    navigator.permissions?.query({name:'geolocation'}).then(permission=>{
+      if(request===generation)output.textContent=lines.concat('Reported permission: '+permission.state).join('\n');
+    }).catch(()=>{});
+  }catch{}
+}
 const distance=value=>value<160?Math.max(10,Math.round(value*3.28084/10)*10)+' ft':(value/1609.344).toFixed(1)+' mi';
 function clearPanel(){panel?.destroy();panel=null;}
 function showList(focus=false){
@@ -52,11 +77,13 @@ function selectRoute(route){
   selectDirection(route.directions[0]);$('nearby-title').focus();
 }
 function locationFailure(error){
-  const messages={1:'Location access was denied. Allow location for this site in your browser settings, then try again.',2:'Your location is unavailable. Check that location services are on, then try again.',3:'Finding your location took too long. Move somewhere with a clearer signal, then try again.'};
+  const messages={1:'The browser denied the location request. This can happen without showing a prompt. Tap “Try location again” to request it directly. If it still fails, open Location details below.',2:'Your location is unavailable. Check that location services are on, then try again.',3:'Finding your location took too long. Move somewhere with a clearer signal, then try again.'};
   $('nearby-status').textContent=messages[error.code]||'We couldn’t find your location. Please try again.';
 }
-function locate(){
+function locate(source='automatic'){
+  clearRecovery();
   const request=++generation;showList();result=null;position=null;expanded=false;
+  $('nearby-location-details').hidden=true;$('nearby-location-debug').textContent='';
   $('nearby-locate').hidden=true;
   $('nearby-routes').replaceChildren();$('nearby-more').hidden=true;$('nearby-location').textContent='';$('nearby-location').hidden=true;
   if(!globalThis.isSecureContext){$('nearby-status').textContent='Location needs a secure connection. Open this site over HTTPS (or localhost for a local preview).';return;}
@@ -64,8 +91,23 @@ function locate(){
   if(!globalThis.MagnusBus.stopDirectory){$('nearby-status').textContent='The stop directory couldn’t load. Reload this page and try again.';return;}
   $('nearby-locate').disabled=true;$('nearby-locate').textContent='Finding you…';
   $('nearby-status').textContent='Finding nearby routes…';
-  navigator.geolocation.getCurrentPosition(value=>{
+  const started=Date.now();
+  // The API timeout excludes permission-prompt waiting. Keep a direct retry available.
+  recoveryTimer=setTimeout(()=>{
     if(request!==generation)return;
+    $('nearby-locate').hidden=false;$('nearby-locate').disabled=false;$('nearby-locate').textContent='Try location again';
+    $('nearby-status').textContent='Still waiting for the browser’s location response. If no prompt appeared, tap “Try location again”.';
+    showLocationDetails(request,source,started,{name:'Pending request',message:'getCurrentPosition has not called either callback.'});
+  },20000);
+  const failed=error=>{
+    if(request!==generation)return;
+    clearRecovery();
+    $('nearby-locate').hidden=false;$('nearby-locate').disabled=false;$('nearby-locate').textContent='Try location again';locationFailure(error);
+    showLocationDetails(request,source,started,error);
+  };
+  try{navigator.geolocation.getCurrentPosition(value=>{
+    if(request!==generation)return;
+    clearRecovery();$('nearby-location-details').hidden=true;
     $('nearby-locate').hidden=false;$('nearby-locate').disabled=false;$('nearby-locate').textContent='Update my location';
     position={latitude:value.coords.latitude,longitude:value.coords.longitude};
     try{
@@ -76,17 +118,23 @@ function locate(){
       }
       renderRoutes();
     }catch{$('nearby-status').textContent='The stop directory is unavailable. Reload this page and try again.';}
-  },error=>{
-    if(request!==generation)return;
-    $('nearby-locate').hidden=false;$('nearby-locate').disabled=false;$('nearby-locate').textContent='Try location again';locationFailure(error);
-  },{enableHighAccuracy:true,timeout:15000,maximumAge:30000});
+  },failed,{enableHighAccuracy:true,timeout:15000,maximumAge:30000});
+  }catch(error){failed(error);}
 }
-$('nearby-locate').addEventListener('click',locate);
+$('nearby-locate').addEventListener('click',()=>locate('button tap'));
 $('nearby-back').addEventListener('click',()=>showList(true));
 $('nearby-more').addEventListener('click',()=>{expanded=true;renderRoutes();});
-window.addEventListener('pagehide',()=>{generation++;clearPanel();position=null;});
+window.addEventListener('pagehide',()=>{generation++;clearRecovery();clearPanel();position=null;});
 window.addEventListener('pageshow',event=>{
   if(event.persisted){if(selection)selectRoute(selection);else locate();}
 });
-locate();
+// Safari can load a page before it becomes visible. Request once it is foregrounded.
+if(document.visibilityState==='hidden'){
+  const onVisible=()=>{
+    if(document.visibilityState==='hidden')return;
+    document.removeEventListener('visibilitychange',onVisible);
+    if(generation===0)locate();
+  };
+  document.addEventListener('visibilitychange',onVisible);
+}else locate();
 })();

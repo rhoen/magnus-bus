@@ -82,17 +82,19 @@ test('dynamic tracking fetches bus trip details, caches stops, and surfaces part
 
 const pageSource=await readFile(new URL('../src/nearby-page.js',import.meta.url),'utf8');
 const pageHtml=await readFile(new URL('../nearby.html',import.meta.url),'utf8');
-function pageHarness({secure=true,geolocation=true,directoryAvailable=true}={}){
- const elements=new Map(),requests=[],mounts=[],events={};let destroyed=0;
+function pageHarness({secure=true,geolocation=true,directoryAvailable=true,visibility="visible",throws=false,permissionQuery}={}){
+ const elements=new Map(),requests=[],mounts=[],events={},timers=new Map(),documentEvents={};let destroyed=0,timerId=0;
  const element=()=>({children:[],dataset:{},attributes:{},handlers:{},hidden:false,disabled:false,textContent:'',
   addEventListener(name,fn){this.handlers[name]=fn;},setAttribute(name,value){this.attributes[name]=value;},
   replaceChildren(...children){this.children=children;},append(...children){this.children.push(...children);},focus(){this.focused=true;}});
  for(const [,id] of pageHtml.matchAll(/\bid="([^"]+)"/g))elements.set(id,element());
  const get=id=>elements.get(id)??null;
- vm.runInNewContext(pageSource,{isSecureContext:secure,navigator:{geolocation:geolocation?{getCurrentPosition(success,error,options){requests.push({success,error,options});}}:undefined},
-  document:{getElementById:get,createElement:element},window:{addEventListener(name,fn){events[name]=fn;}},
+ const document={visibilityState:visibility,getElementById:get,createElement:element,addEventListener(name,fn){documentEvents[name]=fn;},removeEventListener(name){delete documentEvents[name];}};
+ vm.runInNewContext(pageSource,{isSecureContext:secure,navigator:{userAgent:'Test browser',permissions:permissionQuery?{query:permissionQuery}:undefined,geolocation:geolocation?{getCurrentPosition(success,error,options){requests.push({success,error,options});if(throws)throw new Error('Browser rejected API call');}}:undefined},
+  setTimeout(fn){const id=++timerId;timers.set(id,fn);return id;},clearTimeout(id){timers.delete(id);},
+  document,window:{location:{origin:'https://rhoen.github.io'},addEventListener(name,fn){events[name]=fn;}},
   MagnusBus:{stopDirectory:directoryAvailable?directory:undefined,nearbyRoutes:(d,p)=>nearbyRoutes(d,p,now),createDataClient:()=>({}),mountTransitPanels(container,configs){mounts.push(configs.nearby);return{destroy(){destroyed++;}};}}});
- return{get,requests,mounts,events,get destroyed(){return destroyed;},click:id=>get(id).handlers.click(),locate(){requests.at(-1).success({coords:{latitude:40,longitude:-75,accuracy:10}});}};
+ return{get,requests,mounts,events,timers,document,documentEvents,get destroyed(){return destroyed;},click:id=>get(id).handlers.click(),locate(){requests.at(-1).success({coords:{latitude:40,longitude:-75,accuracy:10}});}};
 }
 test('location is requested on opening; shared route selection and direction changes update boarding stops',()=>{
  const p=pageHarness();assert.equal(p.requests.length,1);assert.equal(p.get('nearby-locate').hidden,true);
@@ -120,6 +122,51 @@ test('denied, unavailable, and timed-out locations provide retry without startin
   assert.equal(p.get('nearby-routes').children.length,2);
  }
 });
+
+test('location failures expose the browser response and distinguish a direct tap from automatic requests',()=>{
+ const p=pageHarness();
+ p.requests[0].error({code:1,message:'Origin does not have permission to use Geolocation service'});
+ assert.equal(p.get('nearby-location-details').hidden,false);
+ assert.match(p.get('nearby-location-debug').textContent,/Origin does not have permission/);
+ assert.match(p.get('nearby-location-debug').textContent,/Request: automatic/);
+ assert.equal(p.timers.size,0);
+ p.click('nearby-locate');assert.equal(p.requests.length,2);
+ p.requests[1].error({code:1,message:'User denied Geolocation'});
+ assert.match(p.get('nearby-location-debug').textContent,/Request: button tap/);
+ p.click('nearby-locate');p.locate();
+ assert.equal(p.get('nearby-location-details').hidden,true);
+ assert.equal(p.get('nearby-location-debug').textContent,'');
+ assert.equal(p.timers.size,0);
+});
+test('silent location requests offer retry; stale responses cannot overwrite the new request',()=>{
+ const p=pageHarness();[...p.timers.values()][0]();
+ assert.equal(p.get('nearby-locate').hidden,false);assert.equal(p.get('nearby-locate').disabled,false);
+ assert.match(p.get('nearby-location-debug').textContent,/has not called either callback/);
+ p.click('nearby-locate');p.locate();
+ p.requests[0].error({code:1,message:'Old failure'});
+ assert.equal(p.get('nearby-routes').children.length,2);
+ assert.equal(p.get('nearby-location-details').hidden,true);
+});
+test('synchronous browser errors leave location retry available',()=>{
+ const p=pageHarness({throws:true});
+ assert.match(p.get('nearby-location-debug').textContent,/Browser rejected API call/);
+ assert.equal(p.get('nearby-locate').disabled,false);assert.equal(p.timers.size,0);
+});
+test('background page waits until visible before requesting location',()=>{
+ const p=pageHarness({visibility:'hidden'});assert.equal(p.requests.length,0);
+ p.document.visibilityState='visible';p.documentEvents.visibilitychange();
+ assert.equal(p.requests.length,1);assert.equal(p.documentEvents.visibilitychange,undefined);
+ p.events.pagehide();assert.equal(p.timers.size,0);
+});
+test('unavailable permission diagnostics never block direct geolocation requests',async()=>{
+ for(const permissionQuery of [()=>{throw new Error('Not supported');},()=>Promise.reject(new Error('Not supported'))]){
+  const p=pageHarness({permissionQuery});assert.equal(p.requests.length,1);
+  p.requests[0].error({code:1,message:'Denied'});await Promise.resolve();
+  p.click('nearby-locate');assert.equal(p.requests.length,2);p.locate();
+  assert.equal(p.get('nearby-routes').children.length,2);
+ }
+});
+
 test('insecure origins, unsupported browsers, and missing directory fail clearly before prompting',()=>{
  for(const [options,message] of [[{secure:false},/HTTPS/],[{geolocation:false},/doesn’t support/],[{directoryAvailable:false},/directory couldn’t load/]]){
   const p=pageHarness(options);assert.equal(p.requests.length,0);assert.match(p.get('nearby-status').textContent,message);
