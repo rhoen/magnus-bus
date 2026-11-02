@@ -57,8 +57,8 @@ function trackBuses(feed, rows, now = Date.now(), direction = 'east', tripUpdate
     if (Number(bus.next_stop_sequence) === 1 && fresh.some(b => b.direction_name !== config.name && String(b.vehicle_id) === vehicleId)) continue;
     const stopId = String(bus.next_stop_id);
     let pattern = config.route !== '42' || config.gtfs === '1' ? stops : ['437', '26108'].includes(stopId) ? shortPattern : longPattern;
+    const update = tripUpdates[String(bus.trip_id)];
     if (config.kind === 'trolley' || config.exactTrips) {
-      const update = tripUpdates[String(bus.trip_id)];
       if (!validTripUpdate(update, bus, config) || update.trip.transit_date !== bus.transit_date) { unknown++; continue; }
       pattern = update.stop_times.filter(s => !s.is_skipped).sort((a,b) => Number(a.stop_sequence)-Number(b.stop_sequence)).map(s => ({
         ...stops.find(row => String(row.stop_id) === String(s.stop_id)), ...s, stop_id:String(s.stop_id)
@@ -76,14 +76,14 @@ function trackBuses(feed, rows, now = Date.now(), direction = 'east', tripUpdate
     const stop = pattern[index];
     const lat = Number(bus.lat), lng = Number(bus.lon);
     const proximity = Number.isFinite(lat) && Number.isFinite(lng) && Number.isFinite(Number(stop.stop_lat)) && Number.isFinite(Number(stop.stop_lon)) ? Math.hypot(lat - Number(stop.stop_lat), (lng - Number(stop.stop_lon)) * 0.77) : Infinity;
-    candidates.push({ vehicleId, tripId: String(bus.trip_id || ''), nextStopId: stopId, nextStopName: stop.stop_name,
+    candidates.push({ vehicleId, tripId: String(bus.trip_id || ''), destination:update?.trip?.trip_headsign || bus.trip_headsign || config.destination, nextStopId: stopId, nextStopName: stop.stop_name,
       stopsAway: targetIndex - index, reportedAt: Number(bus.timestamp) * 1000, proximity,
       route: pattern.slice(index, targetIndex + 1).map(s => ({ id: String(s.stop_id), name: s.stop_name })) });
   }
   // Choose the newest record for a physical bus before ranking by progress.
   const unique = new Map();
   for (const bus of candidates.sort((a,b) => b.reportedAt - a.reportedAt)) if (!unique.has(bus.vehicleId)) unique.set(bus.vehicleId, bus);
-  const buses = [...unique.values()].sort((a,b) => a.stopsAway - b.stopsAway || a.proximity - b.proximity || b.reportedAt - a.reportedAt).slice(0,2);
+  const buses = [...unique.values()].sort((a,b) => a.stopsAway - b.stopsAway || a.proximity - b.proximity || b.reportedAt - a.reportedAt).slice(0,config.allArrivals?undefined:2);
   return { buses, departures: getDepartures(feed, tripUpdates, config, now), fetchedAt: now, stale, unknown, release, stopId: config.target, direction };
 }
 
@@ -109,7 +109,7 @@ function getDepartures(feed, updates, config, now) {
     result.push({ tripId:String(vehicle.trip_id), departureAt:at,
       realtime:update.trip['real-time'] === true, destination:update.trip.trip_headsign || vehicle.trip_headsign || config.destination });
   }
-  return result.sort((a,b) => a.departureAt-b.departureAt).slice(0,2);
+  return result.sort((a,b) => a.departureAt-b.departureAt).slice(0,config.allArrivals?undefined:2);
 }
 
 // The stop-schedule endpoint mixes service calendars. Only use a calendar and
@@ -135,7 +135,7 @@ function scheduledDepartures(rows, feed, updates, config, now) {
     if (!Number.isFinite(at) || at < now || at > now + 10800000) continue;
     result.push({tripId:String(row.trip_id),departureAt:at,realtime:false,destination:row.trip_headsign || config.destination});
   }
-  return [...new Map(result.sort((a,b)=>a.departureAt-b.departureAt).map(r=>[r.tripId,r])).values()].slice(0,2);
+  return [...new Map(result.sort((a,b)=>a.departureAt-b.departureAt).map(r=>[r.tripId,r])).values()].slice(0,config.allArrivals?undefined:2);
 }
 function scheduleTimestamp(date,time) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !/^\d{1,2}:\d{2}:\d{2}$/.test(time)) return NaN;

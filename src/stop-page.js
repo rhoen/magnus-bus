@@ -12,7 +12,6 @@ function start() {
   try {
     config=resolveStopLink(window.location.search,globalThis.MagnusBus.stopDirectory);
   } catch(error) {
-    $('stop-route-badge').hidden=true;
     $('stop-title').textContent='We couldn’t find this stop';
     $('stop-description').textContent='Check your sticker link or find a nearby stop.';
     $('stop-error-message').textContent=error.message;
@@ -21,14 +20,14 @@ function start() {
     document.title='Magnus’s Bus · Stop unavailable';
     return;
   }
-  $('stop-route-badge').hidden=false;
-  $('stop-route-badge').textContent=config.route;
-  $('stop-route-badge').setAttribute('aria-label','Route '+config.route);
+  const routes=[...new Set(config.services.map(service=>service.route))];
   $('stop-title').textContent=config.stopName;
-  $('stop-description').textContent=config.name+' · '+config.destination+' · Stop #'+config.target;
+  $('stop-description').textContent='Stop #'+config.target+' · Routes '+routes.join(', ');
   $('stop-help').hidden=false;
-  document.title='Magnus’s Bus · '+config.route+' · '+config.stopName;
-  panel=mountTransitPanels($('stop-panels'),{stop:config},{client,dynamic:true,showHeading:false});
+  document.title='Magnus’s Bus · Stop '+config.target+' · '+config.stopName;
+  const trackers=Object.fromEntries(config.services.map((service,index)=>['stop-service-'+index,
+    {...service,allArrivals:true,headingTitle:service.name,arrow:''}]));
+  panel=mountTransitPanels($('stop-panels'),trackers,{client,dynamic:true});
 }
 
 window.addEventListener('pagehide',()=>{panel?.destroy();panel=null;});

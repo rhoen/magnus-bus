@@ -1,26 +1,22 @@
 (() => {
 'use strict';
-const {serviceDate}=globalThis.MagnusBus;
+const {buildStopCatalog,serviceDate}=globalThis.MagnusBus;
 const STICKERS_PER_SHEET=6;
 
-function stickerStops(directory,routeId,now=Date.now()) {
-  if(!directory?.routes?.length || !directory?.stops?.length)throw new Error('The stop directory couldn’t load. Reload this page to try again.');
-  const route=directory.routes.find(route=>route.id===routeId);
-  if(!route)throw new Error('Choose a route from the list.');
-  const release=Object.keys(route.releases).filter(date=>date<=serviceDate(now)).sort().at(-1);
-  const result=[];
-  for(const gtfs of ['0','1']) {
-    const direction=route.directions[gtfs],seen=new Set();
-    if(!direction)continue;
-    for(const index of route.releases[release]?.[gtfs]||[]) {
-      const stop=directory.stops[index];
-      if(!stop || seen.has(stop[0]))continue;
-      seen.add(stop[0]);
-      result.push({key:gtfs+':'+stop[0],route:route.id,kind:route.kind,gtfs,target:stop[0],stopName:stop[1],
-        name:direction.name,destination:'Toward '+direction.destination});
-    }
+function stickerStops(directory,routeId='',now=Date.now()) {
+  const catalog=buildStopCatalog(directory,now);
+  let stops;
+  if(routeId) {
+    const route=directory.routes.find(route=>route.id===routeId);
+    if(!route)throw new Error('Choose a route from the list.');
+    const release=Object.keys(route.releases).filter(date=>date<=serviceDate(now)).sort().at(-1);
+    const ids=[...new Set(['0','1'].flatMap(gtfs=>(route.releases[release]?.[gtfs]||[]).map(index=>directory.stops[index]?.[0])))];
+    stops=ids.map(id=>catalog.get(id)).filter(Boolean);
+  } else {
+    stops=[...catalog.values()].sort((a,b)=>a.stopName.localeCompare(b.stopName)||a.target.localeCompare(b.target,undefined,{numeric:true}));
   }
-  return result;
+  return stops.map(stop=>({...stop,key:stop.target,
+    browseServices:stop.services.filter(service=>!routeId||service.route===routeId)}));
 }
 
 function stickerLandingURL(value) {
@@ -35,16 +31,17 @@ function stickerLandingURL(value) {
 
 function stickerURL(base,stop) {
   const url=new URL(stickerLandingURL(base));
-  url.search=new URLSearchParams({route:stop.route,stop:stop.target,direction:stop.gtfs}).toString();
+  url.search=new URLSearchParams({stop:stop.target}).toString();
   return url.href;
 }
 
-function planStickerSheets({directory,routeId,selectedKeys,copies=1,landingURL,now=Date.now()}) {
+function planStickerSheets({directory,selectedKeys,copies=1,landingURL,now=Date.now()}) {
   if(!Number.isInteger(copies) || copies<1 || copies>10)throw new Error('Choose between 1 and 10 copies per stop.');
   const base=stickerLandingURL(landingURL),keys=new Set(selectedKeys);
   if(!keys.size)throw new Error('Select at least one stop to make a sticker sheet.');
-  const stops=stickerStops(directory,routeId,now).filter(stop=>keys.has(stop.key));
-  if(stops.length!==keys.size)throw new Error('Some selected stops are no longer in this route’s current directory. Choose the route again to refresh its stops.');
+  const catalog=buildStopCatalog(directory,now);
+  const stops=[...keys].map(key=>catalog.get(key)).filter(Boolean);
+  if(stops.length!==keys.size)throw new Error('Some selected stops are no longer served in the current directory. Clear the selection and choose your stops again.');
   if(stops.length*copies>300)throw new Error('Make up to 300 stickers at a time. Select fewer stops or reduce the copies per stop.');
   const stickers=[];
   for(const stop of stops) {
@@ -53,7 +50,7 @@ function planStickerSheets({directory,routeId,selectedKeys,copies=1,landingURL,n
   }
   const sheets=[];
   for(let i=0;i<stickers.length;i+=STICKERS_PER_SHEET)sheets.push(stickers.slice(i,i+STICKERS_PER_SHEET));
-  return {routeId,paper:'letter',copies,stopCount:stops.length,total:stickers.length,sheets,landingURL:base};
+  return {paper:'letter',copies,stopCount:stops.length,total:stickers.length,sheets,landingURL:base};
 }
 
 function stickerQR(url) {

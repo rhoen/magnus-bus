@@ -167,3 +167,21 @@ test('location accuracy and outside-service-area states are visible without fabr
  assert.match(p.get('nearby-status').textContent,/No SEPTA/);
  assert.equal(p.get('nearby-routes').children.length,0);assert.equal(p.mounts.length,0);
 });
+
+test('stop-wide tracking returns every verified approaching bus while existing trackers keep two',async()=>{
+ const feed=[0,1,2,3].map(i=>({...bus,vehicle_id:String(100+i),trip_id:'all-'+i}));
+ const updates=Object.fromEntries(feed.map((v,i)=>{
+  const u=structuredClone(update);u.trip.trip_id=v.trip_id;u.trip.trip_headsign='Terminal '+i;
+  if(i===3)u.stop_times=u.stop_times.filter(s=>s.stop_id!==config.target);
+  return [v.trip_id,u];
+ }));
+ const client=createDataClient({now:()=>now,fetchImpl:async url=>{
+  if(url.includes('trip-update/'))return Response.json(updates[new URL(url).searchParams.get('trip_id')]);
+  return Response.json(url.includes('stops/')?stops:feed);
+ }});
+ const result=await client.getTracking({...config,allArrivals:true});
+ assert.equal(result.buses.length,3);
+ assert.deepEqual(result.buses.map(v=>v.vehicleId),['100','101','102']);
+ assert.equal(result.buses[2].destination,'Terminal 2');
+ assert.equal((await client.getTracking(config)).buses.length,2);
+});

@@ -50,7 +50,7 @@ function createDataClient({ fetchImpl = globalThis.fetch.bind(globalThis), now =
         scheduleCache.set(key,{at:cachedSchedule && now()-cachedSchedule.at<60000?cachedSchedule.at:now(),data:rows});
         const combined=new Map(scheduled.map(d=>[d.tripId,d]));
         for(const departure of result.departures)combined.set(departure.tripId,departure);
-        result.departures=[...combined.values()].sort((a,b)=>a.departureAt-b.departureAt).slice(0,2);
+        result.departures=[...combined.values()].sort((a,b)=>a.departureAt-b.departureAt).slice(0,config.allArrivals?undefined:2);
       } catch(error) { if(signal?.aborted)throw error;updatesFailed++; }
     }
     return {...result,updatesFailed};

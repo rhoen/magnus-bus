@@ -58,3 +58,5 @@
   .sticker-sheet:last-child{break-after:auto;page-break-after:auto}
   .sticker-generator:not(.has-sheets) .print-empty{display:block;margin:1in;font-size:14pt}
 }
+
+.stop-choice-services{display:block;font-size:11px;line-height:1.5;color:#728074;margin-top:4px}.selected-stop{display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:12px;border-bottom:1px solid #e9ebe3}#selected-stops{list-style:none;padding:0;margin:10px 0}.selected-stop .text-button{flex-shrink:0}

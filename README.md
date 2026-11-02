@@ -18,30 +18,34 @@ Each route refreshes independently every 15 seconds. One failing route does not 
 
 ## Sticker links
 
-`info.html` is the landing page for stop-specific QR stickers. Supply exactly one of each query parameter:
+`info.html` is the landing page for stop-specific QR stickers. Only the boarding stop ID is needed:
 
 ```text
-info.html?route=42&stop=22120&direction=0
-info.html?route=42&stop=22151&direction=1
+info.html?stop=22120
+info.html?stop=22151
 ```
 
-`route` is the SEPTA route ID, `stop` is the boarding stop ID, and `direction` is the route's GTFS direction ID (`0` or `1`). Direction IDs are route-specific; do not assume `0` always means eastbound. Use a full hosted URL when creating a QR code, preserving any site subdirectory.
+Each stop has one page covering every bus/trolley route and direction serving that exact stop ID in the bundled directory's latest effective release. Stops on opposite sides of a street are not combined by name or proximity. If a single stop serves both directions of a route, both appear with clear direction and destination labels. A direction ID is a property of a route's trips, not a universal compass direction for a stop.
 
-The page validates the combination against the bundled directory's latest effective release, displays the stop name, route, direction, destination, and stop ID, and reuses the standard two arrival cards and stop diagram. Tracking uses each vehicle's actual trip to respect branches and skipped stops. The boarding stop and direction stay fixed regardless of location or time of day, and the page never requests location access. Invalid or unsupported links show an explanation and a link to Nearby stops instead of silently selecting another stop. The bundled directory must be kept up to date; live tracking also validates stop membership against SEPTA's current route stops.
+The standard arrival cards are grouped by route and direction, with all verified approaching vehicles shown rather than a two-vehicle limit. Counts use each vehicle's actual trip to respect branches and skipped stops. Trolley departure estimates without GPS appear alongside live vehicles without duplicating a trip. Existing school/home, nearby, and fixed trolley pages keep their two-card behavior. One failing route does not block the others.
+
+Older URLs containing `route` and `direction` still work; those fields are ignored so the same stop always shows all its services. Exactly one nonempty `stop` parameter is required. Use a full hosted URL when creating a QR code, preserving any site subdirectory.
+
+The page never requests location access. Invalid or unsupported stop links show an explanation and a link to Nearby stops. The bundled directory must be kept up to date to discover added or changed services; live tracking also validates stop membership against SEPTA's current route stops. Only available, fresh reports and validated departure estimates are displayed, not a guarantee that every scheduled trip is running.
 
 ## Printing sticker sheets
 
-Open `stickers.html` or choose **Sticker sheets** from the app menu. Select a route (42 by default), search stops by name or ID, and check stops in either direction. **Select visible stops** respects the direction and search filters; **Clear selection** clears all selected stops. Changing routes starts a new selection.
+Open `stickers.html` or choose **Sticker sheets** from the app menu. Search across all stops by name or ID, or use the optional route and direction browsing filters. **Select visible stops** respects those filters and selects at most the 200 displayed results; narrow the search to find more. Selections persist across filters and are deduplicated by stop ID, so a shared stop selected through multiple routes still gets only one sticker per requested copy. **Review selected stops** lets you remove individual stops, and **Clear selection** clears them all.
 
 Enter the full published landing-page address, for example `https://your-site.example/magnus-bus/info.html`. The generator defaults to the current site's `info.html` address, preserving any hosting subdirectory. Localhost and private-network addresses show a test-only warning: they will not work for riders scanning installed stickers. No URL shortener or external QR service is used.
 
-Sheets use US Letter (8½ × 11 inch) full-sheet adhesive paper. Choose 1–10 copies per stop, then **Generate sticker sheets**. Each sheet has six 2½ × 2½ inch stickers, arranged in two columns and three rows, with a partial final sheet when needed. Copies stay together and stops follow the bundled directory's order, grouped by direction. Route-wide lists can combine branches; they are not a guarantee that every trip serves every listed stop. Up to 300 stickers can be generated at once.
+Sheets use US Letter (8½ × 11 inch) full-sheet adhesive paper. Choose 1–10 copies per stop, then **Generate sticker sheets**. Each sheet has six 2½ × 2½ inch stickers, arranged in two columns and three rows, with a partial final sheet when needed. Copies stay together and stickers follow selection order. Route browsing follows the bundled directory's order; browsing all stops sorts them by name. Route-wide lists can combine branches; they are not a guarantee that every trip serves every listed stop. Up to 300 stickers can be generated at once.
 
-Each sticker contains “When’s my bus?”, a working QR code, and a small route/direction/stop label. Outside each dashed cut border, installation information shows the sticker number, full stop name, direction/destination, stop ID, and sheet number. The QR link opens `info.html?route=…&stop=…&direction=…`. Preview QR codes are also clickable so you can check their destination.
+Each sticker contains “When’s my bus?”, a working QR code, the stop ID, and a small stop-name label. Outside each dashed cut border, installation information shows the sticker number, full stop name, serving directions, stop ID, and sheet number. It is marked for all routes at that stop. The QR link opens `info.html?stop=…`; route and direction never limit a sticker’s destination. Preview QR codes are also clickable so you can check their destination.
 
 Use **Print / Save PDF** and select US Letter (8½ × 11 inches) in portrait, **100% / Actual size**, and no browser headers or footers. The page requests zero browser page margins and supplies its own 0.3-inch inset. The controls are excluded from printing. PDF output uses the browser's Save as PDF destination. Print a test sheet to check physical sizing and scan a code before producing a batch. Cut only along the dashed squares; the detailed placement labels remain on the backing sheet.
 
-Changing the app address, copies, route, or stop selection clears the old preview and disables printing until sheets are generated again. Generation revalidates selected stops against the latest effective bundled release. Keep the stop directory and public site current before making stickers.
+Changing the app address, copies, or stop selection clears the old preview and disables printing until sheets are generated again. Browsing filters do not change generated sheets. Generation revalidates selected stops against the latest effective bundled release. Keep the stop directory and public site current before making stickers.
 
 QR codes use a vendored, MIT-licensed [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) 2.0.4 browser build, with Q error correction and a four-module white quiet zone. SVG output stays sharp in print. All QR generation runs locally, without a server, CDN, or runtime package install. Attribution and the license are in `vendor/`.
 
@@ -169,7 +173,7 @@ On a failed refresh, earlier reports remain visible only while still fresh. No b
 - `src/navigation.js`: hamburger-menu dismissal with Escape or an outside click.
 - `src/transit-page.js`: reusable departure panels with request cancellation and polling cleanup.
 - `nearby.html`, `src/nearby.js`, `src/nearby-page.js`: nearby route discovery, destination selection and location handling.
-- `info.html`, `src/stop.js`, `src/stop-page.js`: validated sticker links and fixed-stop arrival tracking.
+- `info.html`, `src/stop.js`, `src/stop-page.js`: shared stop catalog, stop-only sticker links, and all-route arrival tracking.
 - `stickers.html`, `stickers.css`, `src/stickers.js`, `src/stickers-page.js`: route selection, QR generation, and print layouts for full-sheet adhesive paper.
 - `data/stop-directory.js`, `scripts/build-stop-directory.py`: bundled public stop directory and dependency-free refresh script.
 - `test/`: automated checks for counting, direct requests, caching, failures, direction changes and time boundaries.

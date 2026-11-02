@@ -3,7 +3,7 @@
 const {stickerStops,stickerLandingURL,planStickerSheets,stickerQR,stopDirectory}=globalThis.MagnusBus;
 const $=id=>document.getElementById(id);
 const selected=new Set();
-let stops=[],visible=[],plan=null;
+let stops=[],allStops=new Map(),visible=[],plan=null;
 const node=(tag,className,text)=>{const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el;};
 
 function error(message='') {
@@ -19,37 +19,48 @@ function count() {
   $('selection-count').textContent=selected.size+' stop'+(selected.size===1?'':'s')+' selected';
   $('clear-stops').disabled=!selected.size;
   $('select-visible').disabled=!visible.length;
+  const list=document.createDocumentFragment();
+  for(const key of selected) {
+    const stop=allStops.get(key),item=node('li','selected-stop');
+    item.append(node('span','',(stop?.stopName||'Stop')+' · #'+key));
+    const remove=node('button','text-button','Remove');remove.type='button';
+    remove.setAttribute('aria-label','Remove stop '+key);
+    remove.addEventListener('click',()=>{selected.delete(key);invalidate();renderStops();});
+    item.append(remove);list.append(item);
+  }
+  $('selected-stops').replaceChildren(list);
+  $('selected-stops-detail').hidden=!selected.size;
 }
 function renderStops() {
   const direction=$('sticker-direction').value,query=$('sticker-search').value.trim().toLowerCase();
-  visible=stops.filter(stop=>(direction==='all'||stop.gtfs===direction) && (stop.stopName+' '+stop.target).toLowerCase().includes(query));
+  const matches=stops.filter(stop=>(direction==='all'||stop.browseServices.some(service=>service.gtfs===direction)) && (stop.stopName+' '+stop.target).toLowerCase().includes(query));
+  visible=matches.slice(0,200);
   const fragment=document.createDocumentFragment();
-  for(const gtfs of ['0','1']) {
-    const group=visible.filter(stop=>stop.gtfs===gtfs);
-    if(!group.length)continue;
-    const fieldset=node('fieldset','stop-group');
-    fieldset.append(node('legend','',group[0].name+' · '+group[0].destination));
-    for(const stop of group) {
-      const label=node('label','stop-choice'),checkbox=node('input');
-      checkbox.type='checkbox';checkbox.value=stop.key;checkbox.checked=selected.has(stop.key);
-      const text=node('span','stop-choice-name',stop.stopName);
-      label.append(checkbox,text,node('span','stop-choice-id','#'+stop.target));
-      fieldset.append(label);
-    }
-    fragment.append(fieldset);
+  for(const stop of visible) {
+    const label=node('label','stop-choice'),checkbox=node('input');
+    checkbox.type='checkbox';checkbox.value=stop.key;checkbox.checked=selected.has(stop.key);
+    const text=node('span','stop-choice-name');
+    text.append(node('span','',stop.stopName));
+    const routes=[...new Set(stop.services.map(service=>service.route))].join(', ');
+    const directions=[...new Set(stop.browseServices.map(service=>service.name))].join(' / ');
+    text.append(node('small','stop-choice-services','Routes '+routes+' · '+directions));
+    label.append(checkbox,text,node('span','stop-choice-id','#'+stop.target));fragment.append(label);
   }
   if(!visible.length)fragment.append(node('p','no-stops',stops.length?'No stops match your search.':'No stops are available for this route in the current directory.'));
+  if(matches.length>visible.length)fragment.append(node('p','no-stops','Showing the first 200 of '+matches.length+' stops. Search by name or ID, or narrow the route filter. Select visible stops adds only these 200.'));
   $('sticker-stops').replaceChildren(fragment);count();
 }
 function chooseRoute() {
-  invalidate();selected.clear();$('sticker-search').value='';
-  stops=stickerStops(stopDirectory,$('sticker-route').value);
-  const all=node('option','','Both directions');all.value='all';
+  $('sticker-search').value='';
+  const routeId=$('sticker-route').value;
+  stops=stickerStops(stopDirectory,routeId);
+  const all=node('option','',routeId?'Both directions':'All directions');all.value='all';
   $('sticker-direction').replaceChildren(all);
-  for(const gtfs of ['0','1']) {
-    const first=stops.find(stop=>stop.gtfs===gtfs);
+  if(routeId)for(const gtfs of ['0','1']) {
+    const first=stops.flatMap(stop=>stop.browseServices).find(service=>service.gtfs===gtfs);
     if(first) {const option=node('option','',first.name+' · '+first.destination);option.value=gtfs;$('sticker-direction').append(option);}
   }
+  $('sticker-direction').disabled=!routeId;
   $('sticker-direction').value='all';renderStops();
 }
 function addressNote() {
@@ -66,22 +77,22 @@ function renderSheets(next) {
     const sheet=node('section','sticker-sheet '+next.paper);
     sheet.setAttribute('aria-label','Sheet '+(index+1)+' of '+next.sheets.length);
     const heading=node('header','sheet-heading');
-    heading.append(node('strong','','Magnus’s Bus · Route '+next.routeId),node('span','','Sheet '+(index+1)+' of '+next.sheets.length));
+    heading.append(node('strong','','Magnus’s Bus · Stop stickers'),node('span','','Sheet '+(index+1)+' of '+next.sheets.length));
     const grid=node('div','sticker-grid');
     for(const sticker of stickers) {
       const cell=node('div','sticker-cell'),publicSticker=node('div','public-sticker');
       publicSticker.append(node('div','sticker-brand','Magnus’s Bus'),node('h3','sticker-question','When’s my bus?'),node('p','sticker-invitation','Scan for live arrivals'));
       const qrLink=node('a','sticker-qr');qrLink.href=sticker.url;qrLink.target='_blank';qrLink.rel='noopener noreferrer';
-      qrLink.setAttribute('aria-label','Open Route '+sticker.route+' at '+sticker.stopName+', '+sticker.name);
+      qrLink.setAttribute('aria-label','Open all arrivals at '+sticker.stopName+', stop '+sticker.target);
       if(!qrCache.has(sticker.url))qrCache.set(sticker.url,stickerQR(sticker.url));
       qrLink.innerHTML=qrCache.get(sticker.url);
       qrLink.querySelector('svg').setAttribute('aria-hidden','true');
-      publicSticker.append(qrLink,node('p','sticker-public-route',sticker.route+' · '+sticker.name),node('p','sticker-public-stop',sticker.stopName));
+      publicSticker.append(qrLink,node('p','sticker-public-route','Stop #'+sticker.target),node('p','sticker-public-stop',sticker.stopName));
       const installation=node('div','installation-label');
-      installation.append(node('strong','installation-number','Sticker '+String(sticker.number).padStart(2,'0')+' of '+next.total+' · Route '+sticker.route),
+      installation.append(node('strong','installation-number','Sticker '+String(sticker.number).padStart(2,'0')+' of '+next.total+' · Stop #'+sticker.target),
         node('span','installation-stop',sticker.stopName),
-        node('span','installation-direction',sticker.name+' · '+sticker.destination),
-        node('span','installation-id','Stop #'+sticker.target+' · Sheet '+(index+1)+' of '+next.sheets.length));
+        node('span','installation-direction',[...new Set(sticker.services.map(service=>service.name))].join(' / ')),
+        node('span','installation-id','All routes · Sheet '+(index+1)+' of '+next.sheets.length));
       cell.append(publicSticker,installation);grid.append(cell);
     }
     const footer=node('footer','sheet-footer');
@@ -93,7 +104,7 @@ function renderSheets(next) {
 function generate(event) {
   event.preventDefault();invalidate();
   try {
-    const next=planStickerSheets({directory:stopDirectory,routeId:$('sticker-route').value,selectedKeys:selected,
+    const next=planStickerSheets({directory:stopDirectory,selectedKeys:selected,
       copies:Number($('sticker-copies').value),landingURL:$('sticker-address').value});
     renderSheets(next);plan=next;
     document.body.classList.add('has-sheets');$('print-sheets').disabled=false;
@@ -118,10 +129,12 @@ $('print-sheets').addEventListener('click',()=>{if(plan)window.print();});
 
 try {
   if(!stopDirectory?.routes?.length)throw new Error('The stop directory couldn’t load. Reload this page to try again.');
+  allStops=new Map(stickerStops(stopDirectory).map(stop=>[stop.key,stop]));
+  const allRoutes=node('option','','All routes');allRoutes.value='';$('sticker-route').append(allRoutes);
   for(const route of [...stopDirectory.routes].sort((a,b)=>a.id.localeCompare(b.id,undefined,{numeric:true}))) {
     const option=node('option','',(route.kind==='trolley'?'Trolley ':'Route ')+route.id);option.value=route.id;$('sticker-route').append(option);
   }
-  $('sticker-route').value=stopDirectory.routes.some(route=>route.id==='42')?'42':stopDirectory.routes[0].id;
+  $('sticker-route').value='';
   try {$('sticker-address').value=stickerLandingURL(new URL('info.html',window.location.href).href);}catch{}
   addressNote();chooseRoute();
 }catch(cause){error(cause.message);$('generate-sheets').disabled=true;}

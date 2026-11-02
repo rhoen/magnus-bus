@@ -85,3 +85,15 @@ test('scheduled clock times respect Philadelphia timezone and GTFS hours after m
  assert.equal(scheduleTimestamp('2026-10-27','24:30:00'),Date.parse('2026-10-28T04:30:00Z'));
  assert.ok(Number.isNaN(scheduleTimestamp('2026-10-27','12:99:00')));
 });
+
+test('all-arrivals trolley panels retain more than two trip updates and scheduled departures',()=>{
+ const c={...TRACKERS.t2Home,allArrivals:true};
+ const feed=[0,1,2,3].map(i=>vehicle({direction_id:1,direction_name:'Westbound',vehicle_id:'None',status:'NO GPS',trip_id:'trip-'+i}));
+ const updates=Object.fromEntries(feed.map(v=>[v.trip_id,update(v,['283','20659','20660'],{service_id:'46',release_name:'20260927'})]));
+ assert.equal(trackBuses(feed,t2,now,c,updates).departures.length,4);
+ assert.equal(trackBuses(feed,t2,now,'t2Home',updates).departures.length,2);
+ const rows=feed.map((v,i)=>({route_id:'T2',direction_id:1,stop_id:'20659',trip_id:'future-'+i,
+  release_name:'20260927',service_id:'46',arrival_time:'16:0'+i+':00',trip_headsign:'61st-Baltimore'}));
+ assert.equal(scheduledDepartures(rows,feed,updates,c,now).length,4);
+ assert.equal(scheduledDepartures(rows,feed,updates,TRACKERS.t2Home,now).length,2);
+});
