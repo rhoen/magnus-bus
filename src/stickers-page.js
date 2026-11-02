@@ -1,6 +1,6 @@
 (() => {
 'use strict';
-const {stickerStops,stickerURL,planStickerSheets,stickerQR,stopDirectory}=globalThis.MagnusBus;
+const {stickerStops,stickerURL,planStickerSheets,stickerQR,stickerLayout,stopDirectory}=globalThis.MagnusBus;
 const $=id=>document.getElementById(id);
 const selected=new Set();
 let stops=[],allStops=new Map(),visible=[],plan=null,exampleKey='';
@@ -82,10 +82,19 @@ function createStickerFace(sticker,svg) {
   face.append(qrLink,node('p','sticker-public-route',sticker.stopName),node('p','sticker-public-stop','Stop #'+sticker.target));
   return face;
 }
+function applyStickerLayout(element,layout) {
+  element.style.setProperty('--sticker-size',layout.size+'in');
+  element.style.setProperty('--sticker-scale',String(layout.size/2.5));
+  element.style.setProperty('--sticker-columns',String(layout.columns));
+  element.style.setProperty('--sticker-gap',layout.gap+'in');
+}
 function renderExample() {
   const stop=allStops.get(selected.values().next().value)||allStops.get('22151')||allStops.values().next().value;
   if(!stop)return;
   try {
+    const layout=stickerLayout(Number($('sticker-size').value));
+    applyStickerLayout($('example-sticker'),layout);
+    $('sticker-size-summary').textContent=layout.perSheet+' per sheet · '+layout.columns+' across × '+layout.rows+' down';
     const url=stickerURL($('sticker-address').value,stop),key=url+'|'+stop.stopName;
     if(key!==exampleKey) {
       $('example-sticker').replaceChildren(createStickerFace({...stop,url},stickerQR(url)));
@@ -102,6 +111,7 @@ function renderSheets(next) {
   const fragment=document.createDocumentFragment(),qrCache=new Map();
   next.sheets.forEach((stickers,index)=>{
     const sheet=node('section','sticker-sheet '+next.paper);
+    applyStickerLayout(sheet,next.layout);
     sheet.setAttribute('aria-label','Sheet '+(index+1)+' of '+next.sheets.length);
     const grid=node('div','sticker-grid');
     for(const sticker of stickers) {
@@ -118,7 +128,7 @@ function generate(event) {
   event.preventDefault();invalidate();
   try {
     const next=planStickerSheets({directory:stopDirectory,selectedKeys:selected,
-      copies:Number($('sticker-copies').value),landingURL:$('sticker-address').value});
+      copies:Number($('sticker-copies').value),stickerSize:Number($('sticker-size').value),landingURL:$('sticker-address').value});
     renderSheets(next);plan=next;
     document.body.classList.add('has-sheets');$('print-sheets').disabled=false;
     $('sheet-summary').textContent=next.total+' sticker'+(next.total===1?'':'s')+' for '+next.stopCount+' stop'+(next.stopCount===1?'':'s')+' on '+next.sheets.length+' sheet'+(next.sheets.length===1?'':'s')+'.';
@@ -136,7 +146,7 @@ $('clear-stops').addEventListener('click',()=>{selected.clear();invalidate();ren
 $('sticker-route').addEventListener('change',()=>{try{chooseRoute();}catch(cause){error(cause.message);}});
 $('sticker-direction').addEventListener('change',renderStops);
 $('sticker-search').addEventListener('input',renderStops);
-for(const id of ['sticker-address','sticker-copies'])$(id).addEventListener('input',()=>{invalidate();addressNote();renderExample();});
+for(const id of ['sticker-address','sticker-copies','sticker-size'])$(id).addEventListener('input',()=>{invalidate();addressNote();renderExample();});
 $('sticker-form').addEventListener('submit',generate);
 $('print-sheets').addEventListener('click',()=>{if(plan)window.print();});
 

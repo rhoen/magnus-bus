@@ -1,7 +1,14 @@
 (() => {
 'use strict';
 const {buildStopCatalog,serviceDate}=globalThis.MagnusBus;
-const STICKERS_PER_SHEET=6;
+const STICKER_SIZES=[2,2.5,3,3.5,4];
+function stickerLayout(size=2.5) {
+  if(!STICKER_SIZES.includes(size))throw new Error('Choose a sticker size between 2 and 4 inches from the list.');
+  const margin=0.3,gap=0.35;
+  const columns=Math.floor((8.5-2*margin+gap)/(size+gap));
+  const rows=Math.floor((11-2*margin+gap)/(size+gap));
+  return {size,margin,gap,columns,rows,perSheet:columns*rows};
+}
 
 function stickerStops(directory,routeId='',now=Date.now()) {
   const catalog=buildStopCatalog(directory,now);
@@ -35,8 +42,9 @@ function stickerURL(base,stop) {
   return url.href;
 }
 
-function planStickerSheets({directory,selectedKeys,copies=1,landingURL,now=Date.now()}) {
+function planStickerSheets({directory,selectedKeys,copies=1,stickerSize=2.5,landingURL,now=Date.now()}) {
   if(!Number.isInteger(copies) || copies<1 || copies>10)throw new Error('Choose between 1 and 10 copies per stop.');
+  const layout=stickerLayout(stickerSize);
   const base=stickerLandingURL(landingURL),keys=new Set(selectedKeys);
   if(!keys.size)throw new Error('Select at least one stop to make a sticker sheet.');
   const catalog=buildStopCatalog(directory,now);
@@ -49,8 +57,8 @@ function planStickerSheets({directory,selectedKeys,copies=1,landingURL,now=Date.
     for(let copy=1;copy<=copies;copy++)stickers.push({...stop,url,copy,number:stickers.length+1});
   }
   const sheets=[];
-  for(let i=0;i<stickers.length;i+=STICKERS_PER_SHEET)sheets.push(stickers.slice(i,i+STICKERS_PER_SHEET));
-  return {paper:'letter',copies,stopCount:stops.length,total:stickers.length,sheets,landingURL:base};
+  for(let i=0;i<stickers.length;i+=layout.perSheet)sheets.push(stickers.slice(i,i+layout.perSheet));
+  return {paper:'letter',layout,copies,stopCount:stops.length,total:stickers.length,sheets,landingURL:base};
 }
 
 function stickerQR(url) {
@@ -62,5 +70,5 @@ function stickerQR(url) {
   return qr.createSvgTag({cellSize:2,margin:8,scalable:true});
 }
 
-Object.assign(globalThis.MagnusBus,{stickerStops,stickerLandingURL,stickerURL,planStickerSheets,stickerQR,STICKERS_PER_SHEET});
+Object.assign(globalThis.MagnusBus,{stickerStops,stickerLandingURL,stickerURL,planStickerSheets,stickerQR,stickerLayout,STICKER_SIZES});
 })();

@@ -8,7 +8,7 @@ import '../src/stop.js';
 import '../src/stickers.js';
 import '../data/stop-directory.js';
 
-const {stickerStops,stickerLandingURL,stickerURL,planStickerSheets,resolveStopLink,stopDirectory}=globalThis.MagnusBus;
+const {stickerLayout,stickerStops,stickerLandingURL,stickerURL,planStickerSheets,resolveStopLink,stopDirectory}=globalThis.MagnusBus;
 const now=Date.parse('2026-11-02T15:00:00Z');
 const base='https://example.com/magnus-bus/info.html';
 const options={directory:stopDirectory,selectedKeys:['22120','22151'],landingURL:base,now};
@@ -57,6 +57,23 @@ test('sheet planning keeps selection order, repeats copies together, and fills s
   assert.deepEqual(stickers.slice(0,4).map(s=>s.target),['22151','22151','22151','22151']);
   const six=planStickerSheets({...options,copies:3});
   assert.equal(six.sheets.length,1);assert.equal(six.sheets[0].length,6);
+});
+
+test('sticker sizes paginate correctly and fit inside Letter paper margins',()=>{
+  for(const [size,columns,rows] of [[2,3,4],[2.5,2,3],[3,2,3],[3.5,2,2],[4,1,2]]) {
+    const layout=stickerLayout(size);
+    assert.equal(layout.columns,columns);assert.equal(layout.rows,rows);
+    assert.equal(layout.perSheet,columns*rows);
+    assert.ok(columns*size+(columns-1)*layout.gap+2*layout.margin<=8.5);
+    assert.ok(rows*size+(rows-1)*layout.gap+2*layout.margin<=11);
+    const plan=planStickerSheets({...options,copies:10,stickerSize:size});
+    assert.equal(plan.layout.size,size);assert.equal(plan.sheets.length,Math.ceil(20/layout.perSheet));
+    assert.equal(plan.sheets.flat().length,20);
+    assert.ok(plan.sheets.every(sheet=>sheet.length<=layout.perSheet));
+    assert.ok(plan.sheets.at(-1).length>0);
+    assert.deepEqual(plan.sheets.flat().map(s=>s.number),Array.from({length:20},(_,i)=>i+1));
+  }
+  for(const size of [0,1.5,2.1,4.5,NaN,Infinity,'2'])assert.throws(()=>planStickerSheets({...options,stickerSize:size}),/sticker size/);
 });
 
 test('invalid addresses, quantities, and selections cannot generate printable stickers',()=>{
