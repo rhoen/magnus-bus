@@ -103,23 +103,14 @@ function renderSheets(next) {
   next.sheets.forEach((stickers,index)=>{
     const sheet=node('section','sticker-sheet '+next.paper);
     sheet.setAttribute('aria-label','Sheet '+(index+1)+' of '+next.sheets.length);
-    const heading=node('header','sheet-heading');
-    heading.append(node('strong','','Magnus’s Bus · Stop stickers'),node('span','','Sheet '+(index+1)+' of '+next.sheets.length));
     const grid=node('div','sticker-grid');
     for(const sticker of stickers) {
       const cell=node('div','sticker-cell');
       if(!qrCache.has(sticker.url))qrCache.set(sticker.url,stickerQR(sticker.url));
       const publicSticker=createStickerFace(sticker,qrCache.get(sticker.url));
-      const installation=node('div','installation-label');
-      installation.append(node('strong','installation-number','Sticker '+String(sticker.number).padStart(2,'0')+' of '+next.total+' · Stop #'+sticker.target),
-        node('span','installation-stop',sticker.stopName),
-        node('span','installation-direction',[...new Set(sticker.services.map(service=>service.name))].join(' / ')),
-        node('span','installation-id','All routes · Sheet '+(index+1)+' of '+next.sheets.length));
-      cell.append(publicSticker,installation);grid.append(cell);
+      cell.append(publicSticker);grid.append(cell);
     }
-    const footer=node('footer','sheet-footer');
-    footer.append(node('span','','Cut on dashed borders · Placement labels stay on the sheet'),node('span','','2½ in squares · Print at 100%'));
-    sheet.append(heading,grid,footer);fragment.append(sheet);
+    sheet.append(grid);fragment.append(sheet);
   });
   $('sheet-preview').replaceChildren(fragment);
 }
