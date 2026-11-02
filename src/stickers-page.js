@@ -1,6 +1,6 @@
 (() => {
 'use strict';
-const {stickerStops,stickerLandingURL,stickerURL,planStickerSheets,stickerQR,stopDirectory}=globalThis.MagnusBus;
+const {stickerStops,stickerURL,planStickerSheets,stickerQR,stopDirectory}=globalThis.MagnusBus;
 const $=id=>document.getElementById(id);
 const selected=new Set();
 let stops=[],allStops=new Map(),visible=[],plan=null,exampleKey='';
@@ -157,7 +157,6 @@ try {
     const option=node('option','',(route.kind==='trolley'?'Trolley ':'Route ')+route.id);option.value=route.id;$('sticker-route').append(option);
   }
   $('sticker-route').value='';
-  try {$('sticker-address').value=stickerLandingURL(new URL('info.html',window.location.href).href);}catch{}
   addressNote();chooseRoute();
 }catch(cause){error(cause.message);$('generate-sheets').disabled=true;}
 })();
