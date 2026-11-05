@@ -83,7 +83,7 @@ test('dynamic tracking fetches bus trip details, caches stops, and surfaces part
 const pageSource=await readFile(new URL('../src/nearby-page.js',import.meta.url),'utf8');
 const pageHtml=await readFile(new URL('../nearby.html',import.meta.url),'utf8');
 const manualPageHtml=await readFile(new URL('../nearby-manual.html',import.meta.url),'utf8');
-function pageHarness({manual=false,secure=true,geolocation=true,directoryAvailable=true,visibility="visible",throws=false,permissionQuery}={}){
+function pageHarness({manual=false,secure=true,geolocation=true,directoryAvailable=true,visibility="visible",throws=false,permissionQuery,policyApi,active=false,focused=true,embedded=false,standalone=false}={}){
  const elements=new Map(),requests=[],mounts=[],events={},timers=new Map(),documentEvents={};let destroyed=0,timerId=0;
  const element=()=>({children:[],dataset:{},attributes:{},handlers:{},hidden:false,disabled:false,textContent:'',
   addEventListener(name,fn){this.handlers[name]=fn;},setAttribute(name,value){this.attributes[name]=value;},
@@ -91,12 +91,13 @@ function pageHarness({manual=false,secure=true,geolocation=true,directoryAvailab
  for(const [,id] of pageHtml.matchAll(/\bid="([^"]+)"/g))elements.set(id,element());
  if(manual)elements.get('nearby-discovery').dataset.locationMode='manual';
  const get=id=>elements.get(id)??null;
- const document={visibilityState:visibility,getElementById:get,createElement:element,addEventListener(name,fn){documentEvents[name]=fn;},removeEventListener(name){delete documentEvents[name];}};
- vm.runInNewContext(pageSource,{isSecureContext:secure,navigator:{userAgent:'Test browser',permissions:permissionQuery?{query:permissionQuery}:undefined,geolocation:geolocation?{getCurrentPosition(success,error,options){requests.push({success,error,options});if(throws)throw new Error('Browser rejected API call');}}:undefined},
+ const activation={isActive:active};
+ const document={permissionsPolicy:policyApi,hasFocus:()=>focused,visibilityState:visibility,getElementById:get,createElement:element,addEventListener(name,fn){documentEvents[name]=fn;},removeEventListener(name){delete documentEvents[name];}};
+ vm.runInNewContext(pageSource,{isSecureContext:secure,navigator:{userAgent:'Test browser',userActivation:activation,standalone,permissions:permissionQuery?{query:permissionQuery}:undefined,geolocation:geolocation?{getCurrentPosition(success,error,options){requests.push({success,error,options});if(throws)throw new Error('Browser rejected API call');}}:undefined},
   setTimeout(fn){const id=++timerId;timers.set(id,fn);return id;},clearTimeout(id){timers.delete(id);},
-  document,window:{location:{origin:'https://rhoen.github.io'},addEventListener(name,fn){events[name]=fn;}},
+  document,window:{self:1,top:embedded?2:1,location:{origin:'https://rhoen.github.io',pathname:manual?'/magnus-bus/nearby-manual.html':'/magnus-bus/nearby.html'},addEventListener(name,fn){events[name]=fn;}},
   MagnusBus:{stopDirectory:directoryAvailable?directory:undefined,nearbyRoutes:(d,p)=>nearbyRoutes(d,p,now),createDataClient:()=>({}),mountTransitPanels(container,configs){mounts.push(configs.nearby);return{destroy(){destroyed++;}};}}});
- return{get,requests,mounts,events,timers,document,documentEvents,get destroyed(){return destroyed;},click:id=>get(id).handlers.click(),locate(){requests.at(-1).success({coords:{latitude:40,longitude:-75,accuracy:10}});}};
+ return{get,requests,mounts,events,timers,document,documentEvents,activation,get destroyed(){return destroyed;},click:id=>get(id).handlers.click(),locate(){requests.at(-1).success({coords:{latitude:40,longitude:-75,accuracy:10}});}};
 }
 test('manual nearby page waits for a button click on load, visibility changes, and history restoration',()=>{
  for(const visibility of ['visible','hidden']){
@@ -162,6 +163,48 @@ test('denied, unavailable, and timed-out locations provide retry without startin
  }
 });
 
+test('denial diagnostics capture request-time context and do not mistake the browser response for a user decision',async()=>{
+ const queries=[];
+ const p=pageHarness({manual:true,active:true,policyApi:{allowsFeature:()=>true},permissionQuery:()=>{queries.push('query');return Promise.resolve({state:'granted'});}});
+ assert.equal(p.requests.length,0);assert.equal(queries.length,0);
+ p.click('nearby-locate');assert.equal(p.requests.length,1);assert.equal(queries.length,0);
+ // Activation can expire and visibility can change before the error arrives.
+ p.activation.isActive=false;p.document.visibilityState='hidden';
+ p.requests[0].error({code:1,message:'User denied Geolocation'});await Promise.resolve();
+ const details=p.get('nearby-location-debug').textContent;
+ for(const line of ['Location check: 2026-11-05-permissions','Request: button tap','Location mode: button only','User activation at request: true','Focused at request: true','Visibility at request: visible','Page visibility at response: hidden','Embedded page: false','Home screen: false','Geolocation policy: allowed','Reported permission (diagnostic only): granted'])assert.ok(details.includes(line),line);
+ assert.match(p.get('nearby-status').textContent,/does not mean you tapped Deny/);
+ assert.match(p.get('nearby-status').textContent,/website’s Location permission/);
+ assert.equal(queries.length,1);assert.equal(p.requests.length,1);
+});
+test('policy-blocked and embedded denials explain how to recover without automatic retry',()=>{
+ for(const policyApi of [{allowsFeature:()=>false},undefined]){
+  const p=pageHarness({manual:true,embedded:true,policyApi});p.click('nearby-locate');
+  p.requests[0].error({code:1,message:'User denied Geolocation'});
+  assert.match(p.get('nearby-status').textContent,/open.*directly/i);
+  assert.match(p.get('nearby-location-debug').textContent,/Embedded page: true/);
+  if(policyApi)assert.match(p.get('nearby-status').textContent,/permissions policy/);
+  assert.equal(p.requests.length,1);assert.equal(p.timers.size,0);
+ }
+});
+test('unsupported policy diagnostics do not break requests or mask home-screen context',()=>{
+ const p=pageHarness({manual:true,standalone:true,policyApi:{allowsFeature(){throw new Error('Unavailable');}}});
+ p.click('nearby-locate');p.requests[0].error({code:1,message:'Denied'});
+ assert.match(p.get('nearby-location-debug').textContent,/Geolocation policy: not exposed by this browser/);
+ assert.match(p.get('nearby-location-debug').textContent,/Home screen: true/);
+ assert.match(p.get('nearby-location-debug').textContent,/Reported permission \(diagnostic only\): not available/);
+ p.click('nearby-locate');p.locate();assert.equal(p.get('nearby-routes').children.length,2);
+});
+test('late permission diagnostics cannot overwrite a new request or a successful result',async()=>{
+ const pending=[];
+ const p=pageHarness({manual:true,permissionQuery:()=>new Promise(resolve=>pending.push(resolve))});
+ p.click('nearby-locate');p.requests[0].error({code:1,message:'Denied'});
+ p.click('nearby-locate');pending[0]({state:'denied'});await Promise.resolve();
+ assert.equal(p.get('nearby-location-debug').textContent,'');
+ [...p.timers.values()][0]();p.locate();pending[1]({state:'denied'});await Promise.resolve();
+ assert.equal(p.get('nearby-location-details').hidden,true);
+ assert.doesNotMatch(p.get('nearby-location-debug').textContent,/diagnostic only\): denied/);
+});
 test('location failures expose the browser response and distinguish a direct tap from automatic requests',()=>{
  const p=pageHarness();
  p.requests[0].error({code:1,message:'Origin does not have permission to use Geolocation service'});

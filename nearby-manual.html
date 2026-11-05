@@ -15,7 +15,7 @@
 <div class="nearby-intro"><p id="nearby-heading" class="eyebrow" tabindex="-1">Routes near you</p>
 <button id="nearby-locate" class="location-button" type="button">Find my location</button></div>
 <p id="nearby-status" class="nearby-status" role="status">Tap “Find my location” to find nearby buses and trolleys.</p>
-<details id="nearby-location-details" class="page-help" hidden><summary>Location details</summary><p>If location keeps failing, share these details to help diagnose it. They contain no coordinates.</p><pre id="nearby-location-debug" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px"></pre></details>
+<details id="nearby-location-details" class="page-help" hidden><summary>Location details</summary><p>A denied request can happen without a prompt. Phone location access and this website’s browser permission are separate. In Safari on iPhone, open the page menu → Website Settings → Location, and choose Ask or Allow for this site. In Chrome on Android, check this site’s Location permission under Site settings. Reload, then tap “Try location again”. If you opened an in-app browser or embedded preview, open the site directly in Safari or Chrome. The home-screen app may have a different permission state. This page cannot reset a blocked browser permission.</p><p>If location keeps failing, share these details to help diagnose it. They contain no coordinates.</p><pre id="nearby-location-debug" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px"></pre></details>
 <p id="nearby-location" class="page-note" hidden></p>
 <div id="nearby-routes" class="nearby-routes" aria-label="Nearby bus and trolley routes"></div>
 <button id="nearby-more" class="nearby-text-button" type="button" hidden>Show more routes within ½ mile</button>
@@ -35,6 +35,6 @@
 <script src="data/stop-directory.js" defer></script>
 <script src="src/nearby.js" defer></script>
 <script src="src/transit-page.js" defer></script>
-<script src="src/nearby-page.js?v=20261105-manual-location" defer></script>
+<script src="src/nearby-page.js?v=20261105-permissions" defer></script>
 <script src="src/navigation.js" defer></script>
 </body></html>
