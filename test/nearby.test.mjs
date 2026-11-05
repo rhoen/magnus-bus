@@ -82,12 +82,14 @@ test('dynamic tracking fetches bus trip details, caches stops, and surfaces part
 
 const pageSource=await readFile(new URL('../src/nearby-page.js',import.meta.url),'utf8');
 const pageHtml=await readFile(new URL('../nearby.html',import.meta.url),'utf8');
-function pageHarness({secure=true,geolocation=true,directoryAvailable=true,visibility="visible",throws=false,permissionQuery}={}){
+const manualPageHtml=await readFile(new URL('../nearby-manual.html',import.meta.url),'utf8');
+function pageHarness({manual=false,secure=true,geolocation=true,directoryAvailable=true,visibility="visible",throws=false,permissionQuery}={}){
  const elements=new Map(),requests=[],mounts=[],events={},timers=new Map(),documentEvents={};let destroyed=0,timerId=0;
  const element=()=>({children:[],dataset:{},attributes:{},handlers:{},hidden:false,disabled:false,textContent:'',
   addEventListener(name,fn){this.handlers[name]=fn;},setAttribute(name,value){this.attributes[name]=value;},
   replaceChildren(...children){this.children=children;},append(...children){this.children.push(...children);},focus(){this.focused=true;}});
  for(const [,id] of pageHtml.matchAll(/\bid="([^"]+)"/g))elements.set(id,element());
+ if(manual)elements.get('nearby-discovery').dataset.locationMode='manual';
  const get=id=>elements.get(id)??null;
  const document={visibilityState:visibility,getElementById:get,createElement:element,addEventListener(name,fn){documentEvents[name]=fn;},removeEventListener(name){delete documentEvents[name];}};
  vm.runInNewContext(pageSource,{isSecureContext:secure,navigator:{userAgent:'Test browser',permissions:permissionQuery?{query:permissionQuery}:undefined,geolocation:geolocation?{getCurrentPosition(success,error,options){requests.push({success,error,options});if(throws)throw new Error('Browser rejected API call');}}:undefined},
@@ -96,6 +98,43 @@ function pageHarness({secure=true,geolocation=true,directoryAvailable=true,visib
   MagnusBus:{stopDirectory:directoryAvailable?directory:undefined,nearbyRoutes:(d,p)=>nearbyRoutes(d,p,now),createDataClient:()=>({}),mountTransitPanels(container,configs){mounts.push(configs.nearby);return{destroy(){destroyed++;}};}}});
  return{get,requests,mounts,events,timers,document,documentEvents,get destroyed(){return destroyed;},click:id=>get(id).handlers.click(),locate(){requests.at(-1).success({coords:{latitude:40,longitude:-75,accuracy:10}});}};
 }
+test('manual nearby page waits for a button click on load, visibility changes, and history restoration',()=>{
+ for(const visibility of ['visible','hidden']){
+  const p=pageHarness({manual:true,visibility});
+  assert.equal(p.requests.length,0);assert.equal(p.timers.size,0);
+  assert.equal(p.get('nearby-locate').hidden,false);
+  assert.equal(p.get('nearby-locate').textContent,'Find my location');
+  p.document.visibilityState='visible';p.documentEvents.visibilitychange?.();
+  p.events.pageshow({persisted:false});p.events.pagehide();p.events.pageshow({persisted:true});
+  assert.equal(p.requests.length,0);
+  p.click('nearby-locate');assert.equal(p.requests.length,1);
+  p.locate();assert.equal(p.get('nearby-routes').children.length,2);
+  p.events.pagehide();p.events.pageshow({persisted:true});assert.equal(p.requests.length,1);
+  p.get('nearby-routes').children[0].handlers.click();
+  p.events.pagehide();p.events.pageshow({persisted:true});assert.equal(p.requests.length,1);
+  p.click('nearby-back');p.click('nearby-locate');assert.equal(p.requests.length,2);
+  p.requests[1].error({code:1,message:'Denied'});
+  assert.match(p.get('nearby-location-debug').textContent,/Request: button tap/);
+  p.click('nearby-locate');assert.equal(p.requests.length,3);
+ }
+});
+test('restoring a pending manual location request requires a fresh button click',()=>{
+ const p=pageHarness({manual:true});p.click('nearby-locate');
+ p.events.pagehide();p.events.pageshow({persisted:true});
+ assert.equal(p.requests.length,1);assert.equal(p.timers.size,0);
+ assert.equal(p.get('nearby-locate').disabled,false);
+ p.locate();assert.equal(p.get('nearby-routes').children.length,0);
+ p.click('nearby-locate');p.locate();assert.equal(p.get('nearby-routes').children.length,2);
+});
+test('manual page declares button-only location and is linked from every hamburger menu',async()=>{
+ assert.match(manualPageHtml,/id="nearby-discovery" data-location-mode="manual"/);
+ assert.match(manualPageHtml,/type="button">Find my location<\/button>/);
+ assert.doesNotMatch(manualPageHtml,/We request your location as soon as/);
+ for(const name of ['index.html','t2.html','center-city.html','info.html','nearby-manual.html']){
+  const html=await readFile(new URL('../'+name,import.meta.url),'utf8');
+  assert.match(html,/<nav aria-label="App pages">.*href="nearby-manual.html"[^>]*>Nearby stops · Tap to locate/);
+ }
+});
 test('location is requested on opening; shared route selection and direction changes update boarding stops',()=>{
  const p=pageHarness();assert.equal(p.requests.length,1);assert.equal(p.get('nearby-locate').hidden,true);
  p.events.pageshow({persisted:false});assert.equal(p.requests.length,1);p.locate();

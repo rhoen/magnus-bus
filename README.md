@@ -6,6 +6,7 @@ A browser-only static website for everyday SEPTA trips. The original **Route 42 
 
 Use the hamburger menu to switch between the main static pages and sticker generator:
 
+- `nearby-manual.html`: the same nearby tracker, labeled **Nearby stops · Tap to locate**, requesting location only when its button is clicked.
 - `nearby.html`: find nearby buses and trolleys, then track a selected route in either direction.
 - `index.html`: Route 42 school/home tracker with the time-of-day direction slider.
 - `t2.html`: T2 eastbound at Baltimore & 48th toward 15th St / City Hall. SEPTA names this boarding stop **Baltimore Av & Florence Av**, ID **20870**. Short-turn trips not continuing to City Hall are excluded.
@@ -53,6 +54,8 @@ QR codes use a vendored, MIT-licensed [qrcode-generator](https://github.com/kazu
 
 `nearby.html` is the location-based page in every hamburger menu. It requests location and finds nearby routes automatically when opened; the browser may ask for location permission. The closest stops (within 800 meters / roughly ½ mile) determine the route list. All routes sharing those stops appear once; adjacent stops within 30 meters of the closest distance are included. **Show more routes** expands the list to all routes within 800 meters. Distances are straight-line estimates, not walking directions.
 
+`nearby-manual.html` provides the identical tracker with a **Find my location** button instead of requesting location automatically. It also waits for a button click after returning through browser history or making a background tab visible. Choose **Nearby stops · Tap to locate** in the hamburger menu.
+
 Choose a route to see the existing two arrival cards and stop diagram. Destination buttons use SEPTA’s `directions.txt` destination names, including branches. Each direction picks its own nearest boarding stop; the compact route heading updates the stop name, destination, stop ID and distance from your location. Directions with no stop within 800 meters are omitted. Actual trip updates determine stop counts for both buses and trolleys, so short turns and skipped stops are respected. Switching direction or returning to the route list aborts outstanding requests and removes polling timers. Location denial, timeout, unsupported browsers and locations outside the service area have retry/help states. Requests start when the page is visible. If the browser stays silent for 20 seconds, a direct retry button appears while the original request can still complete. Failed requests show expandable Location details with the browser error, request source, origin, and browser context; no coordinates are included or sent. Permission queries are diagnostic only and never gate a request.
 
 Location requires a secure browser context (HTTPS on the hosted site, or localhost for development). Coordinates remain in page memory and are never sent to SEPTA, persisted, or logged. The page requests location automatically on opening; use **Update my location** after moving. Live route and trip requests contain route, stop or trip IDs only.
@@ -81,6 +84,7 @@ index.html
 t2.html
 center-city.html
 nearby.html
+nearby-manual.html
 info.html
 stickers.html
 data/

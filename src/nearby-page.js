@@ -3,6 +3,11 @@
 const {nearbyRoutes,mountTransitPanels,createDataClient}=globalThis.MagnusBus;
 const $=id=>document.getElementById(id);
 const client=createDataClient();
+const manualLocation=$('nearby-discovery').dataset.locationMode==='manual';
+function showLocationPrompt(){
+  $('nearby-locate').hidden=false;$('nearby-locate').disabled=false;$('nearby-locate').textContent='Find my location';
+  $('nearby-status').textContent='Tap “Find my location” to find nearby buses and trolleys.';
+}
 let result=null,position=null,selection=null,panel=null,generation=0,expanded=false;
 let recoveryTimer=null;
 function clearRecovery(){clearTimeout(recoveryTimer);recoveryTimer=null;}
@@ -84,7 +89,7 @@ function locate(source='automatic'){
   clearRecovery();
   const request=++generation;showList();result=null;position=null;expanded=false;
   $('nearby-location-details').hidden=true;$('nearby-location-debug').textContent='';
-  $('nearby-locate').hidden=true;
+  $('nearby-locate').hidden=!manualLocation;
   $('nearby-routes').replaceChildren();$('nearby-more').hidden=true;$('nearby-location').textContent='';$('nearby-location').hidden=true;
   if(!globalThis.isSecureContext){$('nearby-status').textContent='Location needs a secure connection. Open this site over HTTPS (or localhost for a local preview).';return;}
   if(!navigator.geolocation){$('nearby-status').textContent='This browser doesn’t support location. Open this page in a browser with location services.';return;}
@@ -126,10 +131,16 @@ $('nearby-back').addEventListener('click',()=>showList(true));
 $('nearby-more').addEventListener('click',()=>{expanded=true;renderRoutes();});
 window.addEventListener('pagehide',()=>{generation++;clearRecovery();clearPanel();position=null;});
 window.addEventListener('pageshow',event=>{
-  if(event.persisted){if(selection)selectRoute(selection);else locate();}
+  if(event.persisted){
+    if(selection)selectRoute(selection);
+    else if(!manualLocation)locate();
+    else if(!result)showLocationPrompt();
+  }
 });
 // Safari can load a page before it becomes visible. Request once it is foregrounded.
-if(document.visibilityState==='hidden'){
+if(manualLocation){
+  showLocationPrompt();
+}else if(document.visibilityState==='hidden'){
   const onVisible=()=>{
     if(document.visibilityState==='hidden')return;
     document.removeEventListener('visibilitychange',onVisible);
