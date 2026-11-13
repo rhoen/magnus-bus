@@ -22,7 +22,6 @@
 
 /* Seat availability uses text as well as color on both card backgrounds. */
 .seat-flag{align-self:flex-start;display:inline-flex;align-items:center;gap:7px;padding:6px 10px;margin-top:15px;border-radius:7px;font-size:11px;font-weight:650;line-height:1.4;background:#edf0e8;color:#46534c;border:1px solid #c6cfc5}
-.seat-flag-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
 .seat-flag--few{background:#fff0cf;color:#76520b;border-color:#e5ca8f}
 .seat-flag--many{background:#e0f0d3;color:#35551f;border-color:#b4ce9f}
 .seat-flag--empty{background:#d7efe7;color:#225c4c;border-color:#a3cebe}
