@@ -196,4 +196,4 @@ The app is independent of SEPTA.
 
 ## Seat availability preview
 
-Open `seat-availability-test.html` to inspect seat flags on both card backgrounds using sample data, without SEPTA requests. Live vehicle cards show **Few seats**, **Many seats**, **Empty**, or **Seats unknown**. Null, missing, and unrecognized values use **Seats unknown**; departure-only cards also use this fallback because they have no vehicle occupancy report.
+Open `seat-availability-test.html` to inspect seat flags on both card backgrounds using sample data, without SEPTA requests. Live vehicle cards show **Few seats**, **Many seats**, **empty bus!**, or **Seats unknown**. Null, missing, and unrecognized values use **Seats unknown**; departure-only cards also use this fallback because they have no vehicle occupancy report.
