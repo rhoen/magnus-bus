@@ -75,7 +75,6 @@ function render() {
   $('status').classList.toggle('live',!failed&&!old&&!expired&&Boolean(buses.length));
   $('status-text').textContent = failed ? 'Connection interrupted' : old||expired ? 'Waiting for fresh GPS' : buses.length ? 'Live bus locations' : 'No buses in view';
   let warning = failed ? 'SEPTA is temporarily unavailable. Any buses still shown are the last fresh reports; they disappear when their GPS data is two minutes old.' : '';
-  if (!warning && (expired||data?.stale)) warning = 'Some GPS reports are over two minutes old. Those buses are hidden until SEPTA sends a fresh location.';
   if (!warning && data?.unknown) warning = 'Some buses have an unrecognized next stop. Only buses with a verified stop count are shown.';
   $('warning').textContent=warning; $('warning').classList.toggle('hidden',!warning);
   $('updated').textContent = data ? 'Checked '+time(data.fetchedAt)+' · Auto-refresh 15s' : 'Auto-retrying every 15 seconds';
