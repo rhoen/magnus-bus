@@ -57,3 +57,10 @@ test('westbound tracks 42nd Street and excludes passed or eastbound buses',()=>{
  assert.equal(trackBuses([west({next_stop_id:'22151'})],stops,now,'west').buses[0].stopsAway,0);
  assert.equal(trackBuses([west({next_stop_id:'22137'})],stops,now,'west').buses[0].stopsAway,38);
 });
+
+test('tracking preserves seat availability and defaults absent reports to null',()=>{
+ for (const value of ['FEW_SEATS_AVAILABLE','MANY_SEATS_AVAILABLE','EMPTY',null,'NEW_STATUS']) {
+  assert.equal(track([bus({seat_availability:value})]).buses[0].seatAvailability,value);
+ }
+ assert.equal(track([bus()]).buses[0].seatAvailability,null);
+});

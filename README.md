@@ -193,3 +193,7 @@ On a failed refresh, earlier reports remain visible only while still fresh. No b
 Developers with Node.js 22 or later can optionally run `npm test` (or `node --test`). Node is only a test runner; the website does not use it. There are no runtime npm dependencies; the sticker generator uses the vendored QR encoder in `vendor/`.
 
 The app is independent of SEPTA.
+
+## Seat availability preview
+
+Open `seat-availability-test.html` to inspect seat flags on both card backgrounds using sample data, without SEPTA requests. Live vehicle cards show **Few seats**, **Many seats**, **Empty**, or **Seats unknown**. Null, missing, and unrecognized values use **Seats unknown**; departure-only cards also use this fallback because they have no vehicle occupancy report.

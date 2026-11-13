@@ -76,7 +76,7 @@ function trackBuses(feed, rows, now = Date.now(), direction = 'east', tripUpdate
     const stop = pattern[index];
     const lat = Number(bus.lat), lng = Number(bus.lon);
     const proximity = Number.isFinite(lat) && Number.isFinite(lng) && Number.isFinite(Number(stop.stop_lat)) && Number.isFinite(Number(stop.stop_lon)) ? Math.hypot(lat - Number(stop.stop_lat), (lng - Number(stop.stop_lon)) * 0.77) : Infinity;
-    candidates.push({ vehicleId, tripId: String(bus.trip_id || ''), destination:update?.trip?.trip_headsign || bus.trip_headsign || config.destination, nextStopId: stopId, nextStopName: stop.stop_name,
+    candidates.push({ vehicleId, seatAvailability: bus.seat_availability ?? null, tripId: String(bus.trip_id || ''), destination:update?.trip?.trip_headsign || bus.trip_headsign || config.destination, nextStopId: stopId, nextStopName: stop.stop_name,
       stopsAway: targetIndex - index, reportedAt: Number(bus.timestamp) * 1000, proximity,
       route: pattern.slice(index, targetIndex + 1).map(s => ({ id: String(s.stop_id), name: s.stop_name })) });
   }

@@ -60,7 +60,7 @@ test('each route uses its latest effective release, with Philadelphia date bound
   assert.equal(resolveStopLink('?stop=shared',sharedDirectory,now).services.length,3);
 });
 
-const scripts=await Promise.all(['stop.js','transit-page.js','stop-page.js'].map(file=>readFile(new URL('../src/'+file,import.meta.url),'utf8')));
+const scripts=await Promise.all(['seat-availability.js','stop.js','transit-page.js','stop-page.js'].map(file=>readFile(new URL('../src/'+file,import.meta.url),'utf8')));
 function pageHarness(search='?stop=shared',{directory=sharedDirectory,failRoute=null}={}) {
   const elements=new Map(),timers=new Map(),listeners=new Map(),requests=[];
   let nextTimer=0,at=now;

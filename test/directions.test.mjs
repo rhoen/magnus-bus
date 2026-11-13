@@ -1,3 +1,4 @@
+import '../src/seat-availability.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
@@ -85,4 +86,15 @@ test('home stretch follows all remaining stops of the closest fresh bus',async()
  b.advance('2026-10-27T16:01:00Z');
  assert.doesNotMatch(b.get('route-line').innerHTML,/56th/);
  assert.match(b.get('route-line').innerHTML,/fresh bus location/);
+});
+
+test('home cards display seat flags and fall back for unknown reports',async()=>{
+ const b=browser(),reportedAt=Date.parse('2026-10-27T15:58:50Z');
+ await b.reply(0,'east',[
+  {vehicleId:'100',reportedAt,stopsAway:1,nextStopName:'Spruce',route:[],seatAvailability:'FEW_SEATS_AVAILABLE'},
+  {vehicleId:'200',reportedAt,stopsAway:2,nextStopName:'Spruce',route:[],seatAvailability:'NEW_STATUS'}
+ ]);
+ assert.match(b.get('cards').innerHTML,/Few seats/);
+ assert.match(b.get('cards').innerHTML,/Seats unknown/);
+ assert.doesNotMatch(b.get('cards').innerHTML,/NEW_STATUS/);
 });

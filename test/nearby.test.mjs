@@ -270,6 +270,7 @@ test('switching dynamic panels aborts requests, stops timers, and ignores late r
  const context=vm.createContext({Intl,Date:class extends Date{static now(){return now;}},AbortController,AbortSignal,
   document:{getElementById:get,hidden:false,...events},window:events,
   setInterval(fn){const id=++timerId;timers.set(id,fn);return id;},clearInterval(id){timers.delete(id);},MagnusBus:{createDataClient:()=>({})}});
+ vm.runInContext(await readFile(new URL('../src/seat-availability.js',import.meta.url),'utf8'),context);
  vm.runInContext(await readFile(new URL('../src/transit-page.js',import.meta.url),'utf8'),context);
  const client={getTracking(c,{signal}){return new Promise(resolve=>pending.push({c,signal,resolve}));}};
  const mount=context.MagnusBus.mountTransitPanels,container=get('panels');
